@@ -7,13 +7,35 @@ public class CameraScript : MonoBehaviour
 
     public GameObject fusedPlayer;
 
+    Vector3 target;
+
+    public Vector3 moveP1;
+    public Vector3 moveP2;
+    public Vector3 move;
+
+    public float z;
+    public float y;
+    public float cameraSmoothSpeed;
+
     void Start()
     {
         
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        this.transform.position =  new Vector3(0, 30, fusedPlayer.transform.position.z - 15);
+
+        moveP1.x = Input.GetAxis("p1_Horizontal");
+        moveP1.z = Input.GetAxis("p1_Vertical");
+
+        moveP2.x = Input.GetAxis("p2_Horizontal");
+        moveP2.z = Input.GetAxis("p2_Vertical");
+
+
+        move = moveP1 + moveP2;
+
+        target = new Vector3(fusedPlayer.transform.position.x + (move.x), y, fusedPlayer.transform.position.z - z + (move.z));
+
+        this.transform.position = Vector3.Lerp(transform.position, target, cameraSmoothSpeed);
     }
 }
