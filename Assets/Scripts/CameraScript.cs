@@ -14,6 +14,9 @@ public class CameraScript : MonoBehaviour
     public Vector3 move;
 
     public float z;
+    float yP1;
+    float yP2;
+    float yGround;
     public float y;
     public float cameraSmoothSpeed;
 
@@ -22,7 +25,7 @@ public class CameraScript : MonoBehaviour
         
     }
 
-    void FixedUpdate()
+    void Update()
     {
 
         moveP1.x = Input.GetAxis("p1_Horizontal");
@@ -31,10 +34,14 @@ public class CameraScript : MonoBehaviour
         moveP2.x = Input.GetAxis("p2_Horizontal");
         moveP2.z = Input.GetAxis("p2_Vertical");
 
-
         move = moveP1 + moveP2;
 
-        target = new Vector3(fusedPlayer.transform.position.x + (move.x), y, fusedPlayer.transform.position.z - z + (move.z));
+        yP1 = fusedPlayer.GetComponent<Players>().groundHeightP1;
+        yP2 = fusedPlayer.GetComponent<Players>().groundHeightP2;
+
+        yGround = (yP1 + yP2) / 2;
+
+        target = new Vector3(fusedPlayer.transform.position.x, yGround + y, fusedPlayer.transform.position.z - z);
 
         this.transform.position = Vector3.Lerp(transform.position, target, cameraSmoothSpeed);
     }

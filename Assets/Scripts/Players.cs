@@ -9,6 +9,8 @@ public class Players : MonoBehaviour
     public GameObject player1;
     public GameObject player2;
 
+    public ReceivePosition ReceivePosition;
+
     LineRenderer lineRenderer;
 
     public AnimationCurve jumpCurve;
@@ -50,6 +52,8 @@ public class Players : MonoBehaviour
     public float raycastDistanceDetectionFP;
     public float raycastDistanceDetectionPlayers;
     public float raycastDistanceFuse;
+    public float groundHeightP1;
+    public float groundHeightP2;
 
     float t1;
     float t2;
@@ -66,6 +70,8 @@ public class Players : MonoBehaviour
     float angleRadP1;
     float angleP2;
     float angleRadP2;
+    float angleFP;
+    float angleRadFP;
 
     LayerMask layerMask;
     LayerMask layerMaskPlayer;
@@ -74,6 +80,7 @@ public class Players : MonoBehaviour
 
     public bool fusing;
     public bool merged;
+    bool switchState;
     bool splitting;
     bool p1Jumping;
     bool p2Jumping;
@@ -97,27 +104,21 @@ public class Players : MonoBehaviour
 
         lineRenderer = GetComponent<LineRenderer>();
 
-        //layerMask = 1 << 31;
         layerMaskPlayer = 31;
         layerMaskDObject = 8;
 
-        //_layerMask = ~_layerMask;
-
-        //layerMaskFuse = 1 << 8 & 9 << 31;
         layerMask = ~(1 << layerMaskPlayer);
         layerMaskFuse = ~((1 << layerMaskPlayer) | (1 << layerMaskDObject));
 
-
-
-
         transform.GetChild(0).gameObject.SetActive(false);
 
-        
+
     }
 
     #endregion
 
-    void FixedUpdate()
+
+    void Update()
     {
         moveP1.x = Input.GetAxis("p1_Horizontal");
         moveP1.z = Input.GetAxis("p1_Vertical");
@@ -125,11 +126,14 @@ public class Players : MonoBehaviour
         moveP2.x = Input.GetAxis("p2_Horizontal");
         moveP2.z = Input.GetAxis("p2_Vertical");
 
+        move.x = moveP1.x + moveP2.x;
+        move.z = moveP1.z + moveP2.z;
+
         if (moveP1 != Vector3.zero)
         {
             angleRadP1 = Mathf.Atan2(moveP1.x, moveP1.z);
             angleP1 = angleRadP1 * Mathf.Rad2Deg;
-            
+
             if (splitting == false)
             {
                 player1.transform.eulerAngles = new Vector3(0, angleP1, 0);
@@ -144,6 +148,24 @@ public class Players : MonoBehaviour
             if (splitting == false)
             {
                 player2.transform.eulerAngles = new Vector3(0, angleP2, 0);
+            }
+        }
+        
+        if (move != Vector3.zero)
+        {
+            if (moveP1 != Vector3.zero && moveP2 != Vector3.zero)
+            {
+                transform.GetChild(0).transform.eulerAngles = (player1.transform.rotation.eulerAngles + player2.transform.rotation.eulerAngles) / 2;
+            }
+
+            if (moveP1 != Vector3.zero && moveP2 == Vector3.zero)
+            {
+                transform.GetChild(0).transform.eulerAngles = player1.transform.rotation.eulerAngles;
+            }
+
+            if (moveP1 == Vector3.zero && moveP2 != Vector3.zero)
+            {
+                transform.GetChild(0).transform.eulerAngles = player2.transform.rotation.eulerAngles;
             }
         }
 
@@ -165,11 +187,13 @@ public class Players : MonoBehaviour
             p2Hooking = false;
         }
 
-        if (Input.GetButton("Fuse"))
+        switchState = ReceivePosition.switchState;
+
+        //if (Input.GetButton("Fuse"))
+        if (switchState == true)
         {
-            if (fusing == false)
+            if (fusing == false && merged == false)
             {
-                fusing = true;
 
 
                 player1MemoryPosition = player1.transform.position;
@@ -211,14 +235,13 @@ public class Players : MonoBehaviour
             transform.position = new Vector3(transform.position.x, hitFP.point.y + 1.5f, transform.position.z);
             velocityFP = Vector3.zero;
 
-
         }
         else
         {
             if (fpJumping == false && splitting == false && merged == true)
             {
-                velocityFP += gravity * Time.deltaTime;   // allow gravity to work on our velocity vector
-                transform.position += velocityFP * Time.deltaTime;    // move us this frame according to our speed
+                velocityFP += gravity * Time.deltaTime;
+                transform.position += velocityFP * Time.deltaTime;
             }
             else
             {
@@ -231,13 +254,15 @@ public class Players : MonoBehaviour
             Debug.DrawRay(player1.transform.position, transform.TransformDirection(Vector3.down) * hitP1.distance, Color.yellow);
             player1.transform.position = new Vector3(player1.transform.position.x, hitP1.point.y + 1, player1.transform.position.z);
             velocityP1 = Vector3.zero;
+
+            groundHeightP1 = hitP1.point.y;
         }
         else
         {
             if (p1Jumping == false && merged == false)
             {
-                velocityP1 += gravity * Time.deltaTime;   // allow gravity to work on our velocity vector
-                player1.transform.position += velocityP1 * Time.deltaTime;    // move us this frame according to our speed
+                velocityP1 += gravity * Time.deltaTime;
+                player1.transform.position += velocityP1 * Time.deltaTime;
             }
             else
             {
@@ -250,13 +275,15 @@ public class Players : MonoBehaviour
             Debug.DrawRay(player2.transform.position, transform.TransformDirection(Vector3.down) * hitP2.distance, Color.yellow);
             player2.transform.position = new Vector3(player2.transform.position.x, hitP2.point.y + 1, player2.transform.position.z);
             velocityP2 = Vector3.zero;
+
+            groundHeightP2 = hitP2.point.y;
         }
         else
         {
             if (p2Jumping == false && merged == false)
             {
-                velocityP2 += gravity * Time.deltaTime;   // allow gravity to work on our velocity vector
-                player2.transform.position += velocityP2 * Time.deltaTime;    // move us this frame according to our speed
+                velocityP2 += gravity * Time.deltaTime;
+                player2.transform.position += velocityP2 * Time.deltaTime;
             }
             else
             {
@@ -270,13 +297,8 @@ public class Players : MonoBehaviour
 
         #region playersCollisions
 
-        if (merged == false)
+        if (merged == false && splitting == false)
         {
-
-            //Ici c'est les nouvelles collisions en fonction des axes du joueur et non du world, bref ce qui ne fonctionne pas très bien
-            //Dans l'état actuel des choses il ne check que les collisions frontales et j'ai trouvé une valeur pour laquelle il ne tremble pas (raycastDistanceDetectionPlayers = 1,3 si moins que ça il tremble)
-            //Toutes mes tentatives de rajouter des raycast sur les côtés ou les diagonales sont des échecs donc pour l'instant il traverse sur les côtés et accélère si le raycast frontal touche
-
             #region p1Collisions
 
             RaycastHit hitCollP1;
@@ -287,152 +309,34 @@ public class Players : MonoBehaviour
 
             if (Physics.Raycast(player1.transform.position, player1.transform.forward, out hitCollP1, raycastDistanceDetectionPlayers, layerMask))
             {
-                Debug.Log("Joystick : " + moveP1);
                 player1.transform.position = hitCollP1.point - player1.transform.forward;
 
                 if (moveP1 != Vector3.zero)
                 {
                     moveP1 = Vector3.Reflect(player1.transform.forward, hitCollP1.normal);
                 }
-
-
-                Debug.Log("HitNormal : " + hitCollP1.normal);
-
-                //moveP1.x += hitCollP1.normal.x;
-                //moveP1.z += hitCollP1.normal.z;
-
-
-                /*
-                if (moveP1.y > 0)
-                {
-                    moveP1.y -= moveP1.y * player1.transform.forward.z;
-                }
-                else
-                {
-                    moveP1.y += moveP1.y * player1.transform.forward.z;
-                }
-
-                if (moveP1.x > 0)
-                {
-                    moveP1.x -= moveP1.x * player1.transform.forward.x;
-                }
-                else
-                {
-                    moveP1.x += moveP1.x * player1.transform.forward.x;
-                }
-                */
-
-            }
-
-            /*
-
-            if (Physics.Raycast(player1.transform.position, transform.TransformDirection(Vector3.right), out hitCollP1, raycastDistanceDetectionPlayers, layerMask))
-            {
-                player1.transform.position = hitCollP1.point - player1.transform.right;
-
-                if (moveP1 != Vector3.zero)
-                {
-                    moveP1 = Vector3.Reflect(player1.transform.right, hitCollP1.normal);
-                }
             }
 
 
-            if (Physics.Raycast(player1.transform.position, transform.TransformDirection(Vector3.left), out hitCollP1, raycastDistanceDetectionPlayers, layerMask))
-            {
-                player1.transform.position = hitCollP1.point + player1.transform.right;
 
-                if (moveP1 != Vector3.zero)
-                {
-                    moveP1 = Vector3.Reflect(-player1.transform.right, hitCollP1.normal);
-                }
-            }
-            if (Physics.Raycast(player1.transform.position, transform.TransformDirection(Vector3.back), out hitCollP1, raycastDistanceDetectionPlayers, layerMask))
-            {
-
-                moveP1 = Vector3.Reflect(-player1.transform.forward, hitCollP1.normal);
-            }
-
-            
-
-            
-            */
-
-            /*
-            if (Physics.Raycast(player1.transform.position, transform.TransformDirection(Vector3.forward + Vector3.right), out hitCollP1, raycastDistanceDetectionPlayers, layerMask))
-            {
-                moveP1.x += hitCollP1.normal.x;
-                moveP1.y += hitCollP1.normal.z;
-            }
-
-
-            if (Physics.Raycast(player1.transform.position, transform.TransformDirection(Vector3.left + Vector3.forward), out hitCollP1, raycastDistanceDetectionPlayers, layerMask))
-            {
-                moveP1.x += hitCollP1.normal.x;
-                moveP1.y += hitCollP1.normal.z;
-            }
-            */
-
-            /*
-
-            
-
-            if (Physics.Raycast(player1.transform.position, transform.TransformDirection(Vector3.right + Vector3.back), out hitCollP1, raycastDistanceDetectionPlayers, layerMask))
-            {
-                if (moveP1.x >= 0 || moveP1.y <= 0)
-                {
-                    moveP1.x = 0;
-                    moveP1.y = 0;
-                }
-            }
-
-            
-
-            
-
-            
-            */
             #endregion
 
-            //Ici c'est l'ancienne version des collisions que je garde sur le deuxième personnage en guise de back up tant que l'autre n'est pas totatelement fonctionnelle
 
             #region p2Collisions
-
+                
             RaycastHit hitCollP2;
 
-            if (Physics.Raycast(player2.transform.position, transform.TransformDirection(Vector3.forward), out hitCollP2, raycastDistanceDetectionPlayers, layerMask))
+            if (Physics.Raycast(player2.transform.position, player2.transform.forward, out hitCollP2, raycastDistanceDetectionPlayers, layerMask))
             {
-                if (moveP2.z >= 0)
+                player2.transform.position = hitCollP2.point - player2.transform.forward;
+                    
+                if (moveP2 != Vector3.zero)
                 {
-                    moveP2.z = 0;
+                    moveP2 = Vector3.Reflect(player2.transform.forward, hitCollP2.normal);
                 }
+
+                #endregion
             }
-
-            if (Physics.Raycast(player2.transform.position, transform.TransformDirection(Vector3.back), out hitCollP2, raycastDistanceDetectionPlayers, layerMask))
-            {
-                if (moveP2.z <= 0)
-                {
-                    moveP2.z = 0;
-                }
-            }
-
-            if (Physics.Raycast(player2.transform.position, transform.TransformDirection(Vector3.right), out hitCollP2, raycastDistanceDetectionPlayers, layerMask))
-            {
-                if (moveP2.x >= 0)
-                {
-                    moveP2.x = 0;
-                }
-            }
-
-            if (Physics.Raycast(player2.transform.position, transform.TransformDirection(Vector3.left), out hitCollP2, raycastDistanceDetectionPlayers, layerMask))
-            {
-                if (moveP2.x <= 0)
-                {
-                    moveP2.x = 0;
-                }
-            }
-
-            #endregion
-
         }
 
         #endregion
@@ -444,69 +348,30 @@ public class Players : MonoBehaviour
 
             RaycastHit hitCollFP;
 
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hitCollFP, raycastDistanceDetectionFP, layerMask))
-            {
-                if (moveP1.z >= 0)
-                {
-                    moveP1.z = 0;
-                }
+            Debug.DrawRay(transform.position, transform.GetChild(0).transform.forward * 1000, Color.green);
 
-                if (moveP2.z >= 0)
+            if (Physics.Raycast(transform.position, transform.GetChild(0).transform.forward, out hitCollFP, raycastDistanceDetectionFP, layerMask))
+            {
+                transform.position = hitCollFP.point - transform.GetChild(0).transform.forward;
+
+                if (move != Vector3.zero)
                 {
-                    moveP2.z = 0;
+                    move = Vector3.Reflect(transform.GetChild(0).transform.forward, hitCollFP.normal);
                 }
             }
 
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.back), out hitCollFP, raycastDistanceDetectionFP, layerMask))
-            {
-                if (moveP1.z <= 0)
-                {
-                    moveP1.z = 0;
-                }
-
-                if (moveP2.z <= 0)
-                {
-                    moveP2.z = 0;
-                }
-            }
-
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.right), out hitCollFP, raycastDistanceDetectionFP, layerMask))
-            {
-                if (moveP1.x >= 0)
-                {
-                    moveP1.x = 0;
-                }
-
-                if (moveP2.x >= 0)
-                {
-                    moveP2.x = 0;
-                }
-            }
-
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.left), out hitCollFP, raycastDistanceDetectionFP, layerMask))
-            {
-                if (moveP1.x <= 0)
-                {
-                    moveP1.x = 0;
-                }
-
-                if (moveP2.x <= 0)
-                {
-                    moveP2.x = 0;
-                }
-            }
         }
 
-        #endregion
+            #endregion
 
-        #endregion
+            #endregion
 
 
-        #endregion
+            #endregion
 
-        #region PlayersPosition
+            #region PlayersPosition
 
-        if (merged == false)
+            if (merged == false)
             {
                 this.transform.position = ((player1.transform.position + player2.transform.position) / 2) + new Vector3(0, 0.6f, 0);
             }
@@ -518,7 +383,7 @@ public class Players : MonoBehaviour
             }
 
             #endregion
-        
+
             #region time
 
             tP1 += jumpSpeed * Time.deltaTime;
@@ -535,7 +400,7 @@ public class Players : MonoBehaviour
             }
             else
             {
-                
+
             }
 
             if (p2Hooking == false)
@@ -547,7 +412,7 @@ public class Players : MonoBehaviour
 
             #endregion
 
-            
+
             #region movements
             if (fusing == false && merged == false && splitting == false)
             {
@@ -556,7 +421,6 @@ public class Players : MonoBehaviour
                     player1.transform.Translate(transform.forward * moveP1.z * speed * Time.deltaTime, Space.World);
                     player1.transform.Translate(transform.right * moveP1.x * speed * Time.deltaTime, Space.World);
 
-                    //player1.transform.eulerAngles = new Vector3(0, angleP1, 0);
                 }
 
                 if (moveP2 != Vector3.zero /* && p2CanJump == true */ )
@@ -564,8 +428,6 @@ public class Players : MonoBehaviour
                     player2.transform.Translate(transform.forward * moveP2.z * speed * Time.deltaTime, Space.World);
                     player2.transform.Translate(transform.right * moveP2.x * speed * Time.deltaTime, Space.World);
 
-
-                    //player2.transform.eulerAngles = new Vector3(0, angleP2, 0);
                 }
 
                 /*
@@ -590,47 +452,47 @@ public class Players : MonoBehaviour
             if (fusing == true)
             {
 
-            lineRenderer.enabled = true;
+                lineRenderer.enabled = true;
 
-            lineRenderer.SetPosition(0, player1.transform.localPosition);
-            lineRenderer.SetPosition(1, player2.transform.localPosition);
-
-
-            #region fusionDisplacements
-
-            RaycastHit hitFuseP1;
+                lineRenderer.SetPosition(0, player1.transform.localPosition);
+                lineRenderer.SetPosition(1, player2.transform.localPosition);
 
 
-            Debug.DrawRay(player1.transform.position, transform.TransformDirection(player2.transform.position - player1.transform.position) * 1000, Color.green);
+                #region fusionDisplacements
 
-            if (Physics.Raycast(player1.transform.position, transform.TransformDirection(player2.transform.position - player1.transform.position), out hitFuseP1, raycastDistanceFuse, layerMaskFuse))
-            {
-                fusing = false;
-            }
-            else
-            {
-                player1.transform.position = new Vector3
-                   (Mathf.Lerp(player1MemoryPosition.x, player2.transform.position.x, t1),
-                   Mathf.Lerp(player1MemoryPosition.y, player2.transform.position.y, t1),
-                   Mathf.Lerp(player1MemoryPosition.z, player2.transform.position.z, t1));
-            }
+                RaycastHit hitFuseP1;
 
-            RaycastHit hitFuseP2;
 
-            if (Physics.Raycast(player2.transform.position, transform.TransformDirection(player1.transform.position - player2.transform.position), out hitFuseP2, raycastDistanceFuse, layerMaskFuse))
-            {
-                fusing = false;
-            }
-            else
-            {
-                player2.transform.position = new Vector3
-                    (Mathf.Lerp(player2MemoryPosition.x, player1.transform.position.x, t2),
-                    Mathf.Lerp(player2MemoryPosition.y, player1.transform.position.y, t2),
-                    Mathf.Lerp(player2MemoryPosition.z, player1.transform.position.z, t2));
-                splitting = false;
-            }
+                Debug.DrawRay(player1.transform.position, transform.TransformDirection(player2.transform.position - player1.transform.position) * 1000, Color.green);
 
-            
+                if (Physics.Raycast(player1.transform.position, transform.TransformDirection(player2.transform.position - player1.transform.position), out hitFuseP1, raycastDistanceFuse, layerMaskFuse))
+                {
+                    fusing = false;
+                }
+                else
+                {
+                    player1.transform.position = new Vector3
+                       (Mathf.Lerp(player1MemoryPosition.x, player2.transform.position.x, t1),
+                       Mathf.Lerp(player1MemoryPosition.y, player2.transform.position.y, t1),
+                       Mathf.Lerp(player1MemoryPosition.z, player2.transform.position.z, t1));
+                }
+
+                RaycastHit hitFuseP2;
+
+                if (Physics.Raycast(player2.transform.position, transform.TransformDirection(player1.transform.position - player2.transform.position), out hitFuseP2, raycastDistanceFuse, layerMaskFuse))
+                {
+                    fusing = false;
+                }
+                else
+                {
+                    player2.transform.position = new Vector3
+                        (Mathf.Lerp(player2MemoryPosition.x, player1.transform.position.x, t2),
+                        Mathf.Lerp(player2MemoryPosition.y, player1.transform.position.y, t2),
+                        Mathf.Lerp(player2MemoryPosition.z, player1.transform.position.z, t2));
+                    splitting = false;
+                }
+
+
 
                 #endregion
 
@@ -651,11 +513,11 @@ public class Players : MonoBehaviour
 
                 }
 
-            #endregion
+                #endregion
             }
             else
             {
-            lineRenderer.enabled = false;
+                lineRenderer.enabled = false;
             }
 
 
@@ -665,46 +527,45 @@ public class Players : MonoBehaviour
 
             if (merged == true)
             {
-                move = moveP1 + moveP2;
 
 
                 transform.Translate(transform.forward * move.z * speed * Time.deltaTime, Space.World);
                 transform.Translate(transform.right * move.x * speed * Time.deltaTime, Space.World);
 
-               
-
-            if (moveP1 != Vector3.zero && moveP2 != Vector3.zero)
-            {
 
 
-                float fpRotationAngle = (angleP1 + angleP2 + (2 * Mathf.PI)) / 2;
+                if (moveP1 != Vector3.zero && moveP2 != Vector3.zero)
+                {
 
-                transform.GetChild(0).transform.eulerAngles = new Vector3(0, fpRotationAngle, 0);
 
+                    float fpRotationAngle = (angleP1 + angleP2 + (2 * Mathf.PI)) / 2;
+
+                    transform.GetChild(0).transform.eulerAngles = new Vector3(0, fpRotationAngle, 0);
+
+                }
+                else if (moveP1 != Vector3.zero && moveP2 == Vector3.zero)
+                {
+
+
+                    float fpRotationAngle = angleP1 + (2 * Mathf.PI);
+
+
+                    transform.GetChild(0).transform.eulerAngles = new Vector3(0, fpRotationAngle, 0);
+
+                }
+                else if (moveP1 == Vector3.zero && moveP2 != Vector3.zero)
+                {
+
+                    transform.Translate(transform.forward * move.y * speed * Time.deltaTime, Space.World);
+                    transform.Translate(transform.right * move.x * speed * Time.deltaTime, Space.World);
+
+                    float fpRotationAngle = angleP2 + (2 * Mathf.PI);
+
+
+                    transform.GetChild(0).transform.eulerAngles = new Vector3(0, fpRotationAngle, 0);
+
+                }
             }
-            else if (moveP1 != Vector3.zero && moveP2 == Vector3.zero)
-            {
-
-
-                float fpRotationAngle = angleP1 + (2 * Mathf.PI);
-
-
-                transform.GetChild(0).transform.eulerAngles = new Vector3(0, fpRotationAngle, 0);
-
-            }
-            else if (moveP1 == Vector3.zero && moveP2 != Vector3.zero)
-            {
-
-                transform.Translate(transform.forward * move.y * speed * Time.deltaTime, Space.World);
-                transform.Translate(transform.right * move.x * speed * Time.deltaTime, Space.World);
-
-                float fpRotationAngle = angleP2 + (2 * Mathf.PI);
-
-
-                transform.GetChild(0).transform.eulerAngles = new Vector3(0, fpRotationAngle, 0);
-
-            }
-        }
             #endregion
 
             #region jump
@@ -796,48 +657,46 @@ public class Players : MonoBehaviour
 
             }
 
-            #endregion
+        #endregion
 
-            //ici c'est pour quand ils défusionnent, ça fonctionne mais parfois le raycast ne détecte pas la collision, je pense que c'est du à la vitesse trop élevées du personnage
+        #region split
 
-            #region split
-
-            if (Input.GetButton("Split"))
+        //if (Input.GetButton("Split"))
+        if (switchState == false)
+        {
+            if (merged == true && splitting == false)
             {
-                if (merged == true && splitting == false)
+                transform.GetChild(0).gameObject.SetActive(false);
+
+                fusing = false;
+                merged = false;
+                    
+                player1.gameObject.SetActive(true);
+                player2.gameObject.SetActive(true);
+                    
+                if (moveP1 != Vector3.zero)
                 {
-                    transform.GetChild(0).gameObject.SetActive(false);
-
-                    fusing = false;
-                    merged = false;
-
-
-                    player1.gameObject.SetActive(true);
-                    player2.gameObject.SetActive(true);
-
-                    if (moveP1 != Vector3.zero)
-                    {
-                        splitDirectionP1 = player1.transform.forward;
-                    }
-                    else
-                    {
-                        splitDirectionP1 = Vector3.zero;
-                    }
-
-                    if (moveP2 != Vector3.zero)
-                    {
-                        splitDirectionP2 = player2.transform.forward;
-                    }
-                    else
-                    {
-                        splitDirectionP2 = Vector3.zero;
-                    }
-
-                    tSplit = 0;
-
-                    splitting = true;
+                    splitDirectionP1 = player1.transform.forward;
                 }
+                else
+                {
+                    splitDirectionP1 = Vector3.zero;
+                }
+                    
+                if (moveP2 != Vector3.zero)
+                {
+                    splitDirectionP2 = player2.transform.forward;
+                }
+                else
+                {
+                    splitDirectionP2 = Vector3.zero;
+                }
+                    
+                tSplit = 0;
+                    
+                splitting = true;
             }
+        }
 
             if (splitting == true)
             {
@@ -849,7 +708,6 @@ public class Players : MonoBehaviour
 
                 if (Physics.Raycast(player1.transform.position, player1.transform.forward, out hitSplitP1, raycastDistanceDetectionPlayers, layerMask))
                 {
-                    Debug.Log("Hit");
 
                     incomingVec = hitSplitP1.point - player1.transform.position;
                     splitDirectionP1 = Vector3.Reflect(player1.transform.forward, hitSplitP1.normal);
@@ -860,7 +718,6 @@ public class Players : MonoBehaviour
 
                 if (Physics.Raycast(player2.transform.position, player2.transform.forward, out hitSplitP2, raycastDistanceDetectionPlayers, layerMask))
                 {
-                    Debug.Log("Hit");
 
                     incomingVec = hitSplitP2.point - player2.transform.position;
                     splitDirectionP2 = Vector3.Reflect(player2.transform.forward, hitSplitP2.normal);
@@ -876,7 +733,10 @@ public class Players : MonoBehaviour
                 }
             }
 
-            #endregion
+        #endregion
+
+        Debug.Log("Fusing : " + fusing);
+        Debug.Log("Splitting : " + splitting);
     }
 
     #region jumpBools
@@ -885,7 +745,7 @@ public class Players : MonoBehaviour
     {
         return Physics.Raycast(player1.transform.position, player1.transform.TransformDirection(Vector3.down), gravityRaycastDistancePlayers, layerMask);
     }
-
+    
     bool p2CanJump()
     {
         return Physics.Raycast(player2.transform.position, player2.transform.TransformDirection(Vector3.down), gravityRaycastDistancePlayers, layerMask);
@@ -898,5 +758,6 @@ public class Players : MonoBehaviour
 
     #endregion
 
+    
 }
 
