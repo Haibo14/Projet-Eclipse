@@ -277,7 +277,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   osc: {fileID: 286783727}
-  switchState: 0
+  xAxis_: 0
+  zAxis_: 0
 --- !u!4 &286783729
 Transform:
   m_ObjectHideFlags: 0
@@ -441,7 +442,7 @@ GameObject:
   m_Component:
   - component: {fileID: 445819419}
   - component: {fileID: 445819420}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Player1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -470,11 +471,21 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 445819418}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 148c9a82036dcbd40b9f8256a8d5a8a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fpPlayer: {fileID: 1877476717}
+  otherPlayer: {fileID: 1201478520}
+  OscMaster: {fileID: 286783726}
+  players: {fileID: 1877476725}
+  playerObject: {fileID: 1201478521}
+  oscMessage: {fileID: 286783728}
+  moveX: p1_Horizontal
+  moveZ: p1_Vertical
+  hookingString: p1_Hook
+  jumpString: p1_Jump
   jumpCurve:
     serializedVersion: 2
     m_Curve:
@@ -526,14 +537,22 @@ MonoBehaviour:
   move: {x: 0, y: 0, z: 0}
   gravityValue: 50
   gravityRaycastDistancePlayers: 1
+  gravityRaycastDistanceFP: 1.6
   groundHeight: 0
   raycastDistanceDetection: 1.3
   jumpSpeed: 3
-  timeSpeed: 50
+  timeSpeed: 100
   splitSpeed: 1.1
   speed: 10
   power: 0.07
   splitPower: 0.3
+  raycastDistanceFuse: 1
+  tFuse: 0
+  tJump: 0
+  adaptDistance: 0
+  fusing: 0
+  merged: 0
+  splitting: 0
 --- !u!4 &577567555 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7180518753640408874, guid: 769c9682d23773640902212980e49bef, type: 3}
@@ -1038,7 +1057,7 @@ GameObject:
   - component: {fileID: 1190344551}
   - component: {fileID: 1190344550}
   - component: {fileID: 1190344549}
-  m_Layer: 8
+  m_Layer: 31
   m_Name: FusedPlayer Prefab
   m_TagString: FusedPlayer
   m_Icon: {fileID: 0}
@@ -1196,6 +1215,127 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 20aeb4589f999ad45ad67c3e0598709a, type: 3}
+--- !u!1 &1201478520
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1201478522}
+  - component: {fileID: 1201478521}
+  m_Layer: 31
+  m_Name: Player2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1201478521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1201478520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 148c9a82036dcbd40b9f8256a8d5a8a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fpPlayer: {fileID: 1877476717}
+  otherPlayer: {fileID: 445819418}
+  OscMaster: {fileID: 286783726}
+  players: {fileID: 1877476725}
+  playerObject: {fileID: 445819420}
+  oscMessage: {fileID: 286783728}
+  moveX: p2_Horizontal
+  moveZ: p2_Vertical
+  hookingString: p2_Hook
+  jumpString: p2_Jump
+  jumpCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -2.9993198
+      outSlope: -2.9993198
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.030598367
+    - serializedVersion: 3
+      time: 1
+      value: 0.002380371
+      inSlope: -0.028602686
+      outSlope: -0.028602686
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.05938351
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  splitCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -2.8629878
+      outSlope: -2.8629878
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.024932003
+    - serializedVersion: 3
+      time: 1
+      value: 0.002380371
+      inSlope: 0.000018937682
+      outSlope: 0.000018937682
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.052583873
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  move: {x: 0, y: 0, z: 0}
+  gravityValue: 50
+  gravityRaycastDistancePlayers: 1
+  gravityRaycastDistanceFP: 1.6
+  groundHeight: 0
+  raycastDistanceDetection: 1.3
+  jumpSpeed: 3
+  timeSpeed: 100
+  splitSpeed: 1.1
+  speed: 10
+  power: 0.07
+  splitPower: 0.3
+  raycastDistanceFuse: 1
+  tFuse: 0
+  tJump: 0
+  adaptDistance: 0
+  fusing: 0
+  merged: 0
+  splitting: 0
+--- !u!4 &1201478522
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1201478520}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 50, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1817068268}
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1269816656
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1643,12 +1783,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1817068264}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2, y: 50, z: 9.8}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1688159638}
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_Father: {fileID: 1201478522}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &1817068270
 Rigidbody:
@@ -1677,7 +1817,7 @@ GameObject:
   - component: {fileID: 1877476722}
   - component: {fileID: 1877476725}
   - component: {fileID: 1877476718}
-  m_Layer: 8
+  m_Layer: 31
   m_Name: FusedPlayer
   m_TagString: FusedPlayer
   m_Icon: {fileID: 0}
@@ -1809,8 +1949,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2a20f0ff938a224f86b2131d00152d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player1: {fileID: 1470176433}
-  player2: {fileID: 1817068264}
+  player1: {fileID: 445819418}
+  player2: {fileID: 1201478520}
+  playerObject1: {fileID: 445819420}
+  playerObject2: {fileID: 1201478521}
   ReceivePosition: {fileID: 286783728}
   jumpCurve:
     serializedVersion: 2
@@ -1867,7 +2009,7 @@ MonoBehaviour:
   speed: 10
   jumpSpeed: 3
   timeSpeed: 50
-  power: 0.07
+  power: 0.11
   checkDistance: 50
   splitPower: 0.3
   splitPowerY: 0.3
@@ -1880,8 +2022,10 @@ MonoBehaviour:
   raycastDistanceFuse: 1
   groundHeightP1: 0
   groundHeightP2: 0
+  tFP: 0
   fusing: 0
   merged: 0
+  fpJumping: 0
 --- !u!1001 &1923151609
 PrefabInstance:
   m_ObjectHideFlags: 0

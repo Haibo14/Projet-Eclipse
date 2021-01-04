@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
 public class ReceivePosition : MonoBehaviour {
     public OSC osc;
 
@@ -29,5 +30,30 @@ public class ReceivePosition : MonoBehaviour {
         {
             switchState = false;
         }
+    }
+}
+*/
+public class ReceivePosition : MonoBehaviour
+{
+    public OSC osc;
+
+    public int xAxis_;
+    public int zAxis_;
+
+
+    void Start()
+    {
+        osc.SetAddressHandler("/test", JoystickAxis);
+
+    }
+
+    void JoystickAxis(OscMessage message)
+    {
+        xAxis_ = message.GetInt(0);
+        zAxis_ = message.GetInt(1);
+    }
+    void Update()
+    {
+        Debug.Log("X : " + xAxis_ + "   & Z : " + zAxis_);
     }
 }
