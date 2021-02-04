@@ -16,6 +16,7 @@ public class PlayerScript : MonoBehaviour
 
     LayerMask layerMask;
     LayerMask layerMaskPlayer;
+    LayerMask layerMaskBush;
     LayerMask layerMaskFuse;
     LayerMask layerMaskDObject;
 
@@ -79,10 +80,11 @@ public class PlayerScript : MonoBehaviour
         gravity = Vector3.down * gravityValue;
 
         layerMaskPlayer = 31;
+        layerMaskBush = 30;
         layerMaskDObject = 8;
 
-        layerMask = ~(1 << layerMaskPlayer);
-        layerMaskFuse = ~((1 << layerMaskPlayer) | (1 << layerMaskDObject));
+        layerMask = ~((1 << layerMaskPlayer) | (1 << layerMaskBush));
+        layerMaskFuse = ~((1 << layerMaskPlayer) | (1 << layerMaskBush) | (1 << layerMaskDObject));
     }
 
 
@@ -90,11 +92,11 @@ public class PlayerScript : MonoBehaviour
     {
 
 
-        //move.x = Input.GetAxis(moveX);
-        //move.z = Input.GetAxis(moveZ);
+        move.x = Input.GetAxis(moveX);
+        move.z = Input.GetAxis(moveZ);
 
-        move.x = -(oscMessage.xAxis_ / 6);
-        move.z = oscMessage.zAxis_ / 6;
+        //move.x = -(oscMessage.xAxis_ / 6);
+        //move.z = oscMessage.zAxis_ / 6;
 
         if (move != Vector3.zero)
         {
@@ -161,7 +163,7 @@ public class PlayerScript : MonoBehaviour
 
             if (Physics.Raycast(transform.position, childPlayer.transform.forward, out hitColl, raycastDistanceDetection, layerMask))
             {
-                Debug.Log("Joystick : " + move);
+                //Debug.Log("Joystick : " + move);
                 transform.position = hitColl.point - childPlayer.transform.forward;
 
                 if (move != Vector3.zero)
@@ -170,7 +172,7 @@ public class PlayerScript : MonoBehaviour
                 }
 
 
-                Debug.Log("HitNormal : " + hitColl.normal);
+                //Debug.Log("HitNormal : " + hitColl.normal);
 
             }
 

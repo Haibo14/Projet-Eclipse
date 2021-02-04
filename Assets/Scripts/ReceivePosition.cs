@@ -2,23 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/*
+
 public class ReceivePosition : MonoBehaviour {
     public OSC osc;
 
     int switchState_;
+    public int xAxis_;
+    public int zAxis_;
 
     public bool switchState;
 
     void Start(){
-        osc.SetAddressHandler("/test", ReedSwitch);
+        osc.SetAddressHandler("/manette1", ReadOSC);
 
         switchState = false;
     }
 
-    void ReedSwitch(OscMessage message)
+    void ReadOSC(OscMessage message)
     {
         switchState_ = message.GetInt(0);
+        xAxis_ = message.GetInt(1);
+        zAxis_ = message.GetInt(2);
     }
     void Update()
     {
@@ -30,12 +34,14 @@ public class ReceivePosition : MonoBehaviour {
         {
             switchState = false;
         }
+
+        Debug.Log("X : " + xAxis_ + "   & Z : " + zAxis_ + "        switchState is " + switchState);
     }
 }
-*/
+/*
 public class ReceivePosition : MonoBehaviour
 {
-    public OSC osc;
+    public OSC osc; 
 
     public int xAxis_;
     public int zAxis_;
@@ -56,4 +62,4 @@ public class ReceivePosition : MonoBehaviour
     {
         Debug.Log("X : " + xAxis_ + "   & Z : " + zAxis_);
     }
-}
+}*/

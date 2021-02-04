@@ -7,6 +7,7 @@ public class EnnemiesRunning : MonoBehaviour
     public GameObject fusedPlayer;
 
     public float speed;
+    public float detectionDistance;
 
     bool running;
 

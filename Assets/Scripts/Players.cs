@@ -78,6 +78,7 @@ public class Players : MonoBehaviour
 
     LayerMask layerMask;
     LayerMask layerMaskPlayer;
+    LayerMask layerMaskBush;
     LayerMask layerMaskDObject;
     LayerMask layerMaskFuse;
 
@@ -106,10 +107,11 @@ public class Players : MonoBehaviour
         lineRenderer = GetComponent<LineRenderer>();
 
         layerMaskPlayer = 31;
+        layerMaskBush = 30;
         layerMaskDObject = 8;
 
-        layerMask = ~(1 << layerMaskPlayer);
-        layerMaskFuse = ~((1 << layerMaskPlayer) | (1 << layerMaskDObject));
+        layerMask = ~((1 << layerMaskPlayer) | (1 << layerMaskBush));
+        layerMaskFuse = ~((1 << layerMaskPlayer) | (1 << layerMaskBush) | (1 << layerMaskDObject));
 
         transform.GetChild(0).gameObject.SetActive(false);
 
