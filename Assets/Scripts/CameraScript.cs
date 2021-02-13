@@ -36,10 +36,13 @@ public class CameraScript : MonoBehaviour
 
         move = moveP1 + moveP2;
 
-        yP1 = fusedPlayer.GetComponent<Players>().groundHeightP1;
-        yP2 = fusedPlayer.GetComponent<Players>().groundHeightP2;
+        
+            yP1 = fusedPlayer.GetComponent<Players>().groundHeightP1;
+            yP2 = fusedPlayer.GetComponent<Players>().groundHeightP2;
 
-        yGround = (yP1 + yP2) / 2;
+
+            yGround = (yP1 + yP2) / 2;
+        
 
         target = new Vector3(fusedPlayer.transform.position.x, yGround + y, fusedPlayer.transform.position.z - z);
 

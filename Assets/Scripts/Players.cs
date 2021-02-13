@@ -84,9 +84,11 @@ public class Players : MonoBehaviour
 
     public bool fusing;
     public bool merged;
-    bool switchState;
+    public bool switchState;
     bool splitting;
     public bool fpJumping;
+    public bool allowFuse;
+    bool changeState;
 
 
     #endregion
@@ -97,6 +99,8 @@ public class Players : MonoBehaviour
         fusing = false;
         merged = false;
         splitting = false;
+        allowFuse = true;
+        changeState = true;
         adaptDistance = 0;
 
         playerObject1 = player1.GetComponent<PlayerScript>();
@@ -132,24 +136,17 @@ public class Players : MonoBehaviour
         move.x = moveP1.x + moveP2.x;
         move.z = moveP1.z + moveP2.z;
 
+        player1MemoryPosition = player1.transform.position;
+        player2MemoryPosition = player2.transform.position;
+
+
+        distanceX = player1MemoryPosition.x - player2MemoryPosition.x;
+        distanceY = player1MemoryPosition.y - player2MemoryPosition.y;
+        distanceZ = player1MemoryPosition.z - player2MemoryPosition.z;
+
+        totalDistance = (Mathf.Abs(distanceX) + Mathf.Abs(distanceY) + Mathf.Abs(distanceZ));
+
         
-        if (move != Vector3.zero)
-        {
-            if (moveP1 != Vector3.zero && moveP2 != Vector3.zero)
-            {
-                transform.GetChild(0).transform.eulerAngles = (player1.transform.rotation.eulerAngles + player2.transform.rotation.eulerAngles) / 2;
-            }
-
-            if (moveP1 != Vector3.zero && moveP2 == Vector3.zero)
-            {
-                transform.GetChild(0).transform.eulerAngles = player1.transform.rotation.eulerAngles;
-            }
-
-            if (moveP1 == Vector3.zero && moveP2 != Vector3.zero)
-            {
-                transform.GetChild(0).transform.eulerAngles = player2.transform.rotation.eulerAngles;
-            }
-        }
 
         
 
@@ -157,33 +154,28 @@ public class Players : MonoBehaviour
 
         if (switchState == true || Input.GetButton("Fuse"))
         {
-            if (fusing == false && merged == false)
+            if (fusing == false && merged == false && changeState == true)
             {
 
-                playerObject1.tFuse = 0;
-                playerObject2.tFuse = 0;
-
-                player1MemoryPosition = player1.transform.position;
-                player2MemoryPosition = player2.transform.position;
-
-                playerObject1.Fuse();
-                playerObject2.Fuse();
-
-                distanceX = player1MemoryPosition.x - player2MemoryPosition.x;
-                distanceY = player1MemoryPosition.y - player2MemoryPosition.y;
-                distanceZ = player1MemoryPosition.z - player2MemoryPosition.z;
-
-                totalDistance = (Mathf.Abs(distanceX) + Mathf.Abs(distanceY) + Mathf.Abs(distanceZ));
-
                 adaptDistance = 1 / totalDistance;
+
+                if (adaptDistance == Mathf.Infinity)
+                {
+                    adaptDistance = 0.1f;
+                }
+
                 playerObject1.adaptDistance = adaptDistance;
                 playerObject2.adaptDistance = adaptDistance;
 
                 if (totalDistance <= checkDistance)
                 {
+                    playerObject1.tFuse = 0;
+                    playerObject2.tFuse = 0;
+
+                    playerObject1.Fuse();
+                    playerObject2.Fuse();
+
                     fusing = true;
-                    playerObject1.fusing = true;
-                    playerObject2.fusing = true;
                 }
                 else
                 {
@@ -230,7 +222,7 @@ public class Players : MonoBehaviour
 
             RaycastHit hitCollFP;
 
-            Debug.DrawRay(transform.position, transform.GetChild(0).transform.forward * 1000, Color.green);
+            Debug.DrawRay(transform.position, transform.GetChild(0).transform.forward * 1000, Color.black);
 
             if (Physics.Raycast(transform.position, transform.GetChild(0).transform.forward, out hitCollFP, raycastDistanceDetectionFP, layerMask))
             {
@@ -282,6 +274,26 @@ public class Players : MonoBehaviour
 
             #region merge
 
+            if (playerObject1.tFuse >= 0.95f || playerObject2.tFuse >= 0.95f)
+            {
+                if(totalDistance <= 3)
+                {
+                    transform.GetChild(0).gameObject.SetActive(true);
+
+
+                    fusing = false;
+                    playerObject1.fusing = false;
+                    playerObject2.fusing = false;
+
+                    merged = true;
+                    playerObject1.merged = true;
+                    playerObject2.merged = true;
+
+                    changeState = false;
+                }
+            }
+
+            /*
             if (t1 >= 0.9f || t2 >= 0.9f)
             {
                 transform.GetChild(0).gameObject.SetActive(true);
@@ -295,8 +307,10 @@ public class Players : MonoBehaviour
                 playerObject1.merged = true;
                 playerObject2.merged = true;
 
-            }
+                changeState = false;
 
+            }
+            */
             #endregion
         }
         else
@@ -316,39 +330,45 @@ public class Players : MonoBehaviour
             transform.Translate(transform.forward * move.z * speed * Time.deltaTime, Space.World);
             transform.Translate(transform.right * move.x * speed * Time.deltaTime, Space.World);
 
+            angleP1 = playerObject1.transform.GetChild(0).transform.eulerAngles.y;
+            angleP2 = playerObject2.transform.GetChild(0).transform.eulerAngles.y;
+
+        if (moveP1 == Vector3.zero && moveP2 == Vector3.zero)
+        {
+                transform.GetChild(0).transform.eulerAngles = transform.GetChild(0).transform.eulerAngles;
+
+        }
+        else if (moveP1 != Vector3.zero && moveP2 != Vector3.zero)
+        {
 
 
-            if (moveP1 != Vector3.zero && moveP2 != Vector3.zero)
-            {
+            float fpRotationAngle = (angleP1 + angleP2) / 2;
+
+            transform.GetChild(0).transform.eulerAngles = new Vector3(0, fpRotationAngle, 0);
+
+        }
+        else if (moveP1 != Vector3.zero && moveP2 == Vector3.zero)
+        {
 
 
-                float fpRotationAngle = (angleP1 + angleP2 + (2 * Mathf.PI)) / 2;
-
-                transform.GetChild(0).transform.eulerAngles = new Vector3(0, fpRotationAngle, 0);
-
-            }
-            else if (moveP1 != Vector3.zero && moveP2 == Vector3.zero)
-            {
+            float fpRotationAngle = angleP1;
 
 
-                float fpRotationAngle = angleP1 + (2 * Mathf.PI);
+            transform.GetChild(0).transform.eulerAngles = new Vector3(0, fpRotationAngle, 0);
+
+        }
+        else if (moveP1 == Vector3.zero && moveP2 != Vector3.zero)
+        {
+
+            transform.Translate(transform.forward * move.y * speed * Time.deltaTime, Space.World);
+            transform.Translate(transform.right * move.x * speed * Time.deltaTime, Space.World);
+
+            float fpRotationAngle = angleP2;
 
 
-                transform.GetChild(0).transform.eulerAngles = new Vector3(0, fpRotationAngle, 0);
+            transform.GetChild(0).transform.eulerAngles = new Vector3(0, fpRotationAngle, 0);
 
-            }
-            else if (moveP1 == Vector3.zero && moveP2 != Vector3.zero)
-            {
-
-                transform.Translate(transform.forward * move.y * speed * Time.deltaTime, Space.World);
-                transform.Translate(transform.right * move.x * speed * Time.deltaTime, Space.World);
-
-                float fpRotationAngle = angleP2 + (2 * Mathf.PI);
-
-
-                transform.GetChild(0).transform.eulerAngles = new Vector3(0, fpRotationAngle, 0);
-
-            }
+        }
         }
         #endregion
 
@@ -370,8 +390,10 @@ public class Players : MonoBehaviour
 
         if (/*switchState == false || */Input.GetButton("Split"))
         {
-            if (merged == true && splitting == false)
+            if (merged == true && splitting == false && changeState == false)
             {
+                changeState = true;
+
                 transform.GetChild(0).gameObject.SetActive(false);
 
                 fusing = false;

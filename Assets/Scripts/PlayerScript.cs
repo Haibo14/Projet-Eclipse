@@ -29,11 +29,13 @@ public class PlayerScript : MonoBehaviour
     public AnimationCurve splitCurve;
 
     public Vector3 move;
+    public Vector3 shift;
 
     Vector3 velocity;
     Vector3 gravity;
     Vector3 jumpMove;
     Vector3 splitDirection;
+    Vector3 fuseDirection;
     Vector3 incomingVec;
     Vector3 memoryPosition;
 
@@ -63,6 +65,7 @@ public class PlayerScript : MonoBehaviour
     public bool splitting;
     bool hooking;
     bool jumping;
+    bool allowFuse;
 
     void Start()
     {
@@ -70,6 +73,7 @@ public class PlayerScript : MonoBehaviour
         merged = false;
         splitting = false;
         jumping = false;
+        allowFuse = true;
 
         players = fpPlayer.GetComponent<Players>();
         playerObject = otherPlayer.GetComponent<PlayerScript>();
@@ -98,13 +102,16 @@ public class PlayerScript : MonoBehaviour
         //move.x = -(oscMessage.xAxis_ / 6);
         //move.z = oscMessage.zAxis_ / 6;
 
+        Debug.DrawRay(transform.position, childPlayer.transform.forward * 100, Color.red);
+
+
         if (move != Vector3.zero)
         {
-            angleRad = Mathf.Atan2(move.x, move.z);
-            angle = angleRad * Mathf.Rad2Deg;
-
-            if (splitting == false)
+            
+            if (splitting == false && fusing == false)
             {
+                angleRad = Mathf.Atan2(move.x, move.z);
+                angle = angleRad * Mathf.Rad2Deg;
                 childPlayer.transform.eulerAngles = new Vector3(0, angle, 0);
             }
         }
@@ -152,13 +159,11 @@ public class PlayerScript : MonoBehaviour
         #region collisionDetection
 
 
-        if (merged == false && splitting == false)
+        if (merged == false && splitting == false && fusing == false)
         {
 
             RaycastHit hitColl;
 
-
-            Debug.DrawRay(transform.position, childPlayer.transform.forward * 1000, Color.green);
 
 
             if (Physics.Raycast(transform.position, childPlayer.transform.forward, out hitColl, raycastDistanceDetection, layerMask))
@@ -181,10 +186,7 @@ public class PlayerScript : MonoBehaviour
         #endregion
         #endregion
 
-        if (merged == true)
-        {
-            transform.position = fpPlayer.transform.position;
-        }
+    
 
         #region time
 
@@ -215,47 +217,88 @@ public class PlayerScript : MonoBehaviour
         #endregion
 
 
+        RaycastHit hitFuse;
+
+        
+
         if (fusing == true)
         {
+            angleRad = Mathf.Atan2(transform.TransformDirection(otherPlayer.transform.position - transform.position).x, transform.TransformDirection(otherPlayer.transform.position - transform.position).z);
+            angle = angleRad * Mathf.Rad2Deg;
+            childPlayer.transform.eulerAngles = new Vector3(0, angle, 0);
+
             #region fusionDisplacements
-
-            RaycastHit hitFuse;
-
 
             Debug.DrawRay(transform.position, transform.TransformDirection(otherPlayer.transform.position - transform.position) * 1000, Color.green);
 
-            if (Physics.Raycast(transform.position, transform.TransformDirection(otherPlayer.transform.position - transform.position), out hitFuse, raycastDistanceFuse, layerMaskFuse))
+            if (allowFuse == true)
             {
-                fusing = false;
-                players.fusing = false;
-                playerObject.fusing = false;
 
+                if (Physics.Raycast(transform.position, transform.TransformDirection(otherPlayer.transform.position - transform.position), out hitFuse, raycastDistanceDetection, layerMaskFuse))
+                {
+                    allowFuse = false;
+
+                    incomingVec = hitFuse.point - transform.position;
+                    fuseDirection = Vector3.Reflect(childPlayer.transform.forward, hitFuse.normal);
+
+                    angleRad = Mathf.Atan2(fuseDirection.x, fuseDirection.z);
+                    angle = angleRad * Mathf.Rad2Deg;
+
+                }
+                else
+                {
+                    fuseDirection = Vector3.zero;
+
+                    transform.position = new Vector3
+                       (Mathf.Lerp(memoryPosition.x, otherPlayer.transform.position.x, tFuse),
+                       Mathf.Lerp(memoryPosition.y, otherPlayer.transform.position.y, tFuse),
+                       Mathf.Lerp(memoryPosition.z, otherPlayer.transform.position.z, tFuse));
+                }
             }
             else
             {
-                transform.position = new Vector3
-                   (Mathf.Lerp(memoryPosition.x, otherPlayer.transform.position.x, tFuse),
-                   Mathf.Lerp(memoryPosition.y, otherPlayer.transform.position.y, tFuse),
-                   Mathf.Lerp(memoryPosition.z, otherPlayer.transform.position.z, tFuse));
+                
+                    //fuseDirection = Vector3.zero;
             }
 
-            #endregion
 
-            #region merge
-
-            if (merged == true)
-            {
-                childPlayer.gameObject.SetActive(false);
-                transform.position = fpPlayer.transform.position;
-
-            }
-
-            #endregion
-        }
+            childPlayer.transform.eulerAngles = new Vector3(0, angle, 0);
             
+
+            transform.Translate(fuseDirection * splitCurve.Evaluate(tFuse) * splitPower, Space.World);
+            
+
+            if (tFuse >= 1)
+            {
+                fuseDirection = Vector3.zero;
+
+                fusing = false;
+                players.fusing = false;
+
+                allowFuse = true;
+
+            }
+            
+            
+            #endregion
+
+           
+        }
+
+        #region merge
+
+        if (merged == true)
+        {
+            childPlayer.gameObject.SetActive(false);
+            transform.position = fpPlayer.transform.position + shift;
+
+        }
+
+        #endregion
+
         #region jump
 
-            
+
         if (Input.GetButton(jumpString))
         {
             if (fusing == false)
@@ -306,20 +349,26 @@ public class PlayerScript : MonoBehaviour
 
             RaycastHit hitSplit;
 
-            Debug.DrawRay(transform.position, childPlayer.transform.forward * 100, Color.red);
+            
             
             if (Physics.Raycast(transform.position, childPlayer.transform.forward, out hitSplit, raycastDistanceDetection, layerMask))
             {
                 incomingVec = hitSplit.point - transform.position;
                 splitDirection = Vector3.Reflect(childPlayer.transform.forward, hitSplit.normal);
 
+                angleRad = Mathf.Atan2(splitDirection.x, splitDirection.z);
+                angle = angleRad * Mathf.Rad2Deg;
+
             }
-            
+
+            childPlayer.transform.eulerAngles = new Vector3(0, angle, 0);
             transform.Translate(splitDirection * splitCurve.Evaluate(tSplit) * splitPower, Space.World);
+
 
             if (tSplit >= 1)
             {
                 splitting = false;
+                allowFuse = true;
             }
         }
         
@@ -329,7 +378,21 @@ public class PlayerScript : MonoBehaviour
 
     public void Fuse()
     {
-        memoryPosition = transform.position;
+        if (allowFuse == true)
+        {
+            memoryPosition = transform.position;
+
+            if (move != Vector3.zero)
+            {
+                fuseDirection = childPlayer.transform.forward;
+            }
+            else
+            {
+                fuseDirection = Vector3.zero;
+            }
+
+            fusing = true;
+        }
     }
 
     public void Split()

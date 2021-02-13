@@ -50,6 +50,14 @@ public class EnemyScript : MonoBehaviour
     {
         RaycastHit hit;
 
+        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * chaseDistance, Color.yellow);
+        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward + new Vector3(0.25f, 0, 0)) * (chaseDistance * 0.8f), Color.yellow);
+        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward + new Vector3(-0.25f, 0, 0)) * (chaseDistance * 0.8f), Color.yellow);
+        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward + new Vector3(0.5f, 0, 0)) * (chaseDistance * 0.5f), Color.yellow);
+        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward + new Vector3(-0.5f, 0, 0)) * (chaseDistance * 0.5f), Color.yellow);
+        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward + new Vector3(1,0,0)) * (chaseDistance * 0.2f), Color.yellow);
+        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward + new Vector3(-1,0,0)) * (chaseDistance * 0.2f), Color.yellow);
+
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, gravityRaycastDistance, layerMask))
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
@@ -91,7 +99,14 @@ public class EnemyScript : MonoBehaviour
 
             RaycastHit hitTarget;
 
-            if (Physics.Raycast(transform.position, transform.forward, out hitTarget, chaseDistance))
+            if (Physics.Raycast(transform.position, transform.forward, out hitTarget, chaseDistance) 
+                || Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward + new Vector3(0.25f, 0, 0)), out hitTarget, (chaseDistance * 0.8f)) 
+                || Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward + new Vector3(-0.25f, 0, 0)), out hitTarget, (chaseDistance * 0.8f)) 
+                || Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward + new Vector3(0.5f, 0, 0)), out hitTarget, (chaseDistance * 0.5f)) 
+                || Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward + new Vector3(-0.5f, 0, 0)), out hitTarget, (chaseDistance * 0.5f))
+                || Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward + new Vector3(1f, 0, 0)), out hitTarget, (chaseDistance * 0.2f))
+                || Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward + new Vector3(-1f, 0, 0)), out hitTarget, (chaseDistance * 0.2f))
+                )
             {
                 if (hitTarget.collider.gameObject.tag == "Player1" || hitTarget.collider.gameObject.tag == "FusedPlayer")
                 {
