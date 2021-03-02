@@ -18,6 +18,7 @@ public class AlternativeMove : MonoBehaviour
         altMove = transform.localPosition; 
         
         altMove.z += Input.GetAxis("kb_Horizontal") * Time.deltaTime * speed;
+        altMove.y += Input.GetAxis("kb_Elevation") * Time.deltaTime * speed;
         altMove.x += Input.GetAxis("kb_Vertical") * Time.deltaTime * speed;
         transform.localPosition = altMove;
     }

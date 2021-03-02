@@ -20,7 +20,7 @@ public class AlternativeCamera : MonoBehaviour
 
     void Update()
     {
-        target = new Vector3(fusedPlayer.transform.position.x, y, fusedPlayer.transform.position.z - z);
+        target = new Vector3(fusedPlayer.transform.position.x, fusedPlayer.transform.position.y + y, fusedPlayer.transform.position.z - z);
 
         this.transform.position = Vector3.Lerp(transform.position, target, cameraSmoothSpeed);
     }

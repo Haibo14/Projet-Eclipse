@@ -9,6 +9,7 @@ public class PlayerScript : MonoBehaviour
     public GameObject OscMaster;
 
     GameObject childPlayer;
+    GameObject drivingCar;
 
     public Players players;
     public PlayerScript playerObject;
@@ -19,6 +20,7 @@ public class PlayerScript : MonoBehaviour
     LayerMask layerMaskBush;
     LayerMask layerMaskFuse;
     LayerMask layerMaskDObject;
+    LayerMask layerMaskInteract;
 
     public string moveX;
     public string moveZ;
@@ -54,6 +56,8 @@ public class PlayerScript : MonoBehaviour
     public float tFuse;
     public float tJump;
     public float adaptDistance;
+    public float interactDistance;
+    public float carDrivingDistance;
 
     float angle;
     float angleRad;
@@ -66,7 +70,14 @@ public class PlayerScript : MonoBehaviour
     bool hooking;
     bool jumping;
     bool allowFuse;
+    bool driving;
+    bool driven;
 
+    private const float _minimumHeldDuration = 0.25f;
+    private float _hookPressedTime = 0;
+    private bool _hookHeld = false;
+
+    #region start
     void Start()
     {
         fusing = false;
@@ -74,6 +85,8 @@ public class PlayerScript : MonoBehaviour
         splitting = false;
         jumping = false;
         allowFuse = true;
+        driving = false;
+        driven = false;
 
         players = fpPlayer.GetComponent<Players>();
         playerObject = otherPlayer.GetComponent<PlayerScript>();
@@ -89,8 +102,9 @@ public class PlayerScript : MonoBehaviour
 
         layerMask = ~((1 << layerMaskPlayer) | (1 << layerMaskBush));
         layerMaskFuse = ~((1 << layerMaskPlayer) | (1 << layerMaskBush) | (1 << layerMaskDObject));
+        layerMaskInteract = ~((1 << 29));
     }
-
+    #endregion
 
     void Update()
     {
@@ -159,7 +173,7 @@ public class PlayerScript : MonoBehaviour
         #region collisionDetection
 
 
-        if (merged == false && splitting == false && fusing == false)
+        if (merged == false && splitting == false && fusing == false && driving == false)
         {
 
             RaycastHit hitColl;
@@ -204,6 +218,83 @@ public class PlayerScript : MonoBehaviour
         #endregion
 
 
+        
+
+        #region car
+
+        RaycastHit hitInteract;
+
+        if (Physics.Raycast(transform.position, childPlayer.transform.forward, out hitInteract, interactDistance, ~layerMaskInteract))
+        {
+            if(hitInteract.collider.tag == "DriveCar")
+            {
+                //Debug.Log("Appuie sur A pour conduire le chariot");
+
+
+                if (Input.GetButton(hookingString))
+                {
+                    drivingCar = hitInteract.collider.gameObject;
+                    transform.position = drivingCar.transform.position - (drivingCar.transform.right * carDrivingDistance);
+                    driving = true;
+                }
+
+                }else if(hitInteract.collider.tag == "HideCar")
+            {
+                //Debug.Log("Appuie sur A pour te cacher dans le chariot");
+
+                if (Input.GetButton(hookingString))
+                {
+                    drivingCar = hitInteract.collider.gameObject;
+                    transform.position = hitInteract.collider.transform.position;
+                    driven = true;
+                }
+            }
+
+        }
+
+        if(driving == true)
+        {
+
+            if (Input.GetButtonDown(hookingString))
+            {
+                // Use has pressed the Space key. We don't know if they'll release or hold it, so keep track of when they started holding it.
+                _hookPressedTime = Time.timeSinceLevelLoad;
+                _hookHeld = false;
+            }
+            else if (Input.GetButtonUp(hookingString)) {
+                if (!_hookHeld)
+                {
+                    
+                }
+                _hookHeld = false;
+            }
+
+            if (Input.GetButton(hookingString)) {
+                if (Time.timeSinceLevelLoad - _hookPressedTime > _minimumHeldDuration)
+                {
+                    driving = false;
+                    _hookHeld = true;
+
+                }
+            }
+        }
+
+        if(driven == true)
+        {
+            transform.position = drivingCar.transform.position;
+            move = Vector3.zero;
+
+            if (Input.GetButton(jumpString))
+            {
+                driven = false;
+            }
+
+        }
+
+
+
+        #endregion
+
         #region movements
         if (fusing == false && merged == false && splitting == false)
         {
@@ -215,7 +306,6 @@ public class PlayerScript : MonoBehaviour
         }
 
         #endregion
-
 
         RaycastHit hitFuse;
 
