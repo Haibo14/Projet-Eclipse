@@ -2395,6 +2395,14 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 1470176437}
+    - target: {fileID: 6000648016753397024, guid: 8aeaa0c13a6730b4dbde5789561d7daf, type: 3}
+      propertyPath: speed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6000648016753397024, guid: 8aeaa0c13a6730b4dbde5789561d7daf, type: 3}
+      propertyPath: catchDistance
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6000648016753397027, guid: 8aeaa0c13a6730b4dbde5789561d7daf, type: 3}
       propertyPath: m_Name
       value: Enemy

@@ -24,6 +24,7 @@ public class EnemyScript : MonoBehaviour
     public float groundDistanceDetection;
     public float chaseDistance;
     public float rotationSpeed;
+    public float catchDistance;
 
     float distanceFromTarget;
 
@@ -79,16 +80,26 @@ public class EnemyScript : MonoBehaviour
         if (spotted == true)
         {
             transform.LookAt(new Vector3(target.position.x, transform.position.y, target.position.z));
+
+            RaycastHit hitCatch;
+
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hitCatch, catchDistance))
+            {
+                if (hitCatch.collider.gameObject.tag == "Player1" || hitCatch.collider.gameObject.tag == "Player2" || hitCatch.collider.gameObject.tag == "FusedPlayer")
+                {
+                    UnityEditor.EditorApplication.isPlaying = false;
+                }
+            }
         }
         else
         {
             if (lookingStraight == true)
             {
-
+                
             }
             else
             {
-                transform.eulerAngles = transform.eulerAngles + new Vector3(0, rotationSpeed * Time.deltaTime, 0);
+                //transform.eulerAngles = transform.eulerAngles + new Vector3(0, rotationSpeed * Time.deltaTime, 0);
             }
 
         }
@@ -108,7 +119,7 @@ public class EnemyScript : MonoBehaviour
                 || Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward + new Vector3(-1f, 0, 0)), out hitTarget, (chaseDistance * 0.2f))
                 )
             {
-                if (hitTarget.collider.gameObject.tag == "Player1" || hitTarget.collider.gameObject.tag == "FusedPlayer")
+                if (hitTarget.collider.gameObject.tag == "Player1" || hitTarget.collider.gameObject.tag == "Player2" || hitTarget.collider.gameObject.tag == "FusedPlayer")
                 {
                     spotted = true;
                     running = true;
