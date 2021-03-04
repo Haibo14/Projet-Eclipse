@@ -27,6 +27,7 @@ public class EnemyScript : MonoBehaviour
     public float catchDistance;
 
     float distanceFromTarget;
+    public float zLook;
 
     bool running;
     bool spotted;
@@ -73,13 +74,13 @@ public class EnemyScript : MonoBehaviour
         }
 
 
-        Debug.Log(spotted);
+
 
         distanceFromTarget = Mathf.Abs(transform.position.x - target.transform.position.x) + Mathf.Abs(transform.position.z - target.transform.position.z);
 
         if (spotted == true)
         {
-            transform.LookAt(new Vector3(target.position.x, transform.position.y, target.position.z));
+            transform.LookAt(new Vector3(target.position.x, transform.position.y, target.position.z) + target.transform.forward * zLook);
 
             RaycastHit hitCatch;
 

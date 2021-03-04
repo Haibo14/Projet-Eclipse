@@ -10,6 +10,7 @@ TagManager:
   - Bush
   - DriveCar
   - HideCar
+  - Waypoint
   layers:
   - Default
   - TransparentFX

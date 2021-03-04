@@ -234,7 +234,8 @@ public class PlayerScript : MonoBehaviour
                 if (Input.GetButton(hookingString))
                 {
                     drivingCar = hitInteract.collider.gameObject;
-                    transform.position = drivingCar.transform.position - (drivingCar.transform.right * carDrivingDistance);
+                    transform.position = drivingCar.transform.position - (drivingCar.transform.forward * carDrivingDistance);
+                    drivingCar.GetComponent<Car>().driving = true;
                     driving = true;
                 }
 
@@ -254,6 +255,8 @@ public class PlayerScript : MonoBehaviour
 
         if(driving == true)
         {
+            transform.position = drivingCar.transform.position - (drivingCar.transform.forward * carDrivingDistance);
+            move = Vector3.zero;
 
             if (Input.GetButtonDown(hookingString))
             {
@@ -272,6 +275,7 @@ public class PlayerScript : MonoBehaviour
             if (Input.GetButton(hookingString)) {
                 if (Time.timeSinceLevelLoad - _hookPressedTime > _minimumHeldDuration)
                 {
+                    drivingCar.GetComponent<Car>().driving = false;
                     driving = false;
                     _hookHeld = true;
 
