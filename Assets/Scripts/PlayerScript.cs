@@ -285,10 +285,18 @@ public class PlayerScript : MonoBehaviour
 
         if(driven == true)
         {
-            transform.position = drivingCar.transform.position;
-            move = Vector3.zero;
+            if (drivingCar != null)
+            {
 
-            if (Input.GetButton(jumpString))
+                transform.position = drivingCar.transform.position;
+                move = Vector3.zero;
+
+                if (Input.GetButton(jumpString))
+                {
+                    driven = false;
+                }
+            }
+            else
             {
                 driven = false;
             }

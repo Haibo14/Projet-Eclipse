@@ -8,14 +8,23 @@ public class EnemyScript : MonoBehaviour
     public Transform target;
     public Transform groundDetector;
 
+    public GameObject journey;
+
     Vector3 displacements;
     Vector3 velocity;
     Vector3 gravity;
     Vector3 lastSeenPosition;
     Vector3 bushPosition;
+    Vector3 checkVector;
 
     LayerMask layerMask;
     LayerMask layerMaskCollisions;
+
+    Transform[] journeySteps;
+
+    Transform targetJourneyPoint;
+
+    public AnimationCurve jumpCurve;
 
     public float speed;
     public float gravityRaycastDistance;
@@ -25,13 +34,21 @@ public class EnemyScript : MonoBehaviour
     public float chaseDistance;
     public float rotationSpeed;
     public float catchDistance;
+    public float zLook;
+    public float tJump;
+    public float power;
+    public float jumpSpeed;
 
     float distanceFromTarget;
-    public float zLook;
+    float adaptedChaseDistance;
+    float checkCount;
+
+    public int currentJourneyPoint = 0;
 
     bool running;
     bool spotted;
     bool lookingStraight;
+    bool jumping;
 
     void Start()
     {
@@ -44,26 +61,30 @@ public class EnemyScript : MonoBehaviour
 
         spotted = false;
 
+        groundDetector = this.gameObject.transform.GetChild(1);
+
         lastSeenPosition = transform.position;
+
+        if (journey != null)
+        {
+            journeySteps = journey.GetComponentsInChildren<Transform>();
+        }
     }
 
 
     void Update()
     {
+
+        tJump += jumpSpeed * Time.deltaTime;
+
         RaycastHit hit;
 
-        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * chaseDistance, Color.yellow);
-        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward + new Vector3(0.25f, 0, 0)) * (chaseDistance * 0.8f), Color.yellow);
-        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward + new Vector3(-0.25f, 0, 0)) * (chaseDistance * 0.8f), Color.yellow);
-        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward + new Vector3(0.5f, 0, 0)) * (chaseDistance * 0.5f), Color.yellow);
-        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward + new Vector3(-0.5f, 0, 0)) * (chaseDistance * 0.5f), Color.yellow);
-        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward + new Vector3(1,0,0)) * (chaseDistance * 0.2f), Color.yellow);
-        Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward + new Vector3(-1,0,0)) * (chaseDistance * 0.2f), Color.yellow);
+       
 
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, gravityRaycastDistance, layerMask))
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
-            transform.position = new Vector3(transform.position.x, hit.point.y + 1, transform.position.z);
+            transform.position = new Vector3(transform.position.x, hit.point.y + 1f, transform.position.z);
             velocity = Vector3.zero;
 
         }
@@ -76,7 +97,7 @@ public class EnemyScript : MonoBehaviour
 
 
 
-        distanceFromTarget = Mathf.Abs(transform.position.x - target.transform.position.x) + Mathf.Abs(transform.position.z - target.transform.position.z);
+        //distanceFromTarget = Mathf.Abs(transform.position.x - target.transform.position.x) + Mathf.Abs(transform.position.z - target.transform.position.z);
 
         if (spotted == true)
         {
@@ -84,7 +105,7 @@ public class EnemyScript : MonoBehaviour
 
             RaycastHit hitCatch;
 
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hitCatch, catchDistance))
+            if (Physics.Raycast(transform.position, target.transform.position - transform.position, out hitCatch, catchDistance))
             {
                 if (hitCatch.collider.gameObject.tag == "Player1" || hitCatch.collider.gameObject.tag == "Player2" || hitCatch.collider.gameObject.tag == "FusedPlayer")
                 {
@@ -94,6 +115,22 @@ public class EnemyScript : MonoBehaviour
         }
         else
         {
+            if (journey != null)
+            {
+
+                if (currentJourneyPoint < this.journeySteps.Length)
+                {
+                    if (targetJourneyPoint == null)
+                        targetJourneyPoint = journeySteps[currentJourneyPoint];
+                    walk();
+                }
+                else if (currentJourneyPoint >= this.journeySteps.Length)
+                {
+                    currentJourneyPoint = 0;
+                }
+            }
+
+            /*
             if (lookingStraight == true)
             {
                 
@@ -102,52 +139,58 @@ public class EnemyScript : MonoBehaviour
             {
                 //transform.eulerAngles = transform.eulerAngles + new Vector3(0, rotationSpeed * Time.deltaTime, 0);
             }
-
+            */
         }
 
-        if (distanceFromTarget <= chaseDistance)
+        /*if (distanceFromTarget <= chaseDistance)
+        
+            */
+
+        running = false;
+
+
+        for (int i = -5; i < 6; i++)
         {
-            
-
-            RaycastHit hitTarget;
-
-            if (Physics.Raycast(transform.position, transform.forward, out hitTarget, chaseDistance) 
-                || Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward + new Vector3(0.25f, 0, 0)), out hitTarget, (chaseDistance * 0.8f)) 
-                || Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward + new Vector3(-0.25f, 0, 0)), out hitTarget, (chaseDistance * 0.8f)) 
-                || Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward + new Vector3(0.5f, 0, 0)), out hitTarget, (chaseDistance * 0.5f)) 
-                || Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward + new Vector3(-0.5f, 0, 0)), out hitTarget, (chaseDistance * 0.5f))
-                || Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward + new Vector3(1f, 0, 0)), out hitTarget, (chaseDistance * 0.2f))
-                || Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward + new Vector3(-1f, 0, 0)), out hitTarget, (chaseDistance * 0.2f))
-                )
+            for (int j = -1; j < 2; j++)
             {
-                if (hitTarget.collider.gameObject.tag == "Player1" || hitTarget.collider.gameObject.tag == "Player2" || hitTarget.collider.gameObject.tag == "FusedPlayer")
+                checkVector = new Vector3(0.2f * i, 0.125f * j, 0);
+                adaptedChaseDistance = chaseDistance * (1 - Mathf.Abs(i * 0.125f));
+
+                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward + checkVector) * adaptedChaseDistance, Color.yellow);
+
+                RaycastHit hitTarget;
+
+                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward + checkVector), out hitTarget, adaptedChaseDistance))
                 {
-                    spotted = true;
-                    running = true;
+                    if (hitTarget.collider.gameObject.tag == "Player1" || hitTarget.collider.gameObject.tag == "Player2" || hitTarget.collider.gameObject.tag == "FusedPlayer")
+                    {
+                        spotted = true;
+                        running = true;
 
-                    lastSeenPosition = hitTarget.point;
+                        lastSeenPosition = hitTarget.point;
 
-                    bushPosition = Vector3.zero;
-                }
-                else if (hitTarget.collider.gameObject.tag == "Bush" && spotted == true)
-                {
-                    running = false;
+                        bushPosition = Vector3.zero;
+                        target = hitTarget.collider.gameObject.transform;
+                    }
+                    else if (hitTarget.collider.gameObject.tag == "Bush" && spotted == true)
+                    {
 
-                    bushPosition = hitTarget.collider.gameObject.transform.position;
-                }
-                else
-                {
-                    running = false;
+                        bushPosition = hitTarget.collider.gameObject.transform.position;
+                    }
+                    else
+                    {
 
-                    bushPosition = Vector3.zero;
+                        bushPosition = Vector3.zero;
+                    }
                 }
             }
-            
         }
+            
+        /*}
         else
         {
             running = false;
-        }
+        }*/
        
 
         
@@ -170,7 +213,18 @@ public class EnemyScript : MonoBehaviour
 
         if(Physics.Raycast(groundDetector.position, transform.TransformDirection(Vector3.down), out hitGround, groundDistanceDetection, layerMaskCollisions))
         {
+            if (journey != null || spotted == true)
+            {
+                if (hitGround.point.y > (transform.position.y - 1))
+                {
+                    jumping = true;
 
+                    if (tJump > 1.5f)
+                    {
+                        tJump = 0;
+                    }
+                }
+            }
         }
         else
         {
@@ -181,7 +235,7 @@ public class EnemyScript : MonoBehaviour
         {
             transform.Translate(displacements * Time.deltaTime * speed, Space.Self);
         }
-        else
+        /*else
         {
             if (bushPosition == Vector3.zero)
             {
@@ -208,7 +262,42 @@ public class EnemyScript : MonoBehaviour
                 }
             }
         }
+        */
+        Debug.Log(jumping);
+        if (jumping == true)
+        {
+            transform.Translate(transform.up * jumpCurve.Evaluate(tJump) * power, Space.World);
 
+            if (tJump >= 1)
+            {
+                jumping = false;
+            }
+        }
 
+    }
+
+    void walk()
+    {
+        // rotate towards the target
+        /* transform.forward = new Vector3(
+             transform.position.x, 
+             Vector3.RotateTowards(transform.forward, targetJourneyPoint.position - transform.position, rotationSpeed * Time.deltaTime, 0.0f).y, 
+             transform.position.z);
+             */
+
+        transform.LookAt(new Vector3(targetJourneyPoint.position.x, transform.position.y, targetJourneyPoint.transform.position.z));
+
+        // move towards the target
+        transform.position = Vector3.MoveTowards
+            (transform.position, 
+            new Vector3(targetJourneyPoint.position.x, transform.position.y, 
+            targetJourneyPoint.position.z), 
+            speed * Time.deltaTime);
+
+        if (transform.position.x == targetJourneyPoint.position.x && transform.position.z == targetJourneyPoint.position.z)
+        {
+            currentJourneyPoint++;
+            targetJourneyPoint = journeySteps[currentJourneyPoint];
+        }
     }
 }
