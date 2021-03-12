@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 2002736207811758718}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -112,7 +112,7 @@ MonoBehaviour:
   catchDistance: 1.5
   zLook: -0.3
   tJump: 0
-  power: 0.07
+  power: 20
   jumpSpeed: 3
   currentJourneyPoint: 0
 --- !u!1 &2002736208276052797

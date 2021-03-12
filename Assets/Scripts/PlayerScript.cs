@@ -8,6 +8,8 @@ public class PlayerScript : MonoBehaviour
     public GameObject otherPlayer;
     public GameObject OscMaster;
 
+    GameObject[] enemies;
+
     GameObject childPlayer;
     GameObject drivingCar;
 
@@ -58,6 +60,8 @@ public class PlayerScript : MonoBehaviour
     public float adaptDistance;
     public float interactDistance;
     public float carDrivingDistance;
+    public float radiusDetection;
+    public float angleDetection;
 
     float angle;
     float angleRad;
@@ -93,6 +97,8 @@ public class PlayerScript : MonoBehaviour
         oscMessage = OscMaster.GetComponent<ReceivePosition>();
 
         childPlayer = transform.GetChild(0).gameObject;
+
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
         gravity = Vector3.down * gravityValue;
 
@@ -367,7 +373,7 @@ public class PlayerScript : MonoBehaviour
             childPlayer.transform.eulerAngles = new Vector3(0, angle, 0);
             
 
-            transform.Translate(fuseDirection * splitCurve.Evaluate(tFuse) * splitPower, Space.World);
+            transform.Translate(fuseDirection * splitCurve.Evaluate(tFuse) * splitPower * Time.deltaTime, Space.World);
             
 
             if (tFuse >= 1)
@@ -432,7 +438,7 @@ public class PlayerScript : MonoBehaviour
 
         if (jumping == true)
         {
-            transform.Translate(transform.up * jumpCurve.Evaluate(tJump) * power, Space.World);
+            transform.Translate(transform.up * jumpCurve.Evaluate(tJump) * power * Time.deltaTime, Space.World);
             
             if (tJump >= 1)
             {
@@ -464,7 +470,7 @@ public class PlayerScript : MonoBehaviour
             }
 
             childPlayer.transform.eulerAngles = new Vector3(0, angle, 0);
-            transform.Translate(splitDirection * splitCurve.Evaluate(tSplit) * splitPower, Space.World);
+            transform.Translate(splitDirection * splitCurve.Evaluate(tSplit) * splitPower * Time.deltaTime, Space.World);
 
 
             if (tSplit >= 1)
@@ -475,6 +481,32 @@ public class PlayerScript : MonoBehaviour
         }
         
         #endregion
+
+        foreach(GameObject enemy in enemies)
+        {
+            float dist = Vector3.Distance(enemy.transform.position, transform.position);
+
+            if (dist <= radiusDetection)
+            {
+                Vector3 targetDir = transform.position - enemy.transform.position;
+                float angle = Vector3.Angle(targetDir, enemy.transform.forward);
+
+                if(angle <= angleDetection)
+                {
+                    RaycastHit checkHit;
+                    if (Physics.Raycast(enemy.transform.position, targetDir, out checkHit, dist, layerMask))
+                    {
+
+                    }
+                    else
+                    {
+                        enemy.GetComponent<EnemyScript>().target = transform;
+                        enemy.GetComponent<EnemyScript>().Spot();
+                    }
+                }
+
+            }
+        }
 
     }
 

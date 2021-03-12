@@ -16,6 +16,7 @@ public class EnemyScript : MonoBehaviour
     Vector3 lastSeenPosition;
     Vector3 bushPosition;
     Vector3 checkVector;
+    Vector3 normalizedVector;
 
     LayerMask layerMask;
     LayerMask layerMaskCollisions;
@@ -39,9 +40,12 @@ public class EnemyScript : MonoBehaviour
     public float power;
     public float jumpSpeed;
 
+
     float distanceFromTarget;
     float adaptedChaseDistance;
     float checkCount;
+    float distance;
+    float heightValue;
 
     public int currentJourneyPoint = 0;
 
@@ -146,46 +150,58 @@ public class EnemyScript : MonoBehaviour
         
             */
 
-        running = false;
+        /*
+
+        if (target != null)
+        {
+            heightValue = target.transform.parent.transform.position.y - transform.position.y;
+        }
+        else
+        {
+            heightValue = 0;
+        }
 
 
         for (int i = -5; i < 6; i++)
         {
-            for (int j = -1; j < 2; j++)
+            
+            checkVector = Vector3.forward + new Vector3(0.2f * i, heightValue, 0);
+            adaptedChaseDistance = chaseDistance * (1 - Mathf.Abs(i * 0.125f));
+            distance = checkVector.magnitude;
+            normalizedVector = checkVector / distance;
+
+            //Debug.Log(normalizedVector);
+
+            Debug.DrawRay(transform.position, transform.TransformDirection(normalizedVector) * adaptedChaseDistance, Color.yellow);
+
+            RaycastHit hitTarget;
+
+            if (Physics.Raycast(transform.position, transform.TransformDirection(normalizedVector), out hitTarget, adaptedChaseDistance))
             {
-                checkVector = new Vector3(0.2f * i, 0.125f * j, 0);
-                adaptedChaseDistance = chaseDistance * (1 - Mathf.Abs(i * 0.125f));
-
-                Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward + checkVector) * adaptedChaseDistance, Color.yellow);
-
-                RaycastHit hitTarget;
-
-                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward + checkVector), out hitTarget, adaptedChaseDistance))
+                if (hitTarget.collider.gameObject.tag == "Player1" || hitTarget.collider.gameObject.tag == "Player2" || hitTarget.collider.gameObject.tag == "FusedPlayer")
                 {
-                    if (hitTarget.collider.gameObject.tag == "Player1" || hitTarget.collider.gameObject.tag == "Player2" || hitTarget.collider.gameObject.tag == "FusedPlayer")
-                    {
-                        spotted = true;
-                        running = true;
+                    spotted = true;
+                    running = true;
 
-                        lastSeenPosition = hitTarget.point;
+                    lastSeenPosition = hitTarget.point;
 
-                        bushPosition = Vector3.zero;
-                        target = hitTarget.collider.gameObject.transform;
-                    }
-                    else if (hitTarget.collider.gameObject.tag == "Bush" && spotted == true)
-                    {
+                    bushPosition = Vector3.zero;
+                    target = hitTarget.collider.gameObject.transform;
+                }
+                else if (hitTarget.collider.gameObject.tag == "Bush" && spotted == true)
+                {
 
-                        bushPosition = hitTarget.collider.gameObject.transform.position;
-                    }
-                    else
-                    {
+                    bushPosition = hitTarget.collider.gameObject.transform.position;
+                }
+                else
+                {
 
-                        bushPosition = Vector3.zero;
-                    }
+                    bushPosition = Vector3.zero;
                 }
             }
+        
         }
-            
+            */
         /*}
         else
         {
@@ -263,10 +279,9 @@ public class EnemyScript : MonoBehaviour
             }
         }
         */
-        Debug.Log(jumping);
         if (jumping == true)
         {
-            transform.Translate(transform.up * jumpCurve.Evaluate(tJump) * power, Space.World);
+            transform.Translate(transform.up * jumpCurve.Evaluate(tJump) * power * Time.deltaTime, Space.World);
 
             if (tJump >= 1)
             {
@@ -296,8 +311,29 @@ public class EnemyScript : MonoBehaviour
 
         if (transform.position.x == targetJourneyPoint.position.x && transform.position.z == targetJourneyPoint.position.z)
         {
-            currentJourneyPoint++;
-            targetJourneyPoint = journeySteps[currentJourneyPoint];
+            if (currentJourneyPoint >= this.journeySteps.Length)
+            {
+                currentJourneyPoint = 0;
+            }
+            else
+            {
+
+                currentJourneyPoint++;
+
+                if (currentJourneyPoint >= this.journeySteps.Length)
+                {
+                    currentJourneyPoint = 0;
+                }
+
+                targetJourneyPoint = journeySteps[currentJourneyPoint];
+            }
+
         }
+    }
+
+    public void Spot()
+    {
+        spotted = true;
+        running = true;
     }
 }

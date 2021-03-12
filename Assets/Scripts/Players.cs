@@ -274,7 +274,10 @@ public class Players : MonoBehaviour
 
             #region merge
 
-            if (playerObject1.tFuse >= 0.95f || playerObject2.tFuse >= 0.95f)
+            //Debug.Log(t1);
+            //Debug.Log(t2);
+
+            if (t1 >= 0.95f || t2 >= 0.95f)
             {
                 if(totalDistance <= 3)
                 {

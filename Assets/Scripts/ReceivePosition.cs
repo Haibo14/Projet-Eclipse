@@ -14,6 +14,7 @@ public class ReceivePosition : MonoBehaviour {
 
     void Start(){
         osc.SetAddressHandler("/manette1", ReadOSC);
+        osc.SetAddressHandler("/manette2", ReadOSC2);
 
         switchState = false;
     }
@@ -23,6 +24,11 @@ public class ReceivePosition : MonoBehaviour {
         switchState_ = message.GetInt(0);
         xAxis_ = message.GetInt(1);
         zAxis_ = message.GetInt(2);
+    }
+    void ReadOSC2(OscMessage message)
+    {
+        string hello = message.ToString();
+        print(hello);
     }
     void Update()
     {

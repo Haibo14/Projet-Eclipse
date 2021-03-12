@@ -8,9 +8,9 @@ TagManager:
   - Player2
   - FusedPlayer
   - Bush
-  - DriveCar
   - HideCar
   - Waypoint
+  - Enemy
   layers:
   - Default
   - TransparentFX
