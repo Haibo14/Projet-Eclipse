@@ -4,15 +4,39 @@ using UnityEngine;
 
 public class BossScript : MonoBehaviour
 {
-    // Start is called before the first frame update
+
+    [SerializeField] Animator throwAnimator;
+
+    GameObject rockPrefab;
+    GameObject lastRock;
+
     void Start()
     {
-        
+        rockPrefab = Resources.Load("Prefabs/Proto-Props/Rock") as GameObject;
+
+        StartCoroutine("Rock");
     }
 
-    // Update is called once per frame
     void Update()
     {
         
     }
+
+    private IEnumerator Rock()
+    {
+        while (true)
+        {
+            lastRock = Instantiate(rockPrefab, transform.position, Quaternion.identity);
+                
+            throwAnimator.SetBool("throw", true);
+
+            yield return new WaitForSeconds(10.0f);
+        }
+    }
+
+    public void EndAnimation()
+    {
+
+    }
+
 }

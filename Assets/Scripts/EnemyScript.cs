@@ -8,6 +8,8 @@ public class EnemyScript : MonoBehaviour
     public Transform target;
     public Transform groundDetector;
 
+    public Transform[] targetList;
+
     public GameObject journey;
 
     Vector3 displacements;
@@ -28,6 +30,7 @@ public class EnemyScript : MonoBehaviour
     public AnimationCurve jumpCurve;
 
     public float speed;
+    public float waySpeed;
     public float gravityRaycastDistance;
     public float gravityValue;
     public float collisionsRaycast;
@@ -46,11 +49,13 @@ public class EnemyScript : MonoBehaviour
     float checkCount;
     float distance;
     float heightValue;
+    float dist;
+    float nearDistance;
 
     public int currentJourneyPoint = 0;
 
     bool running;
-    bool spotted;
+    public bool spotted;
     bool lookingStraight;
     bool jumping;
 
@@ -59,6 +64,7 @@ public class EnemyScript : MonoBehaviour
 
         layerMask = ~(1 << 9);
         layerMaskCollisions = ~((1 << 9) | (1 << 30));
+
 
 
         gravity = Vector3.down * gravityValue;
@@ -105,6 +111,7 @@ public class EnemyScript : MonoBehaviour
 
         if (spotted == true)
         {
+
             transform.LookAt(new Vector3(target.position.x, transform.position.y, target.position.z) + target.transform.forward * zLook);
 
             RaycastHit hitCatch;
@@ -115,6 +122,26 @@ public class EnemyScript : MonoBehaviour
                 {
                     UnityEditor.EditorApplication.isPlaying = false;
                 }
+            }
+
+            RaycastHit hitChase;
+
+            if(Physics.Raycast(transform.position, target.transform.position - transform.position, out hitChase, chaseDistance))
+            {
+                if(hitChase.collider.tag == "Player1" || hitChase.collider.tag == "Player2" || hitChase.collider.tag == "FusedPlayer")
+                {
+
+                }
+                else
+                {
+                    running = false;
+                    spotted = false;
+                }
+            }
+            else
+            {
+                running = false;
+                spotted = false;
             }
         }
         else
@@ -217,7 +244,8 @@ public class EnemyScript : MonoBehaviour
         {
            displacements = Vector3.Reflect(this.transform.forward, hitColl.normal);
 
-
+            spotted = false;
+            running = false;
         }
         else
         {
@@ -231,7 +259,7 @@ public class EnemyScript : MonoBehaviour
         {
             if (journey != null || spotted == true)
             {
-                if (hitGround.point.y > (transform.position.y - 1))
+                if (hitGround.point.y > (transform.position.y - 0.5f))
                 {
                     jumping = true;
 
@@ -307,7 +335,7 @@ public class EnemyScript : MonoBehaviour
             (transform.position, 
             new Vector3(targetJourneyPoint.position.x, transform.position.y, 
             targetJourneyPoint.position.z), 
-            speed * Time.deltaTime);
+            waySpeed * Time.deltaTime);
 
         if (transform.position.x == targetJourneyPoint.position.x && transform.position.z == targetJourneyPoint.position.z)
         {
@@ -331,9 +359,40 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    public void Spot()
+    public void Spot(int p_id, Transform p_transform)
     {
-        spotted = true;
-        running = true;
+        targetList[p_id] = p_transform;
+        nearDistance = 1000000;
+        SelectTransform();
+    }
+
+    public void Unspot(int p_id)
+    {
+        targetList[p_id] = null;
+        nearDistance = 1000000;
+        SelectTransform();
+    }
+
+    private void SelectTransform()
+    {
+        foreach(Transform targetTransform in targetList)
+        {
+
+            if (targetTransform != null)
+            {
+                dist = Vector3.Distance(transform.position, targetTransform.transform.position);
+
+                if (dist < 1000000)
+                {
+                    if (dist <= nearDistance)
+                    {
+                        nearDistance = dist;
+                        target = targetTransform;
+                        spotted = true;
+                        running = true;
+                    }
+                }
+            }
+        }
     }
 }

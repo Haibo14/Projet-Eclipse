@@ -6,6 +6,8 @@ public class CameraScript : MonoBehaviour
 {
 
     public GameObject fusedPlayer;
+    GameObject player1;
+    GameObject player2;
 
     Vector3 target;
 
@@ -20,9 +22,13 @@ public class CameraScript : MonoBehaviour
     public float y;
     public float cameraSmoothSpeed;
 
+    bool merged;
+
     void Start()
     {
-        
+
+        player1 = GameObject.FindGameObjectWithTag("Player1");
+        player2 = GameObject.FindGameObjectWithTag("Player2");
     }
 
     void Update()
@@ -36,12 +42,20 @@ public class CameraScript : MonoBehaviour
 
         move = moveP1 + moveP2;
 
-        
-            yP1 = fusedPlayer.GetComponent<Players>().groundHeightP1;
-            yP2 = fusedPlayer.GetComponent<Players>().groundHeightP2;
+        merged = fusedPlayer.GetComponent<Players>().merged;
 
+        if (merged == false)
+        {
+            yP1 = player1.GetComponent<PlayerScript>().groundHeight;
+            yP2 = player2.GetComponent<PlayerScript>().groundHeight;
 
             yGround = (yP1 + yP2) / 2;
+        }
+        else
+        {
+            yGround = fusedPlayer.GetComponent<Players>().groundHeight;
+        }
+
         
 
         target = new Vector3(fusedPlayer.transform.position.x, yGround + y, fusedPlayer.transform.position.z - z);

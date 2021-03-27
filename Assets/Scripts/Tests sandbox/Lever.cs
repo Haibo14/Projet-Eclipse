@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Lever : MonoBehaviour
 {
-    [SerializeField] Animator leftDoorFactory;
-    [SerializeField] Animator rightDoorFactory;
+    public GameObject platform;
 
+    public Transform leversManager;
 
     public string hookingStringP1;
     public string hookingStringP2;
@@ -17,17 +17,17 @@ public class Lever : MonoBehaviour
     private bool _hookHeldP1 = false;
     private bool _hookHeldP2 = false;
 
-    public bool leverState;
+    bool playOnce;
 
     void Start()
     {
-        leverState = false;
+        playOnce = true;
     }
 
     void Update()
     {
-        leftDoorFactory.SetBool("LeverState", leverState);
-        rightDoorFactory.SetBool("LeverState", leverState);
+       
+
     }
 
     void OnTriggerStay(Collider other)
@@ -82,10 +82,19 @@ public class Lever : MonoBehaviour
 
             if (_hookHeldP1 == true && _hookHeldP2 == true)
             {
-                leverState = true;
+                if (playOnce == true)
+                {
+                    leversManager.GetComponent<LeversManager>().leverState++;
+                    playOnce = false;
+                }
+
+                platform.GetComponent<Platform>().upDown = !platform.GetComponent<Platform>().upDown;
+
+                _hookPressedTimeP1 = Time.timeSinceLevelLoad;
+                _hookPressedTimeP2 = Time.timeSinceLevelLoad;
+
                 _hookHeldP1 = false;
                 _hookHeldP2 = false;
-                Debug.Log(leverState);
             }
         }
     }

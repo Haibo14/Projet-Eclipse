@@ -93,6 +93,7 @@ public class Car : MonoBehaviour
             if (currentWayPoint >= this.wayPointList.Length)
             {
                 Destroy(this.gameObject);
+                currentWayPoint = 0;
             }
 
             targetWayPoint = wayPointList[currentWayPoint];

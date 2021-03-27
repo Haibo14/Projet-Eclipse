@@ -9,6 +9,8 @@ public class Players : MonoBehaviour
     public GameObject player1;
     public GameObject player2;
 
+    GameObject[] enemies;
+
     public PlayerScript playerObject1;
     public PlayerScript playerObject2;
 
@@ -55,8 +57,7 @@ public class Players : MonoBehaviour
     public float raycastDistanceDetectionFP;
     public float raycastDistanceDetectionPlayers;
     public float raycastDistanceFuse;
-    public float groundHeightP1;
-    public float groundHeightP2;
+    public float groundHeight;
 
     float t1;
     float t2;
@@ -75,6 +76,8 @@ public class Players : MonoBehaviour
     float angleRadP2;
     float angleFP;
     float angleRadFP;
+    public float radiusDetection;
+    public float angleDetection;
 
     LayerMask layerMask;
     LayerMask layerMaskPlayer;
@@ -105,6 +108,8 @@ public class Players : MonoBehaviour
 
         playerObject1 = player1.GetComponent<PlayerScript>();
         playerObject2 = player2.GetComponent<PlayerScript>();
+
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
         gravity = Vector3.down * gravityValue;
 
@@ -196,6 +201,9 @@ public class Players : MonoBehaviour
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hitFP.distance, Color.yellow);
             transform.position = new Vector3(transform.position.x, hitFP.point.y + 1.5f, transform.position.z);
             velocityFP = Vector3.zero;
+
+
+            groundHeight = hitFP.point.y;
 
         }
         else
@@ -380,7 +388,7 @@ public class Players : MonoBehaviour
         if (fpJumping == true)
         {
 
-            transform.Translate(transform.up * jumpCurve.Evaluate(tFP) * power, Space.World);
+            transform.Translate(transform.up * jumpCurve.Evaluate(tFP) * power * Time.deltaTime, Space.World);
 
             if (tFP >= 1)
             {
@@ -418,6 +426,36 @@ public class Players : MonoBehaviour
                     splitting = false;
                 }
             }
+
+        #endregion
+
+        #region detectedOrNot
+
+        foreach (GameObject enemy in enemies)
+        {
+            float dist = Vector3.Distance(enemy.transform.position, transform.position);
+
+            if (dist <= radiusDetection)
+            {
+                Vector3 targetDir = transform.position - enemy.transform.position;
+                float angle = Vector3.Angle(targetDir, enemy.transform.forward);
+
+                if (angle <= angleDetection)
+                {
+                    RaycastHit checkHit;
+                    if (Physics.Raycast(enemy.transform.position, targetDir, out checkHit, dist, layerMask))
+                    {
+
+                    }
+                    else
+                    {
+                        enemy.GetComponent<EnemyScript>().target = transform;
+                       // enemy.GetComponent<EnemyScript>().Spot();
+                    }
+                }
+
+            }
+        }
 
         #endregion
 

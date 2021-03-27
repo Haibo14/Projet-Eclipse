@@ -67,6 +67,7 @@ public class PlayerScript : MonoBehaviour
     float angleRad;
     float tSplit;
 
+    public int playerID;
 
     public bool fusing;
     public bool merged;
@@ -99,6 +100,7 @@ public class PlayerScript : MonoBehaviour
         childPlayer = transform.GetChild(0).gameObject;
 
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        
 
         gravity = Vector3.down * gravityValue;
 
@@ -147,34 +149,7 @@ public class PlayerScript : MonoBehaviour
 
         #region physics
 
-        #region gravity
-
-        RaycastHit hit;
-
-
-
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, gravityRaycastDistancePlayers, layerMask))
-        {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
-            transform.position = new Vector3(transform.position.x, hit.point.y + 1, transform.position.z);
-            velocity = Vector3.zero;
-
-            groundHeight = hit.point.y;
-        }
-        else
-        {
-            if (jumping == false && merged == false)
-            {
-                velocity += gravity * Time.deltaTime;   // allow gravity to work on our velocity vector
-                transform.position += velocity * Time.deltaTime;    // move us this frame according to our speed
-            }
-            else
-            {
-                velocity = Vector3.zero;
-            }
-        }
-
-        #endregion
+        
 
         #region collisionDetection
 
@@ -393,6 +368,35 @@ public class PlayerScript : MonoBehaviour
            
         }
 
+        #region gravity
+
+        RaycastHit hit;
+
+
+
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, gravityRaycastDistancePlayers, layerMask))
+        {
+            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
+            transform.position = new Vector3(transform.position.x, hit.point.y + 1, transform.position.z);
+            velocity = Vector3.zero;
+
+            groundHeight = hit.point.y;
+        }
+        else
+        {
+            if (jumping == false && merged == false)
+            {
+                velocity += gravity * Time.deltaTime;   // allow gravity to work on our velocity vector
+                transform.position += velocity * Time.deltaTime;    // move us this frame according to our speed
+            }
+            else
+            {
+                velocity = Vector3.zero;
+            }
+        }
+
+        #endregion
+
         #region merge
 
         if (merged == true)
@@ -464,6 +468,8 @@ public class PlayerScript : MonoBehaviour
                 incomingVec = hitSplit.point - transform.position;
                 splitDirection = Vector3.Reflect(childPlayer.transform.forward, hitSplit.normal);
 
+                tSplit = tSplit/2;
+
                 angleRad = Mathf.Atan2(splitDirection.x, splitDirection.z);
                 angle = angleRad * Mathf.Rad2Deg;
 
@@ -479,10 +485,12 @@ public class PlayerScript : MonoBehaviour
                 allowFuse = true;
             }
         }
-        
+
         #endregion
 
-        foreach(GameObject enemy in enemies)
+        #region detectedOrNot
+
+        foreach (GameObject enemy in enemies)
         {
             float dist = Vector3.Distance(enemy.transform.position, transform.position);
 
@@ -500,13 +508,18 @@ public class PlayerScript : MonoBehaviour
                     }
                     else
                     {
-                        enemy.GetComponent<EnemyScript>().target = transform;
-                        enemy.GetComponent<EnemyScript>().Spot();
+                        enemy.GetComponent<EnemyScript>().Spot(playerID, transform);
                     }
                 }
 
             }
+            else
+            {
+                enemy.GetComponent<EnemyScript>().Unspot(playerID);
+            }
         }
+
+        #endregion
 
     }
 

@@ -77,6 +77,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   groundDetector: {fileID: 2002736207100854295}
+  targetList:
+  - {fileID: 0}
+  - {fileID: 0}
   journey: {fileID: 0}
   jumpCurve:
     serializedVersion: 2
@@ -102,7 +105,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  speed: 10
+  speed: 11
+  waySpeed: 5
   gravityRaycastDistance: 1
   gravityValue: 50
   collisionsRaycast: 1.3
