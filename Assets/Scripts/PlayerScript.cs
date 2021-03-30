@@ -7,7 +7,6 @@ public class PlayerScript : MonoBehaviour
     public GameObject fpPlayer;    
     public GameObject otherPlayer;
     public GameObject OscMaster;
-    public GameObject respawnManager;
 
     GameObject[] enemies;
 
@@ -37,7 +36,6 @@ public class PlayerScript : MonoBehaviour
     public Vector3 shift;
 
     Vector3 velocity;
-    Vector3 lastVelocity;
     Vector3 gravity;
     Vector3 jumpMove;
     Vector3 splitDirection;
@@ -64,7 +62,6 @@ public class PlayerScript : MonoBehaviour
     public float carDrivingDistance;
     public float radiusDetection;
     public float angleDetection;
-    public double _decelerationTolerance = 40.0;
 
     float angle;
     float angleRad;
@@ -80,7 +77,6 @@ public class PlayerScript : MonoBehaviour
     bool allowFuse;
     bool driving;
     bool driven;
-    public bool IsAlive = true;
 
     private const float _minimumHeldDuration = 0.25f;
     private float _hookPressedTime = 0;
@@ -398,26 +394,6 @@ public class PlayerScript : MonoBehaviour
                 velocity = Vector3.zero;
             }
         }
-
-        if (IsAlive)
-        {
-            IsAlive = Mathf.Abs(velocity.y - lastVelocity.y) < _decelerationTolerance;
-            lastVelocity.y = velocity.y;
-
-        }
-        else
-        {
-            if (playerID == 0)
-            {
-                respawnManager.GetComponent<Respawn>().player1Live = false;
-            }
-
-            if (playerID == 1)
-            {
-                respawnManager.GetComponent<Respawn>().player2Live = false;
-            }
-        }
-
 
         #endregion
 
