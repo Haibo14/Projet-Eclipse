@@ -17664,6 +17664,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5862176285150882739, guid: eec938946344c8844bf86c9f6aaea850, type: 3}
   m_PrefabInstance: {fileID: 1176978261}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
 --- !u!1 &1179030664
 GameObject:
   m_ObjectHideFlags: 0
@@ -17695,6 +17696,8 @@ Transform:
   m_Father: {fileID: 1071390887}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+=======
+>>>>>>> parent of 062f815 (Placement des echafaudages dans l'usine)
 --- !u!1 &1185575898
 GameObject:
   m_ObjectHideFlags: 0
