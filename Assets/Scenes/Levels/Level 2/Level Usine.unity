@@ -12337,11 +12337,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3789f2fc50e3f734c846d2b16524cf5d, type: 3}
---- !u!1 &776993558 stripped
+--- !u!1 &776993558
 GameObject:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3789f2fc50e3f734c846d2b16524cf5d, type: 3}
   m_PrefabInstance: {fileID: 776993557}
   m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 776993563}
+  - component: {fileID: 776993559}
+  - component: {fileID: 776993560}
+  - component: {fileID: 776993561}
+  - component: {fileID: 776993562}
+  m_Layer: 0
+  m_Name: Missing Prefab (Dummy)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
 --- !u!135 &776993559
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -12396,11 +12411,20 @@ CapsuleCollider:
   m_Height: 91.91817
   m_Direction: 1
   m_Center: {x: -0.9273958, y: 71.40712, z: 1.9342613}
---- !u!4 &776993563 stripped
+--- !u!4 &776993563
 Transform:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 776993557}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 776993558}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1179030665}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &792134270
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13768,10 +13792,12 @@ MonoBehaviour:
   carDrivingDistance: 0
   radiusDetection: 30
   angleDetection: 75
+  _decelerationTolerance: 40
   playerID: 1
   fusing: 0
   merged: 0
   splitting: 0
+  IsAlive: 1
 --- !u!4 &880740278
 Transform:
   m_ObjectHideFlags: 0
@@ -16506,7 +16532,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 776993563}
+  - {fileID: 1179030665}
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -17638,6 +17664,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5862176285150882739, guid: eec938946344c8844bf86c9f6aaea850, type: 3}
   m_PrefabInstance: {fileID: 1176978261}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1179030664
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 776993557}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1179030665}
+  m_Layer: 0
+  m_Name: stalacmite 3 (Missing Prefab)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1179030665
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 776993557}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1179030664}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 776993563}
+  m_Father: {fileID: 1071390887}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1185575898
 GameObject:
   m_ObjectHideFlags: 0
@@ -19042,10 +19099,12 @@ MonoBehaviour:
   carDrivingDistance: 2
   radiusDetection: 30
   angleDetection: 75
+  _decelerationTolerance: 40
   playerID: 0
   fusing: 0
   merged: 0
   splitting: 0
+  IsAlive: 1
 --- !u!4 &1258240540
 Transform:
   m_ObjectHideFlags: 0
