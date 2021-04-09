@@ -11,6 +11,7 @@ TagManager:
   - HideCar
   - Waypoint
   - Enemy
+  - RespawnManager
   layers:
   - Default
   - TransparentFX
@@ -40,7 +41,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - Moving
   - Interact
   - Bush
   - Player

@@ -24,6 +24,7 @@ public class PlayerScript : MonoBehaviour
     LayerMask layerMaskFuse;
     LayerMask layerMaskDObject;
     LayerMask layerMaskInteract;
+    LayerMask layerMaskMoving;
 
     public string moveX;
     public string moveZ;
@@ -44,6 +45,7 @@ public class PlayerScript : MonoBehaviour
     Vector3 fuseDirection;
     Vector3 incomingVec;
     Vector3 memoryPosition;
+    Vector3 lastFramePosition;
 
     public float gravityValue;
     public float gravityRaycastDistancePlayers;
@@ -64,7 +66,7 @@ public class PlayerScript : MonoBehaviour
     public float carDrivingDistance;
     public float radiusDetection;
     public float angleDetection;
-    public double _decelerationTolerance = 40.0;
+    public double _decelerationTolerance;
 
     float angle;
     float angleRad;
@@ -81,6 +83,7 @@ public class PlayerScript : MonoBehaviour
     bool driving;
     bool driven;
     public bool IsAlive = true;
+    public bool firstTouch;
 
     private const float _minimumHeldDuration = 0.25f;
     private float _hookPressedTime = 0;
@@ -96,6 +99,7 @@ public class PlayerScript : MonoBehaviour
         allowFuse = true;
         driving = false;
         driven = false;
+        firstTouch = false;
 
         players = fpPlayer.GetComponent<Players>();
         playerObject = otherPlayer.GetComponent<PlayerScript>();
@@ -115,6 +119,7 @@ public class PlayerScript : MonoBehaviour
         layerMask = ~((1 << layerMaskPlayer) | (1 << layerMaskBush));
         layerMaskFuse = ~((1 << layerMaskPlayer) | (1 << layerMaskBush) | (1 << layerMaskDObject));
         layerMaskInteract = ~((1 << 29));
+        layerMaskMoving = ~((1 << 28));
     }
     #endregion
 
@@ -293,7 +298,7 @@ public class PlayerScript : MonoBehaviour
         #endregion
 
         #region movements
-        if (fusing == false && merged == false && splitting == false)
+        if (fusing == false && merged == false && splitting == false && IsAlive == true)
         {
             if (move != Vector3.zero)
             {
@@ -381,10 +386,22 @@ public class PlayerScript : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, gravityRaycastDistancePlayers, layerMask))
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
-            transform.position = new Vector3(transform.position.x, hit.point.y + 1, transform.position.z);
+            transform.position = new Vector3(transform.position.x, hit.point.y + 1.25f, transform.position.z);
             velocity = Vector3.zero;
 
             groundHeight = hit.point.y;
+            firstTouch = true;
+
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, gravityRaycastDistancePlayers, ~layerMaskMoving))
+            {
+                if(lastFramePosition == Vector3.zero)
+                {
+                    lastFramePosition = hit.collider.transform.position;
+                }
+
+                transform.position = new Vector3(hit.point.x, transform.position.y, hit.point.z) + (hit.collider.transform.position - lastFramePosition);
+                lastFramePosition = hit.collider.transform.position;
+            }
         }
         else
         {
@@ -399,25 +416,38 @@ public class PlayerScript : MonoBehaviour
             }
         }
 
-        if (IsAlive)
+        if (firstTouch)
         {
-            IsAlive = Mathf.Abs(velocity.y - lastVelocity.y) < _decelerationTolerance;
-            lastVelocity.y = velocity.y;
 
-        }
-        else
-        {
-            if (playerID == 0)
+            if (IsAlive)
             {
-                respawnManager.GetComponent<Respawn>().player1Live = false;
-            }
+                childPlayer.SetActive(true);
+                /*
+                if (velocity != Vector3.zero)
+                {
+                    Debug.Log(velocity);
+                    Debug.Log(Mathf.Abs(velocity.y - lastVelocity.y));
+                }
+                */
+                IsAlive = Mathf.Abs(velocity.y - lastVelocity.y) < _decelerationTolerance;
+                lastVelocity.y = velocity.y;
 
-            if (playerID == 1)
+            }
+            else
             {
-                respawnManager.GetComponent<Respawn>().player2Live = false;
+                if (playerID == 0)
+                {
+                    respawnManager.GetComponent<Respawn>().player1Live = false;
+                }
+
+                if (playerID == 1)
+                {
+                    respawnManager.GetComponent<Respawn>().player2Live = false;
+                }
+
+                childPlayer.SetActive(false);
             }
         }
-
 
         #endregion
 

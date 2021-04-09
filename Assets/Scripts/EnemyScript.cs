@@ -11,6 +11,7 @@ public class EnemyScript : MonoBehaviour
     public Transform[] targetList;
 
     public GameObject journey;
+    public GameObject respawnManager;
 
     Vector3 displacements;
     Vector3 velocity;
@@ -65,7 +66,7 @@ public class EnemyScript : MonoBehaviour
         layerMask = ~(1 << 9);
         layerMaskCollisions = ~((1 << 9) | (1 << 30));
 
-
+        respawnManager = GameObject.FindGameObjectWithTag("RespawnManager");
 
         gravity = Vector3.down * gravityValue;
 
@@ -120,7 +121,9 @@ public class EnemyScript : MonoBehaviour
             {
                 if (hitCatch.collider.gameObject.tag == "Player1" || hitCatch.collider.gameObject.tag == "Player2" || hitCatch.collider.gameObject.tag == "FusedPlayer")
                 {
-                    UnityEditor.EditorApplication.isPlaying = false;
+
+                    respawnManager.GetComponent<Respawn>().player1Live = false;
+                    respawnManager.GetComponent<Respawn>().player2Live = false;
                 }
             }
 

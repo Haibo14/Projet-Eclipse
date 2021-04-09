@@ -8,6 +8,7 @@ public class CameraScript : MonoBehaviour
     public GameObject fusedPlayer;
     GameObject player1;
     GameObject player2;
+    GameObject respawnManager;
 
     Vector3 target;
 
@@ -23,12 +24,15 @@ public class CameraScript : MonoBehaviour
     public float cameraSmoothSpeed;
 
     bool merged;
+    bool p1Life;
+    bool p2Life;
 
     void Start()
     {
 
         player1 = GameObject.FindGameObjectWithTag("Player1");
         player2 = GameObject.FindGameObjectWithTag("Player2");
+        respawnManager = GameObject.FindGameObjectWithTag("RespawnManager");
     }
 
     void Update()
@@ -43,11 +47,32 @@ public class CameraScript : MonoBehaviour
         move = moveP1 + moveP2;
 
         merged = fusedPlayer.GetComponent<Players>().merged;
+        p1Life = respawnManager.GetComponent<Respawn>().player1Live;
+        p2Life = respawnManager.GetComponent<Respawn>().player2Live;
 
         if (merged == false)
         {
-            yP1 = player1.GetComponent<PlayerScript>().groundHeight;
-            yP2 = player2.GetComponent<PlayerScript>().groundHeight;
+            if (p1Life)
+            {
+                yP1 = player1.GetComponent<PlayerScript>().groundHeight;
+            }
+            else
+            {
+
+                yP1 = player2.GetComponent<PlayerScript>().groundHeight;
+            }
+
+            if (p2Life)
+            {
+
+                yP2 = player2.GetComponent<PlayerScript>().groundHeight;
+            }
+            else
+            {
+
+                yP2 = player1.GetComponent<PlayerScript>().groundHeight;
+            }
+
 
             yGround = (yP1 + yP2) / 2;
         }

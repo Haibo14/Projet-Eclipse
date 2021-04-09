@@ -8,6 +8,7 @@ public class Players : MonoBehaviour
 
     public GameObject player1;
     public GameObject player2;
+    public GameObject respawnManager;
 
     GameObject[] enemies;
 
@@ -16,7 +17,7 @@ public class Players : MonoBehaviour
 
     public ReceivePosition ReceivePosition;
 
-    LineRenderer lineRenderer;
+    //LineRenderer lineRenderer;
 
     public AnimationCurve jumpCurve;
     public AnimationCurve splitCurve;
@@ -24,13 +25,13 @@ public class Players : MonoBehaviour
 
     Vector3 player1MemoryPosition;
     Vector3 player2MemoryPosition;
-    Vector3 velocityFP;
-    Vector3 velocityP1;
-    Vector3 velocityP2;
+    Vector3 velocity;
+    Vector3 lastVelocity;
     Vector3 gravity;
     Vector3 splitDirectionP1;
     Vector3 splitDirectionP2;
     Vector3 incomingVec;
+    Vector3 lastFramePosition;
 
 
     public Vector3 moveP1;
@@ -79,11 +80,14 @@ public class Players : MonoBehaviour
     public float radiusDetection;
     public float angleDetection;
 
+    public double _decelerationTolerance;
+
     LayerMask layerMask;
     LayerMask layerMaskPlayer;
     LayerMask layerMaskBush;
     LayerMask layerMaskDObject;
     LayerMask layerMaskFuse;
+    LayerMask layerMaskMoving;
 
     public bool fusing;
     public bool merged;
@@ -91,7 +95,9 @@ public class Players : MonoBehaviour
     bool splitting;
     public bool fpJumping;
     public bool allowFuse;
-    bool changeState;
+    public bool changeState;
+
+    public bool IsAlive = true;
 
 
     #endregion
@@ -113,7 +119,7 @@ public class Players : MonoBehaviour
 
         gravity = Vector3.down * gravityValue;
 
-        lineRenderer = GetComponent<LineRenderer>();
+        //lineRenderer = GetComponent<LineRenderer>();
 
         layerMaskPlayer = 31;
         layerMaskBush = 30;
@@ -121,6 +127,8 @@ public class Players : MonoBehaviour
 
         layerMask = ~((1 << layerMaskPlayer) | (1 << layerMaskBush));
         layerMaskFuse = ~((1 << layerMaskPlayer) | (1 << layerMaskBush) | (1 << layerMaskDObject));
+
+        layerMaskMoving = ~((1 << 28));
 
         transform.GetChild(0).gameObject.SetActive(false);
 
@@ -138,8 +146,25 @@ public class Players : MonoBehaviour
         moveP2.x = Input.GetAxis("p2_Horizontal");
         moveP2.z = Input.GetAxis("p2_Vertical");
 
-        move.x = moveP1.x + moveP2.x;
-        move.z = moveP1.z + moveP2.z;
+        if(moveP1 == Vector3.zero)
+        {
+
+            move.x = moveP2.x;
+            move.z = moveP2.z;
+
+        }else if (moveP2 == Vector3.zero)
+        {
+
+            move.x = moveP1.x;
+            move.z = moveP1.z;
+        }
+        else
+        {
+
+            move.x = (moveP1.x + moveP2.x)/2;
+            move.z = (moveP1.z + moveP2.z)/2;
+        }
+
 
         player1MemoryPosition = player1.transform.position;
         player2MemoryPosition = player2.transform.position;
@@ -199,31 +224,62 @@ public class Players : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hitFP, gravityRaycastDistanceFP, layerMask))
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hitFP.distance, Color.yellow);
-            transform.position = new Vector3(transform.position.x, hitFP.point.y + 1.5f, transform.position.z);
-            velocityFP = Vector3.zero;
+            transform.position = new Vector3(transform.position.x, hitFP.point.y + 2.25f, transform.position.z);
+            velocity = Vector3.zero;
 
 
             groundHeight = hitFP.point.y;
+
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hitFP, gravityRaycastDistanceFP, ~layerMaskMoving))
+            {
+                if (lastFramePosition == Vector3.zero)
+                {
+                    lastFramePosition = hitFP.collider.transform.position;
+                }
+
+                transform.position = new Vector3(hitFP.point.x, transform.position.y, hitFP.point.z) + (hitFP.collider.transform.position - lastFramePosition);
+                lastFramePosition = hitFP.collider.transform.position;
+            }
 
         }
         else
         {
             if (fpJumping == false && splitting == false && merged == true)
             {
-                velocityFP += gravity * Time.deltaTime;
-                transform.position += velocityFP * Time.deltaTime;
+                velocity += gravity * Time.deltaTime;
+                transform.position += velocity * Time.deltaTime;
             }
             else
             {
-                velocityFP = Vector3.zero;
+                velocity = Vector3.zero;
             }
         }
 
-       
+        if (IsAlive)
+        {
+            if (velocity != Vector3.zero)
+            {
+                Debug.Log(velocity);
+                Debug.Log(Mathf.Abs(velocity.y - lastVelocity.y));
+            }
+
+            IsAlive = Mathf.Abs(velocity.y - lastVelocity.y) < _decelerationTolerance;
+            lastVelocity.y = velocity.y;
+
+        }
+        else
+        {
+            merged = false;
+            changeState = true;
+            respawnManager.GetComponent<Respawn>().player1Live = false;
+            respawnManager.GetComponent<Respawn>().player2Live = false;
+
+        }
+
         #endregion
 
         #region collisionDetection
-        
+
 
         if (merged == true || fusing == true)
         {
@@ -272,10 +328,10 @@ public class Players : MonoBehaviour
         if (fusing == true)
         {
 
-            lineRenderer.enabled = true;
+            //lineRenderer.enabled = true;
 
-            lineRenderer.SetPosition(0, player1.transform.localPosition);
-            lineRenderer.SetPosition(1, player2.transform.localPosition);
+            //lineRenderer.SetPosition(0, player1.transform.localPosition);
+            //lineRenderer.SetPosition(1, player2.transform.localPosition);
 
             t1 = playerObject1.tFuse;
             t2 = playerObject2.tFuse;
@@ -326,7 +382,7 @@ public class Players : MonoBehaviour
         }
         else
         {
-            lineRenderer.enabled = false;
+            //lineRenderer.enabled = false;
         }
 
 

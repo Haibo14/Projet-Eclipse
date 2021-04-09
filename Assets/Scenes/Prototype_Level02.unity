@@ -1509,6 +1509,7 @@ MonoBehaviour:
   merged: 0
   splitting: 0
   IsAlive: 1
+  firstTouch: 0
 --- !u!1 &509921035
 GameObject:
   m_ObjectHideFlags: 0
@@ -2838,6 +2839,7 @@ MonoBehaviour:
   merged: 0
   splitting: 0
   IsAlive: 1
+  firstTouch: 0
 --- !u!4 &1201478522
 Transform:
   m_ObjectHideFlags: 0
@@ -3468,7 +3470,7 @@ GameObject:
   - component: {fileID: 1591227252}
   m_Layer: 0
   m_Name: RespawnManager
-  m_TagString: Untagged
+  m_TagString: RespawnManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
