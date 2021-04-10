@@ -11,7 +11,7 @@ public class CarSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        carPrefab = Resources.Load("Prefabs/Proto-Props/Car") as GameObject;
+        carPrefab = Resources.Load("Prefabs/Dossier pas toucher/Chariots/chariot usine") as GameObject;
 
         StartCoroutine("Spawn");
 
