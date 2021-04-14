@@ -12,6 +12,7 @@ TagManager:
   - Waypoint
   - Enemy
   - RespawnManager
+  - Manager
   layers:
   - Default
   - TransparentFX

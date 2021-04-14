@@ -80,8 +80,7 @@ public class PlayerScript : MonoBehaviour
     bool hooking;
     bool jumping;
     bool allowFuse;
-    bool driving;
-    bool driven;
+    public bool driven;
     public bool IsAlive = true;
     public bool firstTouch;
 
@@ -97,7 +96,6 @@ public class PlayerScript : MonoBehaviour
         splitting = false;
         jumping = false;
         allowFuse = true;
-        driving = false;
         driven = false;
         firstTouch = false;
 
@@ -163,7 +161,7 @@ public class PlayerScript : MonoBehaviour
         #region collisionDetection
 
 
-        if (merged == false && splitting == false && fusing == false && driving == false)
+        if (merged == false && splitting == false && fusing == false && driven == false)
         {
 
             RaycastHit hitColl;
@@ -216,62 +214,21 @@ public class PlayerScript : MonoBehaviour
 
         if (Physics.Raycast(transform.position, childPlayer.transform.forward, out hitInteract, interactDistance, ~layerMaskInteract))
         {
-            if(hitInteract.collider.tag == "DriveCar")
-            {
-                //Debug.Log("Appuie sur A pour conduire le chariot");
-
-
-                if (Input.GetButton(hookingString))
-                {
-                    drivingCar = hitInteract.collider.gameObject;
-                    transform.position = drivingCar.transform.position - (drivingCar.transform.forward * carDrivingDistance);
-                    drivingCar.GetComponent<Car>().driving = true;
-                    driving = true;
-                }
-
-                }else if(hitInteract.collider.tag == "HideCar")
+            if(hitInteract.collider.tag == "HideCar")
             {
                 //Debug.Log("Appuie sur A pour te cacher dans le chariot");
 
                 if (Input.GetButton(hookingString))
                 {
                     drivingCar = hitInteract.collider.gameObject;
-                    transform.position = hitInteract.collider.transform.position;
+                    transform.position = hitInteract.collider.transform.position + new Vector3(0, 1, 0);
                     driven = true;
                 }
             }
 
         }
 
-        if(driving == true)
-        {
-            transform.position = drivingCar.transform.position - (drivingCar.transform.forward * carDrivingDistance);
-            move = Vector3.zero;
-
-            if (Input.GetButtonDown(hookingString))
-            {
-                // Use has pressed the Space key. We don't know if they'll release or hold it, so keep track of when they started holding it.
-                _hookPressedTime = Time.timeSinceLevelLoad;
-                _hookHeld = false;
-            }
-            else if (Input.GetButtonUp(hookingString)) {
-                if (!_hookHeld)
-                {
-                    
-                }
-                _hookHeld = false;
-            }
-
-            if (Input.GetButton(hookingString)) {
-                if (Time.timeSinceLevelLoad - _hookPressedTime > _minimumHeldDuration)
-                {
-                    drivingCar.GetComponent<Car>().driving = false;
-                    driving = false;
-                    _hookHeld = true;
-
-                }
-            }
-        }
+        
 
         if(driven == true)
         {
@@ -386,7 +343,7 @@ public class PlayerScript : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, gravityRaycastDistancePlayers, layerMask))
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
-            transform.position = new Vector3(transform.position.x, hit.point.y + 1.25f, transform.position.z);
+            transform.position = new Vector3(transform.position.x, hit.point.y + 1.7f, transform.position.z);
             velocity = Vector3.zero;
 
             groundHeight = hit.point.y;

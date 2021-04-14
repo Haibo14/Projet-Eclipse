@@ -184,7 +184,7 @@ public class Players : MonoBehaviour
 
         if (switchState == true || Input.GetButton("Fuse"))
         {
-            if (fusing == false && merged == false && changeState == true)
+            if (fusing == false && merged == false && playerObject1.driven == false && playerObject2.driven == false && playerObject1.IsAlive && playerObject2.IsAlive && changeState == true)
             {
 
                 adaptDistance = 1 / totalDistance;
@@ -257,11 +257,7 @@ public class Players : MonoBehaviour
 
         if (IsAlive)
         {
-            if (velocity != Vector3.zero)
-            {
-                Debug.Log(velocity);
-                Debug.Log(Mathf.Abs(velocity.y - lastVelocity.y));
-            }
+            
 
             IsAlive = Mathf.Abs(velocity.y - lastVelocity.y) < _decelerationTolerance;
             lastVelocity.y = velocity.y;
