@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class PressurePlate : MonoBehaviour
 {
-    [SerializeField] Animator grueAnimator;
+    public GameObject hoist;
+
+    public float speedRotation;
+    float multiplicator;
+    float rotation;
+
     bool pressed;
 
     void Start()
@@ -15,19 +20,39 @@ public class PressurePlate : MonoBehaviour
 
     void Update()
     {
-        if (pressed)
+        if (pressed == true)
         {
-            grueAnimator.SetInteger("HoistState", 1);
+            if (hoist.transform.eulerAngles.y >= 90 && hoist.transform.eulerAngles.y <= 269)
+            {
+                multiplicator = 0;
+            }
+            else
+            {
+                multiplicator = 1;
+            }
+            
         }
-        else
+        else if (pressed == false)
         {
-            grueAnimator.SetInteger("HoistState", 2);
+            if (hoist.transform.eulerAngles.y <= 270 && hoist.transform.eulerAngles.y >= 91)
+            {
+                multiplicator = 0;
+            }
+            else
+            {
+                multiplicator = -1;
+            }
         }
+
+        rotation = multiplicator * speedRotation * Time.deltaTime;
+
+        hoist.transform.RotateAround(hoist.transform.position, Vector3.up, rotation);
+
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player1" || other.gameObject.tag == "Player2")
+        if (other.tag == "Player1" || other.tag == "Player2" || other.tag == "FusedPlayer")
         {
             pressed = true;
         }
@@ -35,7 +60,7 @@ public class PressurePlate : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Player1" || other.gameObject.tag == "Player2")
+        if (other.tag == "Player1" || other.tag == "Player2" || other.tag == "FusedPlayer")
         {
             pressed = false;
         }

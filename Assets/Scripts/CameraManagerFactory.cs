@@ -11,10 +11,14 @@ public class CameraManagerFactory : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera cinematicCam_2;
     [SerializeField] private CinemachineVirtualCamera cinematicCam_3;
     [SerializeField] private CinemachineVirtualCamera cinematicCam_4;
+    [SerializeField] private CinemachineVirtualCamera cinematicCam_5;
+    [SerializeField] private CinemachineVirtualCamera cinematicCam_6;
     [SerializeField] private PlayableDirector directorCam_1;
     [SerializeField] private PlayableDirector directorCam_2;
     [SerializeField] private PlayableDirector directorCam_3;
     [SerializeField] private PlayableDirector directorCam_4;
+    [SerializeField] private PlayableDirector directorCam_5;
+    [SerializeField] private PlayableDirector directorCam_6;
 
     public int i;
 
@@ -51,6 +55,18 @@ public class CameraManagerFactory : MonoBehaviour
         {
             cinematicCam_4.enabled = cinematic;
             directorCam_4.Play();
+            i += 1;
+        }
+        else if (i == 7)
+        {
+            cinematicCam_5.enabled = cinematic;
+            directorCam_5.Play();
+            i += 1;
+        }
+        else if (i == 9)
+        {
+            cinematicCam_6.enabled = cinematic;
+            directorCam_6.Play();
             i += 1;
         }
 
@@ -92,6 +108,23 @@ public class CameraManagerFactory : MonoBehaviour
             cinematicCam_4.enabled = false;
         }
 
+        if (cinematicCam_5.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition >= 2 && cinematicCam_5.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition < 10)
+        {
+            cinematic = false;
+            directorCam_5.Pause();
+            directorCam_5.time = 0;
+            cinematicCam_5.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = 10;
+            cinematicCam_5.enabled = false;
+        }
+
+        if (cinematicCam_6.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition >= 3 && cinematicCam_6.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition < 10)
+        {
+            cinematic = false;
+            directorCam_6.Pause();
+            directorCam_6.time = 0;
+            cinematicCam_6.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = 10;
+            cinematicCam_6.enabled = false;
+        }
         gameCam.enabled = !cinematic;
     }
 }
