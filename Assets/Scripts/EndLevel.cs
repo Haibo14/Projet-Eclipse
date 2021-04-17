@@ -20,7 +20,7 @@ public class EndLevel : MonoBehaviour
     {
         if (other.gameObject.tag == "Player1" || other.gameObject.tag == "Player2" || other.gameObject.tag == "FusedPlayer")
         {
-            UnityEditor.EditorApplication.isPlaying = false;
+            //UnityEditor.EditorApplication.isPlaying = false;
         }
     }
 }
