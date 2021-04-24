@@ -145,7 +145,7 @@ public class Players : MonoBehaviour
 
         moveP2.x = Input.GetAxis("p2_Horizontal");
         moveP2.z = Input.GetAxis("p2_Vertical");
-
+        
         if(moveP1 == Vector3.zero)
         {
 
@@ -423,8 +423,6 @@ public class Players : MonoBehaviour
         else if (moveP1 == Vector3.zero && moveP2 != Vector3.zero)
         {
 
-            transform.Translate(transform.forward * move.y * speed * Time.deltaTime, Space.World);
-            transform.Translate(transform.right * move.x * speed * Time.deltaTime, Space.World);
 
             float fpRotationAngle = angleP2;
 

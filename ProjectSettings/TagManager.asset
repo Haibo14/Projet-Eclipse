@@ -13,6 +13,9 @@ TagManager:
   - Enemy
   - RespawnManager
   - Manager
+  - Player1_Script
+  - Player2_Script
+  - FusedPlayer_Script
   layers:
   - Default
   - TransparentFX
