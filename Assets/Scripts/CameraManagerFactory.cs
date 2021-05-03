@@ -6,6 +6,20 @@ using UnityEngine.Playables;
 
 public class CameraManagerFactory : MonoBehaviour
 {
+    public CinemachineVirtualCamera gameCam;
+    public CinemachineVirtualCamera cinematicCam_1;
+    public CinemachineVirtualCamera cinematicCam_2;
+    public CinemachineVirtualCamera cinematicCam_3;
+    public CinemachineVirtualCamera cinematicCam_4;
+    public CinemachineVirtualCamera cinematicCam_5;
+    public CinemachineVirtualCamera cinematicCam_6;
+    public PlayableDirector directorCam_1;
+    public PlayableDirector directorCam_2;
+    public PlayableDirector directorCam_3;
+    public PlayableDirector directorCam_4;
+    public PlayableDirector directorCam_5;
+    public PlayableDirector directorCam_6;
+    /*
     [SerializeField] private CinemachineVirtualCamera gameCam;
     [SerializeField] private CinemachineVirtualCamera cinematicCam_1;
     [SerializeField] private CinemachineVirtualCamera cinematicCam_2;
@@ -19,6 +33,7 @@ public class CameraManagerFactory : MonoBehaviour
     [SerializeField] private PlayableDirector directorCam_4;
     [SerializeField] private PlayableDirector directorCam_5;
     [SerializeField] private PlayableDirector directorCam_6;
+    */
 
     public int i;
 
@@ -32,7 +47,6 @@ public class CameraManagerFactory : MonoBehaviour
 
     void Update()
     {
-        gameCam.enabled = !cinematic;
 
         if(i == 0)
         {

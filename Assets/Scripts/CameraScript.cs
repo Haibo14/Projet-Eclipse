@@ -29,10 +29,11 @@ public class CameraScript : MonoBehaviour
 
     void Start()
     {
-
-        player1 = GameObject.FindGameObjectWithTag("Player1");
-        player2 = GameObject.FindGameObjectWithTag("Player2");
+        player1 = GameObject.FindGameObjectWithTag("Player1_Script");
+        player2 = GameObject.FindGameObjectWithTag("Player2_Script");
         respawnManager = GameObject.FindGameObjectWithTag("RespawnManager");
+
+        target = new Vector3(fusedPlayer.transform.position.x, yGround + y, fusedPlayer.transform.position.z - z);
     }
 
     void Update()
@@ -49,8 +50,12 @@ public class CameraScript : MonoBehaviour
         merged = fusedPlayer.GetComponent<Players>().merged;
         p1Life = respawnManager.GetComponent<Respawn>().player1Live;
         p2Life = respawnManager.GetComponent<Respawn>().player2Live;
-
-        if (merged == false)
+        
+        if (merged)
+        {
+            yGround = fusedPlayer.GetComponent<Players>().groundHeight;
+        }
+        else
         {
             if (p1Life)
             {
@@ -76,12 +81,8 @@ public class CameraScript : MonoBehaviour
 
             yGround = (yP1 + yP2) / 2;
         }
-        else
-        {
-            yGround = fusedPlayer.GetComponent<Players>().groundHeight;
-        }
 
-        
+
 
         target = new Vector3(fusedPlayer.transform.position.x, yGround + y, fusedPlayer.transform.position.z - z);
 

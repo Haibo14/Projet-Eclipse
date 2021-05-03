@@ -31,7 +31,7 @@ public class Car : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        fpPlayer = GameObject.FindGameObjectWithTag("FusedPlayer");
+        fpPlayer = GameObject.FindGameObjectWithTag("FusedPlayer_Script");
         players = fpPlayer.GetComponent<Players>();
 
         wayPointObjectList = GameObject.FindGameObjectsWithTag("Waypoint");
