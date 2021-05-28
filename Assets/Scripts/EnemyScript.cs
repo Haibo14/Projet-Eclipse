@@ -11,6 +11,7 @@ public class EnemyScript : MonoBehaviour
     public Transform[] targetList;
 
     public GameObject journey;
+    public GameObject lastJourney;
     public GameObject respawnManager;
 
     Vector3 displacements;
@@ -24,7 +25,7 @@ public class EnemyScript : MonoBehaviour
     LayerMask layerMask;
     LayerMask layerMaskCollisions;
 
-    Transform[] journeySteps;
+    public Transform[] journeySteps;
 
     Transform targetJourneyPoint;
 
@@ -64,7 +65,7 @@ public class EnemyScript : MonoBehaviour
     {
 
         layerMask = ~(1 << 9);
-        layerMaskCollisions = ~((1 << 9) | (1 << 30));
+        layerMaskCollisions = ~((1 << 30) | (1 << 9));
 
         respawnManager = GameObject.FindGameObjectWithTag("RespawnManager");
 
@@ -85,6 +86,13 @@ public class EnemyScript : MonoBehaviour
 
     void Update()
     {
+        if (journeySteps.Length == 0)
+        {
+            if (journey != null)
+            {
+                journeySteps = journey.GetComponentsInChildren<Transform>();
+            }
+        }
 
         tJump += jumpSpeed * Time.deltaTime;
 
@@ -129,7 +137,7 @@ public class EnemyScript : MonoBehaviour
 
             RaycastHit hitChase;
 
-            if(Physics.Raycast(transform.position, target.transform.position - transform.position, out hitChase, chaseDistance))
+            if(Physics.Raycast(transform.position, target.transform.position - transform.position, out hitChase, chaseDistance, layerMaskCollisions))
             {
                 if(hitChase.collider.tag == "Player1" || hitChase.collider.tag == "Player2" || hitChase.collider.tag == "FusedPlayer")
                 {
@@ -245,6 +253,7 @@ public class EnemyScript : MonoBehaviour
 
         if (Physics.Raycast(transform.position, this.transform.forward, out hitColl, collisionsRaycast, layerMaskCollisions))
         {
+
            displacements = Vector3.Reflect(this.transform.forward, hitColl.normal);
 
             spotted = false;

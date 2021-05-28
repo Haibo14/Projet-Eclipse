@@ -92,7 +92,7 @@ public class Players : MonoBehaviour
     public bool fusing;
     public bool merged;
     public bool switchState;
-    bool splitting;
+    public bool splitting;
     public bool fpJumping;
     public bool allowFuse;
     public bool changeState;

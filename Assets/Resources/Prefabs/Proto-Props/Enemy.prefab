@@ -56,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 2002736207811758717}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
   m_LocalPosition: {x: 35, y: 51.6, z: 40}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.75, y: 1.75, z: 1.75}
   m_Children:
   - {fileID: 2002736208276052798}
   - {fileID: 2002736207100854295}
@@ -81,6 +81,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   journey: {fileID: 0}
+  respawnManager: {fileID: 0}
+  journeySteps: []
   jumpCurve:
     serializedVersion: 2
     m_Curve:
@@ -105,8 +107,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  speed: 11
-  waySpeed: 5
+  speed: 12
+  waySpeed: 12
   gravityRaycastDistance: 1
   gravityValue: 50
   collisionsRaycast: 1.3
@@ -119,6 +121,7 @@ MonoBehaviour:
   power: 20
   jumpSpeed: 3
   currentJourneyPoint: 0
+  spotted: 0
 --- !u!1 &2002736208276052797
 GameObject:
   m_ObjectHideFlags: 0

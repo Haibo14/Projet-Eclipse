@@ -104,6 +104,7 @@ public class PlayerScript : MonoBehaviour
         oscMessage = OscMaster.GetComponent<ReceivePosition>();
 
         childPlayer = transform.GetChild(0).gameObject;
+        Debug.Log(childPlayer);
 
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
         
@@ -484,6 +485,11 @@ public class PlayerScript : MonoBehaviour
                 angleRad = Mathf.Atan2(splitDirection.x, splitDirection.z);
                 angle = angleRad * Mathf.Rad2Deg;
 
+                if (hitSplit.collider.tag == "Breakable_Barricade")
+                {
+                    hitSplit.collider.gameObject.GetComponent<BoxCollider>().enabled = false;
+                }
+
             }
 
             childPlayer.transform.eulerAngles = new Vector3(0, angle, 0);
@@ -500,6 +506,9 @@ public class PlayerScript : MonoBehaviour
         #endregion
 
         #region detectedOrNot
+
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
 
         foreach (GameObject enemy in enemies)
         {

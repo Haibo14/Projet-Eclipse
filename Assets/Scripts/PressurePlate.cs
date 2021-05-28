@@ -52,7 +52,7 @@ public class PressurePlate : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player1" || other.tag == "Player2" || other.tag == "FusedPlayer")
+        if (other.tag == "Player1" || other.tag == "Player2")
         {
             pressed = true;
         }
@@ -60,7 +60,7 @@ public class PressurePlate : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player1" || other.tag == "Player2" || other.tag == "FusedPlayer")
+        if (other.tag == "Player1" || other.tag == "Player2")
         {
             pressed = false;
         }

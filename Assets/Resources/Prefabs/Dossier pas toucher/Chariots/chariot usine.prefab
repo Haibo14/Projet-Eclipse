@@ -942,6 +942,7 @@ MonoBehaviour:
   players: {fileID: 0}
   move: {x: 0, y: 0, z: 0}
   speed: 4
+  tagRail: Waypoint
   driving: 0
 --- !u!1 &6496922127210584645
 GameObject:

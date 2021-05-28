@@ -29,8 +29,18 @@ public class CheckPoint : MonoBehaviour
             if (other.tag == "Player1" || other.tag == "Player" || other.tag == "FusedPlayer")
             {
                 respawnManager.GetComponent<Respawn>().lastCheckPoint = transform;
-                manager.GetComponent<CameraManagerFactory>().i += 1;
-                manager.GetComponent<CameraManagerFactory>().cinematic = true;
+
+                if (manager.GetComponent<CameraManagerFactory>() != null)
+                {
+                    manager.GetComponent<CameraManagerFactory>().i += 1;
+                    manager.GetComponent<CameraManagerFactory>().cinematic = true;
+                }
+
+                if (manager.GetComponent<CameraManagerMine>() != null)
+                {
+                    manager.GetComponent<CameraManagerMine>().i += 1;
+                    manager.GetComponent<CameraManagerMine>().cinematic = true;
+                }
 
                 playOnce = false;
             }

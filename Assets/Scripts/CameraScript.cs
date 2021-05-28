@@ -21,6 +21,7 @@ public class CameraScript : MonoBehaviour
     float yP2;
     float yGround;
     public float y;
+    public float x;
     public float cameraSmoothSpeed;
 
     bool merged;
@@ -42,7 +43,7 @@ public class CameraScript : MonoBehaviour
         moveP1.x = Input.GetAxis("p1_Horizontal");
         moveP1.z = Input.GetAxis("p1_Vertical");
 
-        moveP2.x = Input.GetAxis("p2_Horizontal");
+        moveP2.x = Input.GetAxis("p2_Horizontal");  
         moveP2.z = Input.GetAxis("p2_Vertical");
 
         move = moveP1 + moveP2;
@@ -84,7 +85,7 @@ public class CameraScript : MonoBehaviour
 
 
 
-        target = new Vector3(fusedPlayer.transform.position.x, yGround + y, fusedPlayer.transform.position.z - z);
+        target = new Vector3(fusedPlayer.transform.position.x - x, yGround + y, fusedPlayer.transform.position.z - z);
 
         this.transform.position = Vector3.Lerp(transform.position, target, cameraSmoothSpeed);
     }

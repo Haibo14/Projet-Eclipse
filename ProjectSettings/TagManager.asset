@@ -16,6 +16,12 @@ TagManager:
   - Player1_Script
   - Player2_Script
   - FusedPlayer_Script
+  - Breakable_Barricade
+  - PressurePlate
+  - WayPoint2
+  - Boss
+  - Ground
+  - Pilar
   layers:
   - Default
   - TransparentFX

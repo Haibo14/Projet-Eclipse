@@ -26,6 +26,8 @@ public class Car : MonoBehaviour
     float playerAngle;
     float multiplicator;
 
+    public string tagRail;
+
     public bool driving;
 
     // Use this for initialization
@@ -34,7 +36,7 @@ public class Car : MonoBehaviour
         fpPlayer = GameObject.FindGameObjectWithTag("FusedPlayer_Script");
         players = fpPlayer.GetComponent<Players>();
 
-        wayPointObjectList = GameObject.FindGameObjectsWithTag("Waypoint");
+        wayPointObjectList = GameObject.FindGameObjectsWithTag(tagRail);
         wayPointList = new Transform[wayPointObjectList.Length];
 
         foreach (GameObject wayPointObject in wayPointObjectList)
