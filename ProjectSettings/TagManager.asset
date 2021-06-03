@@ -22,8 +22,6 @@ TagManager:
   - Boss
   - Ground
   - Pilar
-  - EnemySpawner
-  - PilarInstantiator
   layers:
   - Default
   - TransparentFX
@@ -46,8 +44,8 @@ TagManager:
   - 
   - 
   - 
-  - Camera1
-  - Camera2
+  - 
+  - 
   - 
   - 
   - 

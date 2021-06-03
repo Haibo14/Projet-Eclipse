@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class Respawn : MonoBehaviour
 {
-    public RespawnFactory respawnFactory;
-    public RespawnMine respawnMine;
-    public RespawnBoss respawnBoss;
-
     public GameObject Player1;
     public GameObject Player2;
     public GameObject FusedPlayer;
@@ -28,8 +24,6 @@ public class Respawn : MonoBehaviour
         timer = 0;
         player1Live = true;
         player2Live = true;
-
-        RespawnBoth();
     }
 
 
@@ -106,42 +100,6 @@ public class Respawn : MonoBehaviour
 
         player1Live = true;
         player2Live = true;
-
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        foreach (GameObject enemy in enemies)
-        {
-            GameObject.Destroy(enemy);
-        }
-
-        GameObject[] enemySpawner = GameObject.FindGameObjectsWithTag("EnemySpawner");
-        foreach (GameObject spawner in enemySpawner)
-        {
-            Debug.Log(enemySpawner.Length);
-
-            if(spawner.GetComponent<EnemySpawner>() != null)
-            {
-                spawner.GetComponent<EnemySpawner>().playOnce = true;
-            }
-            else if(spawner.GetComponent<EnemyTrapActivator>() != null)
-            {
-                spawner.GetComponent<EnemyTrapActivator>().playOnce = true;
-            }
-        }
-
-        if (respawnFactory != null)
-        {
-            //respawnFactory.Reset();
-        }
-
-        if(respawnMine != null)
-        {
-            //respawnMine.Reset();
-        }
-
-        if(respawnBoss != null)
-        {
-            respawnBoss.Reset();
-        }
     }
 
     

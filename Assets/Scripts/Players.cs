@@ -115,6 +115,8 @@ public class Players : MonoBehaviour
         playerObject1 = player1.GetComponent<PlayerScript>();
         playerObject2 = player2.GetComponent<PlayerScript>();
 
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
         gravity = Vector3.down * gravityValue;
 
         //lineRenderer = GetComponent<LineRenderer>();
@@ -222,28 +224,21 @@ public class Players : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hitFP, gravityRaycastDistanceFP, layerMask))
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hitFP.distance, Color.yellow);
-
-            Vector3 oldPosition = transform.position;
-
             transform.position = new Vector3(transform.position.x, hitFP.point.y + 2.25f, transform.position.z);
             velocity = Vector3.zero;
 
 
             groundHeight = hitFP.point.y;
 
-            if (Physics.Raycast(oldPosition, transform.TransformDirection(Vector3.down), out hitFP, gravityRaycastDistanceFP, ~layerMaskMoving))
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hitFP, gravityRaycastDistanceFP, ~layerMaskMoving))
             {
-                if (lastFramePosition == Vector3.zero || merged == false)
+                if (lastFramePosition == Vector3.zero)
                 {
                     lastFramePosition = hitFP.collider.transform.position;
                 }
 
                 transform.position = new Vector3(hitFP.point.x, transform.position.y, hitFP.point.z) + (hitFP.collider.transform.position - lastFramePosition);
                 lastFramePosition = hitFP.collider.transform.position;
-            }
-            else
-            {
-                lastFramePosition = Vector3.zero;
             }
 
         }
@@ -328,8 +323,6 @@ public class Players : MonoBehaviour
 
         if (fusing == true)
         {
-
-            lastFramePosition = Vector3.zero;
 
             //lineRenderer.enabled = true;
 
@@ -460,8 +453,6 @@ public class Players : MonoBehaviour
         {
             if (merged == true && splitting == false && changeState == false)
             {
-                lastFramePosition = Vector3.zero;
-
                 changeState = true;
 
                 transform.GetChild(0).gameObject.SetActive(false);
@@ -489,9 +480,6 @@ public class Players : MonoBehaviour
         #endregion
 
         #region detectedOrNot
-
-
-        enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
         foreach (GameObject enemy in enemies)
         {

@@ -88,7 +88,5 @@ public class CameraManagerMine : MonoBehaviour
             cinematicCam_1.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = 10;
             cinematicCam_1.enabled = false;
         }
-
-        //gameCam.gameObject.GetComponent<CameraScript>().cinematic = cinematic;
     }
 }

@@ -4,16 +4,12 @@ using UnityEngine;
 
 public class EnemyTrapActivator : MonoBehaviour
 {
-    public GameObject enemyPrefab;
+    public GameObject enemy;
     public GameObject journey;
-
-    public Transform spawnSpot;
-
-    public bool playOnce;
 
     void Start()
     {
-        playOnce = true;
+        
     }
 
     void Update()
@@ -23,15 +19,9 @@ public class EnemyTrapActivator : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (playOnce == true)
+        if(other.tag == "Player1" || other.tag == "Player2" || other.tag == "FusedPlayer")
         {
-            if (other.tag == "Player1" || other.tag == "Player2" || other.tag == "FusedPlayer")
-            {
-                GameObject enemy = Instantiate(enemyPrefab, spawnSpot.position, Quaternion.identity);
-                enemy.GetComponent<EnemyScript>().journey = journey;
-
-                playOnce = false;
-            }
+            enemy.GetComponent<EnemyScript>().journey = journey;
         }
     }
 }

@@ -104,7 +104,7 @@ public class PlayerScript : MonoBehaviour
         oscMessage = OscMaster.GetComponent<ReceivePosition>();
 
         childPlayer = transform.GetChild(0).gameObject;
-
+        Debug.Log(childPlayer);
 
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
         
@@ -344,21 +344,15 @@ public class PlayerScript : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, gravityRaycastDistancePlayers, layerMask))
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
-
-            Vector3 oldPosition = transform.position;
-
             transform.position = new Vector3(transform.position.x, hit.point.y + 1.7f, transform.position.z);
             velocity = Vector3.zero;
 
             groundHeight = hit.point.y;
             firstTouch = true;
 
-            if (Physics.Raycast(oldPosition, transform.TransformDirection(Vector3.down), out hit, gravityRaycastDistancePlayers, ~layerMaskMoving))
+            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, gravityRaycastDistancePlayers, ~layerMaskMoving))
             {
-                //transform.parent = hit.collider.gameObject.transform;
-
-                
-                if(lastFramePosition == Vector3.zero || merged == true)
+                if(lastFramePosition == Vector3.zero)
                 {
                     lastFramePosition = hit.collider.transform.position;
                 }
@@ -366,16 +360,9 @@ public class PlayerScript : MonoBehaviour
                 transform.position = new Vector3(hit.point.x, transform.position.y, hit.point.z) + (hit.collider.transform.position - lastFramePosition);
                 lastFramePosition = hit.collider.transform.position;
             }
-            else
-            {
-                //transform.parent = null;
-                lastFramePosition = Vector3.zero;
-            }
         }
         else
         {
-
-
             if (jumping == false && merged == false)
             {
                 velocity += gravity * Time.deltaTime;   // allow gravity to work on our velocity vector
@@ -486,8 +473,8 @@ public class PlayerScript : MonoBehaviour
 
             RaycastHit hitSplit;
 
-            lastFramePosition = Vector3.zero;
-
+            
+            
             if (Physics.Raycast(transform.position, childPlayer.transform.forward, out hitSplit, raycastDistanceDetection, layerMask))
             {
                 incomingVec = hitSplit.point - transform.position;
@@ -587,11 +574,6 @@ public class PlayerScript : MonoBehaviour
 
             childPlayer.gameObject.SetActive(true);
 
-            tSplit = 0;
-
-
-            splitting = true;
-
             if (move != Vector3.zero)
             {
                 splitDirection = childPlayer.transform.forward;
@@ -599,10 +581,11 @@ public class PlayerScript : MonoBehaviour
             else
             {
                 splitDirection = Vector3.zero;
-                tSplit = 1;
             }
 
+            tSplit = 0;
 
+            splitting = true;
         }
     }
 
