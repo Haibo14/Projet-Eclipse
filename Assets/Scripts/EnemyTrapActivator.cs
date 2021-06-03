@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class EnemyTrapActivator : MonoBehaviour
 {
-    public GameObject enemy;
+    public GameObject enemyPrefab;
     public GameObject journey;
+
+    public Transform spawnSpot;
+
+    public bool playOnce;
 
     void Start()
     {
@@ -19,9 +23,15 @@ public class EnemyTrapActivator : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player1" || other.tag == "Player2" || other.tag == "FusedPlayer")
+        if (playOnce == true)
         {
-            enemy.GetComponent<EnemyScript>().journey = journey;
+            if (other.tag == "Player1" || other.tag == "Player2" || other.tag == "FusedPlayer")
+            {
+                GameObject enemy = Instantiate(enemyPrefab, spawnSpot.position, Quaternion.identity);
+                enemy.GetComponent<EnemyScript>().journey = journey;
+
+                playOnce = false;
+            }
         }
     }
 }

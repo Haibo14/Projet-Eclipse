@@ -224,21 +224,28 @@ public class Players : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hitFP, gravityRaycastDistanceFP, layerMask))
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hitFP.distance, Color.yellow);
+
+            Vector3 oldPosition = transform.position;
+
             transform.position = new Vector3(transform.position.x, hitFP.point.y + 2.25f, transform.position.z);
             velocity = Vector3.zero;
 
 
             groundHeight = hitFP.point.y;
 
-            if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hitFP, gravityRaycastDistanceFP, ~layerMaskMoving))
+            if (Physics.Raycast(oldPosition, transform.TransformDirection(Vector3.down), out hitFP, gravityRaycastDistanceFP, ~layerMaskMoving))
             {
-                if (lastFramePosition == Vector3.zero)
+                if (lastFramePosition == Vector3.zero || merged == false)
                 {
                     lastFramePosition = hitFP.collider.transform.position;
                 }
 
                 transform.position = new Vector3(hitFP.point.x, transform.position.y, hitFP.point.z) + (hitFP.collider.transform.position - lastFramePosition);
                 lastFramePosition = hitFP.collider.transform.position;
+            }
+            else
+            {
+                lastFramePosition = Vector3.zero;
             }
 
         }
@@ -323,6 +330,8 @@ public class Players : MonoBehaviour
 
         if (fusing == true)
         {
+
+            lastFramePosition = Vector3.zero;
 
             //lineRenderer.enabled = true;
 

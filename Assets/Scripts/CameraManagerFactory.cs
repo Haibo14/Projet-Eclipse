@@ -48,18 +48,18 @@ public class CameraManagerFactory : MonoBehaviour
     void Update()
     {
 
-        if(i == 0)
+        if (i == 0)
         {
             cinematicCam_1.enabled = cinematic;
 
         }
-        else if(i == 1)
+        else if (i == 1)
         {
             cinematicCam_2.enabled = cinematic;
             directorCam_2.Play();
             i += 1;
         }
-        else if(i == 3)
+        else if (i == 3)
         {
             cinematicCam_3.enabled = cinematic;
             directorCam_3.Play();
@@ -139,6 +139,7 @@ public class CameraManagerFactory : MonoBehaviour
             cinematicCam_6.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = 10;
             cinematicCam_6.enabled = false;
         }
-        gameCam.enabled = !cinematic;
+
+        //gameCam.gameObject.GetComponent<CameraScript>().cinematic = cinematic;
     }
 }
