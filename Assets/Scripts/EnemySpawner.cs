@@ -15,7 +15,7 @@ public class EnemySpawner : MonoBehaviour
 
     public Transform[] targetJourney;
 
-    bool playOnce;
+    public bool playOnce;
 
     void Start()
     {

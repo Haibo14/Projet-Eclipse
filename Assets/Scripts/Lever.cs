@@ -48,7 +48,7 @@ public class Lever : MonoBehaviour
                 _hookHeldP1 = false;
             }
 
-            if (Input.GetButton(hookingStringP2))
+            if (Input.GetButton(hookingStringP1))
             {
                 if (Time.timeSinceLevelLoad - _hookPressedTimeP1 > (_minimumHeldDuration * Time.deltaTime))
                 {

@@ -1,9 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
+using UnityEngine.Playables;
 
 public class CameraScript : MonoBehaviour
 {
+
+    public CinemachineVirtualCamera gameCam_0;
+    public CinemachineVirtualCamera gameCam_1;
+    public CinemachineVirtualCamera gameCam_2;
+
+    public Camera gameCam0;
 
     public GameObject fusedPlayer;
     GameObject player1;
@@ -24,9 +32,18 @@ public class CameraScript : MonoBehaviour
     public float x;
     public float cameraSmoothSpeed;
 
+    float distanceX;
+    float distanceY;
+    float distanceZ;
+    float totalDistance;
+    public float checkDistance;
+    public float checkDistanceCam;
+
     bool merged;
     bool p1Life;
     bool p2Life;
+
+    public bool cinematic;
 
     void Start()
     {
@@ -39,6 +56,42 @@ public class CameraScript : MonoBehaviour
 
     void Update()
     {
+
+        if (cinematic == false)
+        {
+            distanceX = player1.transform.position.x - player2.transform.position.x;
+            distanceY = player1.transform.position.y - player2.transform.position.y;
+            distanceZ = player1.transform.position.z - player2.transform.position.z;
+
+            totalDistance = (Mathf.Abs(distanceX) + Mathf.Abs(distanceZ));
+
+            if (totalDistance >= checkDistance)
+            {
+                gameCam0.enabled = false;
+                gameCam_0.enabled = false;
+                gameCam_1.enabled = true;
+                gameCam_2.enabled = true;
+            }
+            else
+            {
+                gameCam_0.enabled = true;
+                gameCam_1.enabled = false;
+                gameCam_2.enabled = false;
+
+                if (Vector3.Distance(gameCam0.transform.position, gameCam_0.transform.position) <= checkDistanceCam)
+                {
+
+                    gameCam0.enabled = true;
+                }
+            }
+        }
+        else
+        {
+            gameCam0.enabled = true;
+            gameCam_0.enabled = false;
+            gameCam_1.enabled = false;
+            gameCam_2.enabled = false;
+        }
 
         moveP1.x = Input.GetAxis("p1_Horizontal");
         moveP1.z = Input.GetAxis("p1_Vertical");
