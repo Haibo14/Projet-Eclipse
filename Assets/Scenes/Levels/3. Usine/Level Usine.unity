@@ -27442,6 +27442,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   respawnBoss: {fileID: 0}
+  didacticiel: {fileID: 0}
   Player1: {fileID: 1258240538}
   Player2: {fileID: 880740276}
   FusedPlayer: {fileID: 188582882}
