@@ -6,6 +6,8 @@ public class Respawn : MonoBehaviour
 {
     public RespawnBoss respawnBoss;
 
+    public DidacticielScript didacticiel;
+
     public GameObject Player1;
     public GameObject Player2;
     public GameObject FusedPlayer;
@@ -126,10 +128,27 @@ public class Respawn : MonoBehaviour
             }
         }
 
+        GameObject[] barricades = GameObject.FindGameObjectsWithTag("Breakable_Barricade");
+        foreach (GameObject barricade in barricades)
+        {
+            GameObject.Destroy(barricade);
+        }
+
+        GameObject[] barricadeInstantiators = GameObject.FindGameObjectsWithTag("BarricadeInstantiator");
+        foreach (GameObject instantiator in barricadeInstantiators)
+        {
+            GameObject barricade = Resources.Load("Prefabs/Proto-Props/Breakable_Barricade") as GameObject;
+            Instantiate(barricade, instantiator.transform.position, instantiator.transform.rotation);
+        }
 
         if (respawnBoss != null)
         {
             respawnBoss.Reset();
+        }
+
+        if(didacticiel != null)
+        {
+            didacticiel.didacticielStep = 0;
         }
     }
 

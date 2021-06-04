@@ -5,7 +5,7 @@ using UnityEditor;
 public class SelectByTag : MonoBehaviour
 {
 
-    private static string SelectedTag = "EnemySpawner";
+    private static string SelectedTag = "Breakable_Barricade";
 
     [MenuItem("Helpers/Select By Tag")]
     public static void SelectObjectsWithTag()

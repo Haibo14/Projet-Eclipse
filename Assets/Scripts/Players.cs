@@ -60,6 +60,7 @@ public class Players : MonoBehaviour
     public float raycastDistanceFuse;
     public float groundHeight;
 
+    float distanceMerge;
     float t1;
     float t2;
     float distanceX;
@@ -111,6 +112,7 @@ public class Players : MonoBehaviour
         allowFuse = true;
         changeState = true;
         adaptDistance = 0;
+        distanceMerge = 1;
 
         playerObject1 = player1.GetComponent<PlayerScript>();
         playerObject2 = player2.GetComponent<PlayerScript>();
@@ -312,7 +314,18 @@ public class Players : MonoBehaviour
 
         if (merged == false)
         {
-            this.transform.position = ((player1.transform.position + player2.transform.position) / 2) + new Vector3(0, 0.6f, 0);
+            if (respawnManager.GetComponent<Respawn>().player1Live == true && respawnManager.GetComponent<Respawn>().player2Live == true)
+            {
+                this.transform.position = ((player1.transform.position + player2.transform.position) / 2) + new Vector3(0, 0.6f, 0);
+            }
+            else if (respawnManager.GetComponent<Respawn>().player1Live == true && respawnManager.GetComponent<Respawn>().player2Live == false)
+            {
+                this.transform.position = player1.transform.position + new Vector3(0, 0.6f, 0);
+            }
+            else if (respawnManager.GetComponent<Respawn>().player2Live == true && respawnManager.GetComponent<Respawn>().player1Live == false)
+            {
+                this.transform.position = player2.transform.position + new Vector3(0, 0.6f, 0);
+            }
         }
 
         #endregion
@@ -363,6 +376,21 @@ public class Players : MonoBehaviour
 
                     changeState = false;
                 }
+            }
+            else if (Vector3.Distance(player1.transform.position, player2.transform.position) <= distanceMerge)
+            {
+                transform.GetChild(0).gameObject.SetActive(true);
+
+
+                fusing = false;
+                playerObject1.fusing = false;
+                playerObject2.fusing = false;
+
+                merged = true;
+                playerObject1.merged = true;
+                playerObject2.merged = true;
+
+                changeState = false;
             }
 
             /*
@@ -490,29 +518,35 @@ public class Players : MonoBehaviour
 
         #region detectedOrNot
 
-        foreach (GameObject enemy in enemies)
+        if (merged == true || fusing == true)
         {
-            float dist = Vector3.Distance(enemy.transform.position, transform.position);
 
-            if (dist <= radiusDetection)
+            enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+            foreach (GameObject enemy in enemies)
             {
-                Vector3 targetDir = transform.position - enemy.transform.position;
-                float angle = Vector3.Angle(targetDir, enemy.transform.forward);
+                float dist = Vector3.Distance(enemy.transform.position, transform.position);
 
-                if (angle <= angleDetection)
+                if (dist <= radiusDetection)
                 {
-                    RaycastHit checkHit;
-                    if (Physics.Raycast(enemy.transform.position, targetDir, out checkHit, dist, layerMask))
-                    {
+                    Vector3 targetDir = transform.position - enemy.transform.position;
+                    float angle = Vector3.Angle(targetDir, enemy.transform.forward);
 
-                    }
-                    else
+                    if (angle <= angleDetection)
                     {
-                        enemy.GetComponent<EnemyScript>().target = transform;
-                       // enemy.GetComponent<EnemyScript>().Spot();
+                        RaycastHit checkHit;
+                        if (Physics.Raycast(enemy.transform.position, targetDir, out checkHit, dist, layerMask))
+                        {
+
+                        }
+                        else
+                        {
+                            enemy.GetComponent<EnemyScript>().Spot(1, transform);
+                            // enemy.GetComponent<EnemyScript>().Spot();
+                        }
                     }
+
                 }
-
             }
         }
 

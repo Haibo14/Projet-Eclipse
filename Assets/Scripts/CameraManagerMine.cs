@@ -10,6 +10,7 @@ public class CameraManagerMine : MonoBehaviour
     public CinemachineVirtualCamera cinematicCam_1;
     public CinemachineVirtualCamera cinematicCam_2;
     public CinemachineVirtualCamera cinematicCam_3;
+    public CinemachineVirtualCamera cinematicCam_4;
 
     public PlayableDirector directorCam_1;
 
@@ -70,13 +71,13 @@ public class CameraManagerMine : MonoBehaviour
         }
         else if (i == 13)
         {
-            cinematicCam_3.enabled = false;
+            cinematicCam_4.enabled = cinematic;
 
             i += 1;
         }
         else if (i == 15)
         {
-            cinematicCam_3.enabled = false;
+            cinematicCam_4.enabled = false;
             i += 1;
         }
 

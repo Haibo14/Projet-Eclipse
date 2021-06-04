@@ -3759,7 +3759,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5676583830013629168, guid: aec677f7d849a4c4ea2a5c3e91ddfa80, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 167.7
+      value: 167
       objectReference: {fileID: 0}
     - target: {fileID: 5676583830013629168, guid: aec677f7d849a4c4ea2a5c3e91ddfa80, type: 3}
       propertyPath: m_LocalRotation.x
@@ -27441,6 +27441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68305ac5a00f63242a2848c38283f3ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  respawnBoss: {fileID: 0}
   Player1: {fileID: 1258240538}
   Player2: {fileID: 880740276}
   FusedPlayer: {fileID: 188582882}
