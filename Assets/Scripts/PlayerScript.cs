@@ -66,6 +66,7 @@ public class PlayerScript : MonoBehaviour
     public float carDrivingDistance;
     public float radiusDetection;
     public float angleDetection;
+    public float velocityAnimation;
     public double _decelerationTolerance;
 
     float angle;
@@ -131,6 +132,9 @@ public class PlayerScript : MonoBehaviour
 
         //move.x = -(oscMessage.xAxis_ / 6);
         //move.z = oscMessage.zAxis_ / 6;
+
+
+        velocityAnimation = Mathf.Abs(move.x) + Mathf.Abs(move.z);
 
         Debug.DrawRay(transform.position, childPlayer.transform.forward * 100, Color.red);
 

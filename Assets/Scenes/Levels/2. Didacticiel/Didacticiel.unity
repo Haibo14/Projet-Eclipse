@@ -2648,7 +2648,7 @@ MonoBehaviour:
   m_Lens:
     FieldOfView: 60
     OrthographicSize: 10
-    NearClipPlane: 0.1
+    NearClipPlane: 20
     FarClipPlane: 5000
     Dutch: 0
   m_ComponentOwner: {fileID: 1089857303}
@@ -2937,7 +2937,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.1
+  near clip plane: 20
   far clip plane: 5000
   field of view: 60
   orthographic: 0
@@ -3712,7 +3712,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.1
+  near clip plane: 20
   far clip plane: 5000
   field of view: 60
   orthographic: 0
@@ -4881,7 +4881,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.1
+  near clip plane: 20
   far clip plane: 5000
   field of view: 60
   orthographic: 0
@@ -14376,7 +14376,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9154520342810401170}
-  m_LocalRotation: {x: 0, y: -0.7933534, z: 0, w: 0.6087614}
+  m_LocalRotation: {x: 0, y: -0.38268343, z: 0, w: 0.92387956}
   m_LocalPosition: {x: 0, y: -7.5, z: 3}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children:
@@ -14395,7 +14395,7 @@ Transform:
   - {fileID: 1766050130}
   m_Father: {fileID: 0}
   m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: -105, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -45, z: 0}
 --- !u!1 &9154520342819545346
 GameObject:
   m_ObjectHideFlags: 0
