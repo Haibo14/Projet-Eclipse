@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class HoleScript : MonoBehaviour
 {
@@ -20,9 +21,7 @@ public class HoleScript : MonoBehaviour
     {
         if(other.tag == "Player1" || other.tag == "Player2" || other.tag == "FusedPlayer")
         {
-            Debug.Log("Niveau fini");
-
-            //Passer au niveau suivant
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 }

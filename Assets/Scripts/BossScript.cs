@@ -22,7 +22,7 @@ public class BossScript : MonoBehaviour
         rockPrefab = Resources.Load("Prefabs/Proto-Props/Rock") as GameObject;
         enemyBallPrefab = Resources.Load("Prefabs/Proto-Props/EnemyBall") as GameObject;
 
-        values = new int[]{ 0, 0, 0, 0, 0, 0, 1, 1, 1, 1};
+        values = new int[]{ 0, 0, 0, 0, 0, 0, 0, 1, 1, 1};
 
         playOnce = true;
     }

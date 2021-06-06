@@ -5,14 +5,23 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/Prototype_Level02.unity
-    guid: 44d56dcff9772df4eb55397dd293e235
-  - enabled: 0
-    path: Assets/Scenes/Prototype_Level01.unity
-    guid: a38ac4e89e1e5d44eb789f6e144d7582
+  - enabled: 1
+    path: Assets/Scenes/Menu/0. Menu.unity
+    guid: e0ab3d0dbd31f8a41ab033506cea51d2
+  - enabled: 1
+    path: "Assets/Scenes/Levels/1. Marche S\xE9par\xE9e/Marche.unity"
+    guid: a1b48b43e17580946bac7a8f542a8d0c
+  - enabled: 1
+    path: Assets/Scenes/Levels/2. Didacticiel/Didacticiel.unity
+    guid: d76fc7d935676d543be3563f56e7a342
   - enabled: 1
     path: Assets/Scenes/Levels/3. Usine/Level Usine.unity
     guid: 3e5ca30a16286e646b568de293174860
+  - enabled: 1
+    path: Assets/Scenes/Levels/4. Mine/Level Mine.unity
+    guid: 3754ad40a83b6464eb18ec631e26881c
+  - enabled: 1
+    path: Assets/Scenes/Levels/5. Boss/Level Boss.unity
+    guid: dff245b5c21e4b344a2313631b7f3b66
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 4e2493c9987f9a24faa73ffe113cd242, type: 2}

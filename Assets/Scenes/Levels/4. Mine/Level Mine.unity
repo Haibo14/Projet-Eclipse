@@ -19329,6 +19329,63 @@ Transform:
   m_Father: {fileID: 1883950461}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1568083951
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1568083954}
+  - component: {fileID: 1568083953}
+  - component: {fileID: 1568083952}
+  m_Layer: 30
+  m_Name: EndLevel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1568083952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1568083951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be3d7c2aa99204e4096f5a584d0a934f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &1568083953
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1568083951}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 20, y: 10, z: 20}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!4 &1568083954
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1568083951}
+  m_LocalRotation: {x: 0, y: 0.2588191, z: 0, w: 0.9659258}
+  m_LocalPosition: {x: 129.63, y: 199.51, z: 177.31}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 30, z: 0}
 --- !u!1 &1569249022
 GameObject:
   m_ObjectHideFlags: 0
@@ -35525,6 +35582,7 @@ MonoBehaviour:
   carDrivingDistance: 2
   radiusDetection: 30
   angleDetection: 75
+  velocityAnimation: 0
   _decelerationTolerance: 36
   playerID: 0
   fusing: 0
@@ -45356,6 +45414,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   respawnBoss: {fileID: 0}
+  didacticiel: {fileID: 0}
   Player1: {fileID: 952626885816549445}
   Player2: {fileID: 6366174227612830851}
   FusedPlayer: {fileID: 6220293575476596858}
@@ -52025,6 +52084,7 @@ MonoBehaviour:
   carDrivingDistance: 0
   radiusDetection: 30
   angleDetection: 75
+  velocityAnimation: 0
   _decelerationTolerance: 36
   playerID: 1
   fusing: 0

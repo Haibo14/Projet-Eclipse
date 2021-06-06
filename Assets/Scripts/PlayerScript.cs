@@ -419,6 +419,7 @@ public class PlayerScript : MonoBehaviour
                 }
 
                 childPlayer.SetActive(false);
+                transform.position = otherPlayer.transform.position;
             }
         }
 

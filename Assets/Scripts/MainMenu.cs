@@ -174,7 +174,7 @@ public class MainMenu : MonoBehaviour
                 {
                     if (Input.GetButton(submitString))
                     {
-                        Debug.Log("Ca lancera le jeu");
+                        SceneManager.LoadScene(1);
 
                         timer = 0;
                     }
@@ -240,7 +240,7 @@ public class MainMenu : MonoBehaviour
                 {
                     if (Input.GetButton(submitString))
                     {
-                        Debug.Log("Ca quittera le jeu");
+                        Application.Quit();
 
                         timer = 0;
                     }
