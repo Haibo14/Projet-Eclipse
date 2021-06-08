@@ -142,7 +142,7 @@ public class PlayerScript : MonoBehaviour
         if (move != Vector3.zero)
         {
             
-            if (splitting == false && fusing == false)
+            if (splitting == false && fusing == false && Time.timeScale != 0)
             {
                 angleRad = Mathf.Atan2(move.x, move.z);
                 angle = angleRad * Mathf.Rad2Deg;

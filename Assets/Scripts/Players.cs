@@ -433,12 +433,12 @@ public class Players : MonoBehaviour
             angleP1 = playerObject1.transform.GetChild(0).transform.eulerAngles.y;
             angleP2 = playerObject2.transform.GetChild(0).transform.eulerAngles.y;
 
-        if (moveP1 == Vector3.zero && moveP2 == Vector3.zero)
+        if (moveP1 == Vector3.zero && moveP2 == Vector3.zero && Time.timeScale != 0)
         {
                 transform.GetChild(0).transform.eulerAngles = transform.GetChild(0).transform.eulerAngles;
 
         }
-        else if (moveP1 != Vector3.zero && moveP2 != Vector3.zero)
+        else if (moveP1 != Vector3.zero && moveP2 != Vector3.zero && Time.timeScale != 0)
         {
 
 
@@ -447,7 +447,7 @@ public class Players : MonoBehaviour
             transform.GetChild(0).transform.eulerAngles = new Vector3(0, fpRotationAngle, 0);
 
         }
-        else if (moveP1 != Vector3.zero && moveP2 == Vector3.zero)
+        else if (moveP1 != Vector3.zero && moveP2 == Vector3.zero && Time.timeScale != 0)
         {
 
 
@@ -457,7 +457,7 @@ public class Players : MonoBehaviour
             transform.GetChild(0).transform.eulerAngles = new Vector3(0, fpRotationAngle, 0);
 
         }
-        else if (moveP1 == Vector3.zero && moveP2 != Vector3.zero)
+        else if (moveP1 == Vector3.zero && moveP2 != Vector3.zero && Time.timeScale != 0)
         {
 
 

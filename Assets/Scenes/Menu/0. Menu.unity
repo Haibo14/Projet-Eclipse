@@ -716,11 +716,11 @@ MonoBehaviour:
   transparency: 0.5
   timer: 0
   latency: 0.3
-  sliderSensitivity: 0.1
+  sliderSensitivity: 0.3
   moveX: p1_Horizontal
   moveY: p1_Vertical
-  submitString: p1_Jump
-  cancelString: p1_Hook
+  submitString: p1_Hook
+  cancelString: p1_Jump
 --- !u!1 &919338775
 GameObject:
   m_ObjectHideFlags: 0
@@ -1884,7 +1884,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: ECLYSPE ?
+  m_text: ECLISPE ?
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

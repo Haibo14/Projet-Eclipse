@@ -127,7 +127,7 @@ public class MainMenu : MonoBehaviour
         //move.x = -(oscMessage.xAxis_ );
         //move.y = oscMessage.zAxis_;
 
-        timer += Time.deltaTime;
+        timer += Time.unscaledDeltaTime;
 
         if (timer >= latency)
         {
@@ -280,7 +280,7 @@ public class MainMenu : MonoBehaviour
                     commands_Image.color = commands_baseColor;
                     back_Image.color = back_baseColor;
 
-                    audioSlider.GetComponent<Slider>().value += (move.x * sliderSensitivity);
+                    audioSlider.GetComponent<Slider>().value += (move.x * sliderSensitivity * Time.unscaledDeltaTime);
                 }
                 else if(selectedStateY == 1)
                 {
