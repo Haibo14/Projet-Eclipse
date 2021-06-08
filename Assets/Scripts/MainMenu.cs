@@ -124,8 +124,8 @@ public class MainMenu : MonoBehaviour
         move.x = Input.GetAxis(moveX);
         move.y = Input.GetAxis(moveY);
 
-        //move.x = -(oscMessage.xAxis_ );
-        //move.y = oscMessage.zAxis_;
+        move.x = -(oscMessage.xAxis_ );
+        move.y = oscMessage.zAxis_;
 
         timer += Time.unscaledDeltaTime;
 

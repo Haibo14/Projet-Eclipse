@@ -25,6 +25,7 @@ TagManager:
   - EnemySpawner
   - PilarInstantiator
   - BarricadeInstantiator
+  - BarricadeText
   layers:
   - Default
   - TransparentFX
