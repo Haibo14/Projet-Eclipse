@@ -20,6 +20,7 @@ public class MainMenu : MonoBehaviour
     public GameObject volume;
     public GameObject audioSlider;
     public GameObject commands;
+    public GameObject commandsImage;
 
     Image play_Image;
     Image eclypse_Image;
@@ -61,6 +62,9 @@ public class MainMenu : MonoBehaviour
     public float timer;
     public float latency;
     public float sliderSensitivity;
+    public float scrollSensitivity;
+
+    float transformEclipse;
 
     Vector2 move;
 
@@ -117,6 +121,8 @@ public class MainMenu : MonoBehaviour
         commands_baseColor = commands_Image.color;
         commands_chosenColor = commands_Image.color;
         commands_chosenColor.a = transparency;
+
+        transformEclipse = eclypse_Menu.transform.position.y;
     }
 
     private void Update()
@@ -124,8 +130,8 @@ public class MainMenu : MonoBehaviour
         move.x = Input.GetAxis(moveX);
         move.y = Input.GetAxis(moveY);
 
-        move.x = -(oscMessage.xAxis_ );
-        move.y = oscMessage.zAxis_;
+        //move.x = -(oscMessage.xAxis_ );
+        //move.y = oscMessage.zAxis_;
 
         timer += Time.unscaledDeltaTime;
 
@@ -201,6 +207,7 @@ public class MainMenu : MonoBehaviour
                         selectedStateY = 0;
 
                         timer = 0;
+
                     }
                 }
             }
@@ -262,6 +269,10 @@ public class MainMenu : MonoBehaviour
             {
                 back_Image.color = back_chosenColor;
 
+                transformEclipse += -move.y * Time.unscaledDeltaTime * scrollSensitivity;
+
+                eclypse_Menu.transform.position = new Vector3(eclypse.transform.position.x, transformEclipse, eclypse.transform.position.z);
+
                 if (timer >= latency)
                 {
                     if (Input.GetButton(submitString))
@@ -292,9 +303,17 @@ public class MainMenu : MonoBehaviour
                     {
                         if (Input.GetButton(submitString))
                         {
-                            Debug.Log("Montre les commandes");
+                            commandsImage.SetActive(true);
+                            options_Menu.SetActive(false);
+                            back.SetActive(false);
 
                             timer = 0;
+                        }
+                        else
+                        {
+                            commandsImage.SetActive(false);
+                            options_Menu.SetActive(true);
+                            back.SetActive(true);
                         }
                     }
                 }
