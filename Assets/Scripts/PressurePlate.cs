@@ -22,7 +22,7 @@ public class PressurePlate : MonoBehaviour
     {
         if (pressed == true)
         {
-            if (hoist.transform.eulerAngles.y >= 90 && hoist.transform.eulerAngles.y <= 269)
+            if (hoist.transform.eulerAngles.y >= 180 && hoist.transform.eulerAngles.y <= 359)
             {
                 multiplicator = 0;
             }
@@ -34,7 +34,7 @@ public class PressurePlate : MonoBehaviour
         }
         else if (pressed == false)
         {
-            if (hoist.transform.eulerAngles.y <= 270 && hoist.transform.eulerAngles.y >= 91)
+            if (hoist.transform.eulerAngles.y <= 360 && hoist.transform.eulerAngles.y >= 181)
             {
                 multiplicator = 0;
             }
