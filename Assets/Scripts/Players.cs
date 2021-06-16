@@ -145,10 +145,16 @@ public class Players : MonoBehaviour
         moveP1.x = Input.GetAxis("p1_Horizontal");
         moveP1.z = Input.GetAxis("p1_Vertical");
 
+        moveP1.x = (ReceivePosition.xAxis_p1 * 1.0f / 6);
+        moveP1.z = ReceivePosition.zAxis_p1 * 1.0f / 6;
+
         moveP2.x = Input.GetAxis("p2_Horizontal");
         moveP2.z = Input.GetAxis("p2_Vertical");
-        
-        if(moveP1 == Vector3.zero)
+
+        moveP2.x = (ReceivePosition.xAxis_p2 * 1.0f / 6);
+        moveP2.z = ReceivePosition.zAxis_p2 * 1.0f / 6;
+
+        if (moveP1 == Vector3.zero)
         {
 
             move.x = moveP2.x;
@@ -182,7 +188,7 @@ public class Players : MonoBehaviour
 
         
 
-        //switchState = ReceivePosition.switchState;
+        switchState = ReceivePosition.switchState;
 
         if (switchState == true || Input.GetButton("Fuse"))
         {
@@ -486,7 +492,7 @@ public class Players : MonoBehaviour
 
         #region split
 
-        if (/*switchState == false || */Input.GetButton("Split"))
+        if (switchState == false || Input.GetButton("Split"))
         {
             if (merged == true && splitting == false && changeState == false)
             {

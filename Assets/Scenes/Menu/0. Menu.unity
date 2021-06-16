@@ -533,7 +533,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &777659413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -547,9 +547,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   osc: {fileID: 777659414}
-  xAxis_: 0
-  zAxis_: 0
+  xAxis_p1: 0
+  zAxis_p1: 0
+  xAxis_p2: 0
+  zAxis_p2: 0
   switchState: 0
+  buttonJumpP1: 0
+  buttonJumpP2: 0
+  buttonInteractP1: 0
+  buttonInteractP2: 0
 --- !u!114 &777659414
 MonoBehaviour:
   m_ObjectHideFlags: 0

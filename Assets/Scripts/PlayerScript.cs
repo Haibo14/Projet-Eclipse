@@ -84,6 +84,8 @@ public class PlayerScript : MonoBehaviour
     public bool driven;
     public bool IsAlive = true;
     public bool firstTouch;
+    bool jump;
+    bool interact;
 
     private const float _minimumHeldDuration = 0.25f;
     private float _hookPressedTime = 0;
@@ -130,8 +132,23 @@ public class PlayerScript : MonoBehaviour
         move.x = Input.GetAxis(moveX);
         move.z = Input.GetAxis(moveZ);
 
-        //move.x = -(oscMessage.xAxis_ / 6);
-        //move.z = oscMessage.zAxis_ / 6;
+        if(playerID == 0)
+        {
+
+            move.x = (oscMessage.xAxis_p1 * 1.0f / 6);
+            move.z = oscMessage.zAxis_p1 * 1.0f / 6;
+            jump = oscMessage.buttonJumpP1;
+            interact = oscMessage.buttonInteractP1;
+        }
+        else if (playerID == 1)
+        {
+
+            move.x = (oscMessage.xAxis_p2 * 1.0f / 6);
+            move.z = oscMessage.zAxis_p2 * 1.0f / 6;
+            jump = oscMessage.buttonJumpP2;
+            interact = oscMessage.buttonInteractP2;
+        }
+
 
 
         velocityAnimation = Mathf.Abs(move.x) + Mathf.Abs(move.z);
@@ -150,7 +167,7 @@ public class PlayerScript : MonoBehaviour
             }
         }
 
-        if (Input.GetButton(hookingString))
+        if (Input.GetButton(hookingString) || interact == true)
         {
             hooking = true;
         }
@@ -223,7 +240,7 @@ public class PlayerScript : MonoBehaviour
             {
                 //Debug.Log("Appuie sur A pour te cacher dans le chariot");
 
-                if (Input.GetButton(hookingString))
+                if (Input.GetButton(hookingString) || interact == true)
                 {
                     drivingCar = hitInteract.collider.gameObject;
                     transform.position = hitInteract.collider.transform.position + new Vector3(0, 1, 0);
@@ -243,7 +260,7 @@ public class PlayerScript : MonoBehaviour
                 transform.position = drivingCar.transform.position;
                 move = Vector3.zero;
 
-                if (Input.GetButton(jumpString))
+                if (Input.GetButton(jumpString) || jump == true)
                 {
                     driven = false;
                 }
@@ -439,7 +456,7 @@ public class PlayerScript : MonoBehaviour
         #region jump
 
 
-        if (Input.GetButton(jumpString))
+        if (Input.GetButton(jumpString) || jump == true)
         {
             if (fusing == false)
             {

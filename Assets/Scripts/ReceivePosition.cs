@@ -34,16 +34,16 @@ public class ReceivePosition : MonoBehaviour {
         switchState_ = message.GetInt(0);
         xAxis_p1 = message.GetInt(1);
         zAxis_p1 = message.GetInt(2);
-        buttonJump_p1 = message.GetInt(3);
-        buttonInteract_p1 = message.GetInt(4);
+        buttonInteract_p1 = message.GetInt(3);
+        buttonJump_p1 = message.GetInt(4);
 
     }
     void ReadOSC2(OscMessage message)
     {
         xAxis_p2 = message.GetInt(0);
         zAxis_p2 = message.GetInt(1);
-        buttonJump_p2 = message.GetInt(2);
-        buttonInteract_p2 = message.GetInt(3);
+        buttonInteract_p2 = message.GetInt(2);
+        buttonJump_p2 = message.GetInt(3);
     }
     void Update()
     {

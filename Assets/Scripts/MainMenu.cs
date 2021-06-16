@@ -74,6 +74,9 @@ public class MainMenu : MonoBehaviour
     public string submitString;
     public string cancelString;
 
+    bool jumpButton;
+    bool interactButton;
+
     private void Start()
     {
         oscMessage = oscMaster.GetComponent<ReceivePosition>();
@@ -123,6 +126,9 @@ public class MainMenu : MonoBehaviour
         commands_chosenColor.a = transparency;
 
         transformEclipse = eclypse_Menu.transform.position.y;
+
+        jumpButton = false;
+        interactButton = false;
     }
 
     private void Update()
@@ -130,8 +136,11 @@ public class MainMenu : MonoBehaviour
         move.x = Input.GetAxis(moveX);
         move.y = Input.GetAxis(moveY);
 
-        //move.x = -(oscMessage.xAxis_ );
-        //move.y = oscMessage.zAxis_;
+        move.x = -(oscMessage.xAxis_p1);
+        move.y = oscMessage.zAxis_p1;
+
+        jumpButton = oscMaster.GetComponent<ReceivePosition>().buttonJumpP1;
+        interactButton = oscMaster.GetComponent<ReceivePosition>().buttonInteractP2;
 
         timer += Time.unscaledDeltaTime;
 
@@ -150,7 +159,7 @@ public class MainMenu : MonoBehaviour
                 timer = 0;
             }
 
-            if (Input.GetButton(cancelString))
+            if (Input.GetButton(cancelString) || interactButton == true)
             {
                 selectedStateZ--;
 
@@ -178,7 +187,7 @@ public class MainMenu : MonoBehaviour
 
                 if (timer >= latency)
                 {
-                    if (Input.GetButton(submitString))
+                    if (Input.GetButton(submitString) || jumpButton == true)
                     {
                         SceneManager.LoadScene(1);
 
@@ -195,7 +204,7 @@ public class MainMenu : MonoBehaviour
 
                 if (timer >= latency)
                 {
-                    if (Input.GetButton(submitString))
+                    if (Input.GetButton(submitString) || jumpButton == true)
                     {
                         selectedStateZ++;
 
@@ -220,7 +229,7 @@ public class MainMenu : MonoBehaviour
 
                 if (timer >= latency)
                 {
-                    if (Input.GetButton(submitString))
+                    if (Input.GetButton(submitString) || jumpButton == true)
                     {
                         selectedStateZ++;
 
@@ -245,7 +254,7 @@ public class MainMenu : MonoBehaviour
 
                 if (timer >= latency)
                 {
-                    if (Input.GetButton(submitString))
+                    if (Input.GetButton(submitString) || jumpButton == true)
                     {
                         Application.Quit();
 
@@ -275,7 +284,7 @@ public class MainMenu : MonoBehaviour
 
                 if (timer >= latency)
                 {
-                    if (Input.GetButton(submitString))
+                    if (Input.GetButton(submitString) || jumpButton == true)
                     {
                         selectedStateZ--;
 
@@ -301,7 +310,7 @@ public class MainMenu : MonoBehaviour
 
                     if (timer >= latency)
                     {
-                        if (Input.GetButton(submitString))
+                        if (Input.GetButton(submitString) || jumpButton == true)
                         {
                             commandsImage.SetActive(true);
                             options_Menu.SetActive(false);
@@ -325,7 +334,7 @@ public class MainMenu : MonoBehaviour
 
                     if (timer >= latency)
                     {
-                        if (Input.GetButton(submitString))
+                        if (Input.GetButton(submitString) || jumpButton == true)
                         {
                             selectedStateZ--;
 
