@@ -7,7 +7,8 @@ public class PilarInstantiator : MonoBehaviour
     public GameObject pilarPrefab;
     void Start()
     {
-        Instantiate(pilarPrefab, transform.position, Quaternion.identity);
+        GameObject pilar = Instantiate(pilarPrefab, transform.position, Quaternion.identity);
+        pilar.transform.Rotate(-90f, 0, 0);
     }
 
 
@@ -22,7 +23,8 @@ public class PilarInstantiator : MonoBehaviour
 
         if (transform.childCount == 0)
         {
-            Instantiate(pilarPrefab, transform.position, Quaternion.identity);
+            GameObject pilar = Instantiate(pilarPrefab, transform.position, Quaternion.identity);
+            pilar.transform.Rotate(-90f, 0, 0);
         }
 
     }

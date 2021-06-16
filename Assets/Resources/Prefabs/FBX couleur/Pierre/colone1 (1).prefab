@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 8899836496132478563}
   - component: {fileID: 5489124569166354886}
   - component: {fileID: 7766949036465548556}
+  - component: {fileID: 9133625799937747471}
   m_Layer: 0
   m_Name: colone1 (1)
-  m_TagString: Untagged
+  m_TagString: Pilar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8127100185952701657}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 2501.2644, y: 2386.461, z: -2485.6606}
   m_LocalScale: {x: 143.60051, y: 143.60051, z: 753.3506}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!33 &5489124569166354886
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -81,3 +82,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &9133625799937747471
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8127100185952701657}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.022322675
+  m_Height: 0.03314262
+  m_Direction: 2
+  m_Center: {x: 0.00008996284, y: 0.00018167564, z: -0.00072218163}
