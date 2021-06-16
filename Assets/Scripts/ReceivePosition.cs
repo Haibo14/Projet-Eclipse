@@ -7,10 +7,20 @@ public class ReceivePosition : MonoBehaviour {
     public OSC osc;
 
     int switchState_;
-    public int xAxis_;
-    public int zAxis_;
+    public int xAxis_p1;
+    public int zAxis_p1;
+    public int xAxis_p2;
+    public int zAxis_p2;
+    int buttonJump_p1;
+    int buttonJump_p2;
+    int buttonInteract_p1;
+    int buttonInteract_p2;
 
     public bool switchState;
+    public bool buttonJumpP1;
+    public bool buttonJumpP2;
+    public bool buttonInteractP1;
+    public bool buttonInteractP2;
 
     void Start(){
         osc.SetAddressHandler("/manette1", ReadOSC);
@@ -22,13 +32,18 @@ public class ReceivePosition : MonoBehaviour {
     void ReadOSC(OscMessage message)
     {
         switchState_ = message.GetInt(0);
-        xAxis_ = message.GetInt(1);
-        zAxis_ = message.GetInt(2);
+        xAxis_p1 = message.GetInt(1);
+        zAxis_p1 = message.GetInt(2);
+        buttonJump_p1 = message.GetInt(3);
+        buttonInteract_p1 = message.GetInt(4);
+
     }
     void ReadOSC2(OscMessage message)
     {
-        string hello = message.ToString();
-        print(hello);
+        xAxis_p2 = message.GetInt(0);
+        zAxis_p2 = message.GetInt(1);
+        buttonJump_p2 = message.GetInt(2);
+        buttonInteract_p2 = message.GetInt(3);
     }
     void Update()
     {
@@ -41,31 +56,42 @@ public class ReceivePosition : MonoBehaviour {
             switchState = false;
         }
 
-        Debug.Log("X : " + xAxis_ + "   & Z : " + zAxis_ + "        switchState is " + switchState);
+        if (buttonJump_p1 == 0)
+        {
+            buttonJumpP1 = true;
+        }
+        else
+        {
+            buttonJumpP1 = false;
+        }
+
+        if (buttonInteract_p1 == 0)
+        {
+            buttonInteractP1 = true;
+        }
+        else
+        {
+            buttonInteractP1 = false;
+        }
+        if (buttonJump_p2 == 0)
+        {
+            buttonJumpP2 = true;
+        }
+        else
+        {
+            buttonJumpP2 = false;
+        }
+
+        if (buttonInteract_p2 == 0)
+        {
+            buttonInteractP2 = true;
+        }
+        else
+        {
+            buttonInteractP2 = false;
+        }
+
+        Debug.Log("XP1 : " + xAxis_p1 + "   & ZP1 : " + zAxis_p1 + "        switchState is " + switchState + "      Bouton Jump : " + buttonJumpP1 + "        Bouton Interagir : " + buttonInteractP1);
+        Debug.Log("XP1 : " + xAxis_p2 + "   & ZP1 : " + zAxis_p2 + "        switchState is " + switchState + "      Bouton Jump : " + buttonJumpP2 + "        Bouton Interagir : " + buttonInteractP2);
     }
 }
-/*
-public class ReceivePosition : MonoBehaviour
-{
-    public OSC osc; 
-
-    public int xAxis_;
-    public int zAxis_;
-
-
-    void Start()
-    {
-        osc.SetAddressHandler("/test", JoystickAxis);
-
-    }
-
-    void JoystickAxis(OscMessage message)
-    {
-        xAxis_ = message.GetInt(0);
-        zAxis_ = message.GetInt(1);
-    }
-    void Update()
-    {
-        Debug.Log("X : " + xAxis_ + "   & Z : " + zAxis_);
-    }
-}*/
