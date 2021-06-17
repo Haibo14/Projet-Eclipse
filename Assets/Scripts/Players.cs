@@ -145,14 +145,20 @@ public class Players : MonoBehaviour
         moveP1.x = Input.GetAxis("p1_Horizontal");
         moveP1.z = Input.GetAxis("p1_Vertical");
 
-        moveP1.x = (ReceivePosition.xAxis_p1 * 1.0f / 6);
-        moveP1.z = ReceivePosition.zAxis_p1 * 1.0f / 6;
+        if (moveP1 == Vector3.zero)
+        {
+            moveP1.x = (ReceivePosition.xAxis_p1 * 1.0f / 6);
+            moveP1.z = ReceivePosition.zAxis_p1 * 1.0f / 6;
+        }
 
         moveP2.x = Input.GetAxis("p2_Horizontal");
         moveP2.z = Input.GetAxis("p2_Vertical");
 
-        moveP2.x = (ReceivePosition.xAxis_p2 * 1.0f / 6);
-        moveP2.z = ReceivePosition.zAxis_p2 * 1.0f / 6;
+        if (moveP2 == Vector3.zero)
+        {
+            moveP2.x = (ReceivePosition.xAxis_p2 * 1.0f / 6);
+            moveP2.z = ReceivePosition.zAxis_p2 * 1.0f / 6;
+        }
 
         if (moveP1 == Vector3.zero)
         {
@@ -184,13 +190,21 @@ public class Players : MonoBehaviour
 
         totalDistance = (Mathf.Abs(distanceX) + Mathf.Abs(distanceY) + Mathf.Abs(distanceZ));
 
-        
 
-        
+        if (ReceivePosition.enabled == false)
+        {
+            if (Input.GetButton("Fuse"))
+            {
+                switchState = true;
+            }
+        }
+        else
+        {
+            switchState = ReceivePosition.switchState;
+        }
 
-        switchState = ReceivePosition.switchState;
 
-        if (switchState == true || Input.GetButton("Fuse"))
+        if (switchState == true )
         {
             if (fusing == false && merged == false && playerObject1.driven == false && playerObject2.driven == false && playerObject1.IsAlive && playerObject2.IsAlive && changeState == true)
             {
@@ -491,8 +505,19 @@ public class Players : MonoBehaviour
 
 
         #region split
+        if (ReceivePosition.enabled == false) 
+        {
+            if (Input.GetButton("Split"))
+            {
+                switchState = false;
+            }
+        }
+        else
+        { 
+            switchState = ReceivePosition.switchState;
+        }
 
-        if (switchState == false || Input.GetButton("Split"))
+        if (switchState == false)
         {
             if (merged == true && splitting == false && changeState == false)
             {

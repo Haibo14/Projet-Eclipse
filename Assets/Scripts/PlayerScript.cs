@@ -132,22 +132,26 @@ public class PlayerScript : MonoBehaviour
         move.x = Input.GetAxis(moveX);
         move.z = Input.GetAxis(moveZ);
 
-        if(playerID == 0)
+        if (move == Vector3.zero)
         {
 
-            move.x = (oscMessage.xAxis_p1 * 1.0f / 6);
-            move.z = oscMessage.zAxis_p1 * 1.0f / 6;
-            jump = oscMessage.buttonJumpP1;
-            interact = oscMessage.buttonInteractP1;
-        }
-        else if (playerID == 1)
-        {
+            if (playerID == 0)
+            {
 
-            move.x = (oscMessage.xAxis_p2 * 1.0f / 6);
-            move.z = oscMessage.zAxis_p2 * 1.0f / 6;
-            jump = oscMessage.buttonJumpP2;
-            interact = oscMessage.buttonInteractP2;
-        }
+                move.x = (oscMessage.xAxis_p1 * 1.0f / 6);
+                move.z = oscMessage.zAxis_p1 * 1.0f / 6;
+                jump = oscMessage.buttonJumpP1;
+                interact = oscMessage.buttonInteractP1;
+            }
+            else if (playerID == 1)
+            {
+
+                move.x = (oscMessage.xAxis_p2 * 1.0f / 6);
+                move.z = oscMessage.zAxis_p2 * 1.0f / 6;
+                jump = oscMessage.buttonJumpP2;
+                interact = oscMessage.buttonInteractP2;
+            }
+        }   
 
 
 
@@ -260,9 +264,13 @@ public class PlayerScript : MonoBehaviour
                 transform.position = drivingCar.transform.position;
                 move = Vector3.zero;
 
+                gravity = Vector3.zero;
+
                 if (Input.GetButton(jumpString) || jump == true)
                 {
                     driven = false;
+
+                    gravity = Vector3.down * gravityValue;
                 }
             }
             else
@@ -410,7 +418,7 @@ public class PlayerScript : MonoBehaviour
         {
 
             if (IsAlive)
-            {
+            {   
                 childPlayer.SetActive(true);
                 /*
                 if (velocity != Vector3.zero)

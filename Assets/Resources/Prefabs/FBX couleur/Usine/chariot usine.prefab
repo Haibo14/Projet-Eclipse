@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7030473696693041496}
   - component: {fileID: 2537503479619866190}
   - component: {fileID: 6189758942530263862}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: petite roue 1.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,11 +25,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 709805011952981125}
-  m_LocalRotation: {x: 0.000000021855696, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.5114546, y: -0.71418804, z: -0.32876933}
+  m_LocalRotation: {x: 0.000000021855696, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.511444, y: -0.7141876, z: -0.32876587}
   m_LocalScale: {x: -2.807534, y: -2.807534, z: -56.84967}
   m_Children: []
-  m_Father: {fileID: 85208614636073930}
+  m_Father: {fileID: 4069089229796786183}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2537503479619866190
@@ -90,9 +90,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 85208614636073930}
-  m_Layer: 0
+  - component: {fileID: -1471810796177597834}
+  - component: {fileID: 1174380158507643405}
+  m_Layer: 29
   m_Name: chariot usine
-  m_TagString: Untagged
+  m_TagString: HideCar
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108,20 +110,44 @@ Transform:
   m_LocalPosition: {x: 363.76352, y: 232.71667, z: -170.50038}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 6725124592396143103}
-  - {fileID: 6366129740558937128}
-  - {fileID: 4904644462945068683}
-  - {fileID: 1310968233884479542}
-  - {fileID: 7030473696693041496}
-  - {fileID: 8141709170934951963}
-  - {fileID: 1021869203906451892}
-  - {fileID: 4498142560728582689}
-  - {fileID: 7930055894401886320}
-  - {fileID: 3713994476187192491}
-  - {fileID: 8925977869587783080}
+  - {fileID: 4069089229796786183}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-1471810796177597834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 749119691961657712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f5df23851646b746997e104f197be0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wayPointObjectList: []
+  wayPointList: []
+  currentWayPoint: 0
+  fpPlayer: {fileID: 0}
+  players: {fileID: 0}
+  move: {x: 0, y: 0, z: 0}
+  speed: 4
+  tagRail: Waypoint
+  driving: 0
+--- !u!65 &1174380158507643405
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 749119691961657712}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1279445506084207617
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,7 +159,7 @@ GameObject:
   - component: {fileID: 4904644462945068683}
   - component: {fileID: 7266801114883022811}
   - component: {fileID: 5919039312911763926}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: petite roue 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -147,11 +173,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1279445506084207617}
-  m_LocalRotation: {x: 0.000000021855696, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.5114546, y: -0.71418804, z: 0.32552806}
+  m_LocalRotation: {x: 0.000000021855696, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2.511444, y: -0.7141876, z: 0.325531}
   m_LocalScale: {x: -2.807534, y: -2.807534, z: -56.84967}
   m_Children: []
-  m_Father: {fileID: 85208614636073930}
+  m_Father: {fileID: 4069089229796786183}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7266801114883022811
@@ -214,7 +240,7 @@ GameObject:
   - component: {fileID: 6725124592396143103}
   - component: {fileID: 8428809777080918435}
   - component: {fileID: 8097461360760379745}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: barre qui tient les gros rouages
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -228,11 +254,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1662282525602445807}
-  m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.2751073, y: -0.3215941, z: 0}
+  m_LocalRotation: {x: 0.000000021855694, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.275116, y: -0.32159424, z: 0}
   m_LocalScale: {x: -27.689112, y: -27.689112, z: -226.71547}
   m_Children: []
-  m_Father: {fileID: 85208614636073930}
+  m_Father: {fileID: 4069089229796786183}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8428809777080918435
@@ -284,6 +310,47 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &2637473130008643819
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4069089229796786183}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4069089229796786183
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2637473130008643819}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 6725124592396143103}
+  - {fileID: 6366129740558937128}
+  - {fileID: 4904644462945068683}
+  - {fileID: 1310968233884479542}
+  - {fileID: 7030473696693041496}
+  - {fileID: 8141709170934951963}
+  - {fileID: 1021869203906451892}
+  - {fileID: 4498142560728582689}
+  - {fileID: 7930055894401886320}
+  - {fileID: 3713994476187192491}
+  - {fileID: 8925977869587783080}
+  m_Father: {fileID: 85208614636073930}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &3344872058851226342
 GameObject:
   m_ObjectHideFlags: 0
@@ -295,7 +362,7 @@ GameObject:
   - component: {fileID: 4498142560728582689}
   - component: {fileID: 8735429954797479623}
   - component: {fileID: 2519593508072038167}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: planche support chariot 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -309,11 +376,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3344872058851226342}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0.18444061, y: 0.0069777966, z: -0.0011835628}
-  m_LocalScale: {x: 174.37476, y: 135.47595, z: 10.811977}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: 0.18444824, y: 0.0069732666, z: -0.0011901855}
+  m_LocalScale: {x: 174.37476, y: 135.47594, z: 10.811976}
   m_Children: []
-  m_Father: {fileID: 85208614636073930}
+  m_Father: {fileID: 4069089229796786183}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8735429954797479623
@@ -376,7 +443,7 @@ GameObject:
   - component: {fileID: 7930055894401886320}
   - component: {fileID: 1705633540412563086}
   - component: {fileID: 7472218920721049758}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: planche support chariot.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -390,11 +457,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5902612444353116746}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0.18444061, y: -0.7432003, z: -0.0016318577}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: 0.18444824, y: -0.7431946, z: -0.0016326904}
   m_LocalScale: {x: 248.74275, y: 12.838398, z: 7.353071}
   m_Children: []
-  m_Father: {fileID: 85208614636073930}
+  m_Father: {fileID: 4069089229796786183}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1705633540412563086
@@ -457,7 +524,7 @@ GameObject:
   - component: {fileID: 3713994476187192491}
   - component: {fileID: 7151627649950839278}
   - component: {fileID: 3063995287672163732}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: roue droit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -471,11 +538,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6409563698235557888}
-  m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.2764707, y: -0.31373572, z: 1.7882818}
+  m_LocalRotation: {x: 0.000000021855694, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.2764587, y: -0.31373596, z: 1.7882843}
   m_LocalScale: {x: -6.1520543, y: -6.1520543, z: -121.1676}
   m_Children: []
-  m_Father: {fileID: 85208614636073930}
+  m_Father: {fileID: 4069089229796786183}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7151627649950839278
@@ -538,7 +605,7 @@ GameObject:
   - component: {fileID: 6366129740558937128}
   - component: {fileID: 8887548518403888018}
   - component: {fileID: 346763309992704547}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: conteneur
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -552,11 +619,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6478256402229984487}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0.18444061, y: 0.18819927, z: -0.0011835628}
-  m_LocalScale: {x: 163.37924, y: 120.68572, z: 11.376297}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: 0.18444824, y: 0.1882019, z: -0.0011901855}
+  m_LocalScale: {x: 163.37924, y: 120.68572, z: 11.376296}
   m_Children: []
-  m_Father: {fileID: 85208614636073930}
+  m_Father: {fileID: 4069089229796786183}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8887548518403888018
@@ -620,7 +687,7 @@ GameObject:
   - component: {fileID: 1310968233884479542}
   - component: {fileID: 3555994510868195158}
   - component: {fileID: 529369610442147593}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: petite roue 1.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -634,11 +701,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7552650090238259606}
-  m_LocalRotation: {x: 0.000000021855696, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.0534616, y: -0.71418804, z: -0.32876933}
+  m_LocalRotation: {x: 0.000000021855696, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.0534668, y: -0.7141876, z: -0.32876587}
   m_LocalScale: {x: -2.807534, y: -2.807534, z: -56.84967}
   m_Children: []
-  m_Father: {fileID: 85208614636073930}
+  m_Father: {fileID: 4069089229796786183}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3555994510868195158
@@ -701,7 +768,7 @@ GameObject:
   - component: {fileID: 8141709170934951963}
   - component: {fileID: 7915236303535607339}
   - component: {fileID: 9116023130111862958}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: petite roue 1.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -715,11 +782,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8112031398703401385}
-  m_LocalRotation: {x: 0.000000021855696, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.0534616, y: -0.71418804, z: 0.32552806}
+  m_LocalRotation: {x: 0.000000021855696, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.0534668, y: -0.7141876, z: 0.325531}
   m_LocalScale: {x: -2.807534, y: -2.807534, z: -56.84967}
   m_Children: []
-  m_Father: {fileID: 85208614636073930}
+  m_Father: {fileID: 4069089229796786183}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7915236303535607339
@@ -782,7 +849,7 @@ GameObject:
   - component: {fileID: 8925977869587783080}
   - component: {fileID: 7724708445361848093}
   - component: {fileID: 5747420418140839232}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: roue gauche
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -796,11 +863,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8454840620070448850}
-  m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.2764707, y: -0.31373572, z: -1.8244123}
+  m_LocalRotation: {x: 0.000000021855694, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.2764587, y: -0.31373596, z: -1.8244171}
   m_LocalScale: {x: -6.1520543, y: -6.1520543, z: -121.1676}
   m_Children: []
-  m_Father: {fileID: 85208614636073930}
+  m_Father: {fileID: 4069089229796786183}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7724708445361848093
@@ -863,7 +930,7 @@ GameObject:
   - component: {fileID: 1021869203906451892}
   - component: {fileID: 3116535041558629194}
   - component: {fileID: 4100447854356449952}
-  m_Layer: 0
+  m_Layer: 29
   m_Name: planche chariot roue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -877,11 +944,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9217051285859979172}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0.18444061, y: -0.32896826, z: -0.0011835628}
-  m_LocalScale: {x: 194.57317, y: 145.75578, z: 24.20692}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: 0.18444824, y: -0.32896423, z: -0.0011901855}
+  m_LocalScale: {x: 194.57317, y: 145.75577, z: 24.20692}
   m_Children: []
-  m_Father: {fileID: 85208614636073930}
+  m_Father: {fileID: 4069089229796786183}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3116535041558629194
