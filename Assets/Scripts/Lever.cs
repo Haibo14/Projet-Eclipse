@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Lever : MonoBehaviour
 {
+    public GameObject oscObject;
+    public ReceivePosition osc;
     public GameObject platform;
 
     //public Transform leversManager;
@@ -17,17 +19,26 @@ public class Lever : MonoBehaviour
     private bool _hookHeldP1 = false;
     private bool _hookHeldP2 = false;
 
+    bool interactP1;
+    bool interactP2;
+
     bool playOnce;
 
     void Start()
     {
         playOnce = true;
+        osc = oscObject.GetComponent<ReceivePosition>();
+        interactP1 = false;
+        interactP2 = false;
     }
 
     void Update()
     {
-       
-
+        if (osc.enabled == true)
+        {
+            interactP1 = osc.buttonInteractP1;
+            interactP2 = osc.buttonInteractP2;
+        }
     }
 
     void OnTriggerStay(Collider other)
@@ -39,7 +50,7 @@ public class Lever : MonoBehaviour
                 _hookPressedTimeP1 = Time.timeSinceLevelLoad;
                 _hookHeldP1 = false;
             }
-            else if (Input.GetButtonUp(hookingStringP1))
+            else if (Input.GetButtonUp(hookingStringP1) || interactP1)
             {
                 if (!_hookHeldP1)
                 {
@@ -48,21 +59,21 @@ public class Lever : MonoBehaviour
                 _hookHeldP1 = false;
             }
 
-            if (Input.GetButton(hookingStringP2))
+            if (Input.GetButton(hookingStringP1) || interactP1)
             {
-                if (Time.timeSinceLevelLoad - _hookPressedTimeP2 > (_minimumHeldDuration * Time.deltaTime))
+                if (Time.timeSinceLevelLoad - _hookPressedTimeP1 > (_minimumHeldDuration * Time.deltaTime))
                 {
                     _hookHeldP1 = true;
 
                 }
             }
 
-            if (Input.GetButtonDown(hookingStringP2))
+            if (Input.GetButtonDown(hookingStringP2) || interactP2)
             {
                 _hookPressedTimeP2 = Time.timeSinceLevelLoad;
                 _hookHeldP1 = false;
             }
-            else if (Input.GetButtonUp(hookingStringP2))
+            else if (Input.GetButtonUp(hookingStringP2) || interactP2)
             {
                 if (!_hookHeldP2)
                 {
@@ -71,7 +82,7 @@ public class Lever : MonoBehaviour
                 _hookHeldP2 = false;
             }
 
-            if (Input.GetButton(hookingStringP2))
+            if (Input.GetButton(hookingStringP2) || interactP2)
             {
                 if (Time.timeSinceLevelLoad - _hookPressedTimeP2 > _minimumHeldDuration)
                 {
