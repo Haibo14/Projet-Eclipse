@@ -276,6 +276,8 @@ public class PlayerScript : MonoBehaviour
             else
             {
                 driven = false;
+
+                gravity = Vector3.down * gravityValue;
             }
 
         }

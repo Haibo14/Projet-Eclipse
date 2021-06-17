@@ -137,7 +137,7 @@ public class Respawn : MonoBehaviour
         GameObject[] barricadeInstantiators = GameObject.FindGameObjectsWithTag("BarricadeInstantiator");
         foreach (GameObject instantiator in barricadeInstantiators)
         {
-            GameObject barricade = Resources.Load("Prefabs/Proto-Props/Breakable_Barricade") as GameObject;
+            GameObject barricade = Resources.Load("Prefabs/FBX couleur/Mine/Breakable_Barricade") as GameObject;
             Instantiate(barricade, instantiator.transform.position, instantiator.transform.rotation);
         }
 
