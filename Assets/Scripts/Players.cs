@@ -6,6 +6,8 @@ public class Players : MonoBehaviour
 {
     #region variables
 
+    public Animator animator;
+
     public GameObject player1;
     public GameObject player2;
     public GameObject respawnManager;
@@ -80,7 +82,7 @@ public class Players : MonoBehaviour
     float angleRadFP;
     public float radiusDetection;
     public float angleDetection;
-
+    public float velocityAnimation;
     public double _decelerationTolerance;
 
     LayerMask layerMask;
@@ -175,10 +177,13 @@ public class Players : MonoBehaviour
         else
         {
 
-            move.x = (moveP1.x + moveP2.x)/2;
-            move.z = (moveP1.z + moveP2.z)/2;
+            move.x = (moveP1.x + moveP2.x)/1.5f;
+            move.z = (moveP1.z + moveP2.z)/1.5f;
         }
 
+        velocityAnimation = Mathf.Abs(move.x) + Mathf.Abs(move.z);
+
+        animator.SetFloat("velocityFP", velocityAnimation);
 
         player1MemoryPosition = player1.transform.position;
         player2MemoryPosition = player2.transform.position;
@@ -496,10 +501,12 @@ public class Players : MonoBehaviour
         {
 
             transform.Translate(transform.up * jumpCurve.Evaluate(tFP) * power * Time.deltaTime, Space.World);
+            animator.SetBool("jump", fpJumping);
 
             if (tFP >= 1)
             {
                 fpJumping = false;
+                animator.SetBool("jump", fpJumping);
             }
         }
 

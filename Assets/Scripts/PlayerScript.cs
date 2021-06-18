@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
-{
+{   
+    public Animator animator;
+
     public GameObject fpPlayer;    
     public GameObject otherPlayer;
     public GameObject OscMaster;
@@ -84,8 +86,9 @@ public class PlayerScript : MonoBehaviour
     public bool driven;
     public bool IsAlive = true;
     public bool firstTouch;
-    bool jump;
+    public bool jump;
     bool interact;
+    
 
     private const float _minimumHeldDuration = 0.25f;
     private float _hookPressedTime = 0;
@@ -110,7 +113,7 @@ public class PlayerScript : MonoBehaviour
         Debug.Log(childPlayer);
 
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        
+
 
         gravity = Vector3.down * gravityValue;
 
@@ -157,7 +160,16 @@ public class PlayerScript : MonoBehaviour
 
         velocityAnimation = Mathf.Abs(move.x) + Mathf.Abs(move.z);
 
-        Debug.DrawRay(transform.position, childPlayer.transform.forward * 100, Color.red);
+        if (playerID == 0)
+        {
+            animator.SetFloat("velocityP1", velocityAnimation);
+        }
+        else if (playerID == 1)
+        {
+            animator.SetFloat("velocityP2", velocityAnimation);
+        }
+
+            Debug.DrawRay(transform.position, childPlayer.transform.forward * 100, Color.red);
 
 
         if (move != Vector3.zero)
@@ -497,11 +509,13 @@ public class PlayerScript : MonoBehaviour
 
         if (jumping == true)
         {
+            animator.SetBool("jump", jumping);
             transform.Translate(transform.up * jumpCurve.Evaluate(tJump) * power * Time.deltaTime, Space.World);
             
             if (tJump >= 1)
             {
                 jumping = false;
+                animator.SetBool("jump", jumping);
             }
         }
 
