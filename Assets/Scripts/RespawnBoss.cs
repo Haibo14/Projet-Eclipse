@@ -5,6 +5,7 @@ using UnityEngine;
 public class RespawnBoss : MonoBehaviour
 {
     public GameObject respawnManager;
+    public GameObject boss;
 
     public Respawn respawn;
 
@@ -25,5 +26,7 @@ public class RespawnBoss : MonoBehaviour
         {
                 pilar.GetComponent<PilarInstantiator>().Reset();
         }
+
+        boss.GetComponent<BossScript>().rageCount = 0;
     }
 }

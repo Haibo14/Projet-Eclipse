@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class FakeRock : MonoBehaviour
 {
+    Animator animator;
+
+    public rockThrow animatorScript;
+
     public GameObject enemy;
 
     GameObject boss;
     GameObject target;
     GameObject lastEnemy;
-    
+    GameObject sbirePlace;
+
     private int[] values;
 
     Vector3 dir;
@@ -32,10 +37,18 @@ public class FakeRock : MonoBehaviour
     float dist;
     float h;
 
+    bool throwBool;
+    bool playOnce;
 
     void Start()
     {
         boss = GameObject.FindGameObjectWithTag("Boss");
+
+        sbirePlace = GameObject.FindGameObjectWithTag("sbirePlace");
+
+        animator = boss.GetComponent<Animator>();
+
+        animatorScript = animator.GetBehaviour<rockThrow>();
 
         values = new int[] { 0, 1 };
 
@@ -51,42 +64,92 @@ public class FakeRock : MonoBehaviour
             target = GameObject.FindGameObjectWithTag("Player2_Script");
         }
 
-        dist = Vector3.Distance(boss.transform.position, target.transform.position);
+
+        playOnce = true;
+        throwBool = false;
+    }
+
+    void Update()
+    {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("sbireThrow") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.4f && playOnce == true)
+        {
+            Throw();
+            transform.parent = null;
+            playOnce = false;
+
+        }
+
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("sbireGround") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.7f && playOnce == true)
+        {
+            Drop();
+            transform.parent = null;
+            playOnce = false;
+
+        }
+
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("sbireThrow rage") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.4f && playOnce == true)
+        {
+            Throw();
+            transform.parent = null;
+            playOnce = false;
+
+        }
+
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("sbireGround rage") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.7f && playOnce == true)
+        {
+            Drop();
+            transform.parent = null;
+            playOnce = false;
+
+        }
+        if (throwBool == true)
+        {
+            Debug.DrawRay(boss.transform.position, dir * 200, Color.red);
+
+            t += Time.deltaTime;
+
+            x = x_0 + (v_x0 * t) * Mathf.Sin(b);
+
+            y = y_0 - (t * h) + (v_y0 * t) - ((g * t * t) / 2);
+
+            z = z_0 + (v_z0 * t) * Mathf.Cos(a);
+
+            transform.position = new Vector3(z, y, x);
+        }
+    }
+
+    public void Throw()
+    {
+        dist = Vector3.Distance(sbirePlace.transform.position, target.transform.position);
 
         float v_0carré = dist * g * (1 / Mathf.Sin(2 * a));
 
         v_0 = Mathf.Sqrt(Mathf.Abs(v_0carré));
 
-        dir = new Vector3((target.transform.position.x - boss.transform.position.x), 0.0f, (target.transform.position.z - boss.transform.position.z)).normalized;
+        dir = new Vector3((target.transform.position.x - sbirePlace.transform.position.x), 0.0f, (target.transform.position.z - sbirePlace.transform.position.z)).normalized;
 
-        b = (Vector3.Angle(boss.transform.right, dir)) * Mathf.Deg2Rad;
+        b = (Vector3.Angle(sbirePlace.transform.right, dir)) * Mathf.Deg2Rad;
 
         v_x0 = v_0 * Mathf.Cos(a);
         v_y0 = v_0 * Mathf.Sin(a);
         v_z0 = v_0 * Mathf.Cos(b);
 
-        h = boss.transform.position.y - target.transform.position.y;
+        h = sbirePlace.transform.position.y - target.transform.position.y;
 
         x_0 = transform.position.z;
         y_0 = transform.position.y;
         z_0 = transform.position.x;
+
+        throwBool = true;
     }
 
-    void Update()
+    public void Drop()
     {
-
-        Debug.DrawRay(boss.transform.position, dir * 200, Color.red);
-
-        t += Time.deltaTime;
-
-        x = x_0 + (v_x0 * t) * Mathf.Sin(b);
-
-        y = y_0 + (v_y0 * t) - ((g * t * t) / 2);
-
-        z = z_0 + (v_z0 * t) * Mathf.Cos(a);
-
-        transform.position = new Vector3(z, y, x);
+        lastEnemy = Instantiate(enemy, transform.position + new Vector3(0, 2, -10), Quaternion.identity);
+        lastEnemy.transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
+        Destroy(gameObject);
     }
+
 
     void OnTriggerEnter(Collider other)
     {

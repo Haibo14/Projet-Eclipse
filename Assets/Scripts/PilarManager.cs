@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PilarManager : MonoBehaviour
 {
+    public Animator animator;
+
     GameObject[] pilarList;
     void Start()
     {
@@ -17,7 +19,7 @@ public class PilarManager : MonoBehaviour
 
         if(pilarList.Length == 1)
         {
-            Debug.Log("Level is over");
+            animator.SetBool("death", true);
         }
     }
 }
