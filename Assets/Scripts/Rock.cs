@@ -13,6 +13,7 @@ public class Rock : MonoBehaviour
     GameObject boss;
     GameObject target;
     GameObject rockPlace;
+    public GameObject colonneFractured;
 
     private int[] values;
 
@@ -81,7 +82,7 @@ public class Rock : MonoBehaviour
             
         }
 
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("rock rage") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.6f && playOnce == true)
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("rock rage   ") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.6f && playOnce == true)
         {
             Throw();
             transform.parent = null;
@@ -147,6 +148,8 @@ public class Rock : MonoBehaviour
         else if (other.tag == "Pilar")
         {
             Debug.Log("Pilar");
+            GameObject colonne = Instantiate(colonneFractured, other.transform.position, Quaternion.identity);
+            colonne.transform.Rotate(-90f, 0, 0);
             Destroy(other.gameObject);
         }
         else if (other.tag == "Ground")
