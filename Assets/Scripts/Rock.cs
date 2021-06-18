@@ -76,8 +76,17 @@ public class Rock : MonoBehaviour
         if(animator.GetCurrentAnimatorStateInfo(0).IsName("rock") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.6f && playOnce == true)
         {
             Throw();
+            transform.parent = null;
             playOnce = false;
             
+        }
+
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("rock rage") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.6f && playOnce == true)
+        {
+            Throw();
+            transform.parent = null;
+            playOnce = false;
+
         }
 
         if (throwBool == true)
@@ -89,7 +98,7 @@ public class Rock : MonoBehaviour
 
             x = x_0 + (v_x0 * t) * Mathf.Sin(b);
 
-            y = y_0 + (v_y0 * t) - ((g * t * t) / 2);
+            y = y_0 - (t * h) + (v_y0 * t) - ((g * t * t) / 2);
 
             z = z_0 + (v_z0 * t) * Mathf.Cos(a);
 
@@ -101,7 +110,7 @@ public class Rock : MonoBehaviour
     public void Throw()
     {
 
-        dist = Vector3.Distance(boss.transform.position, target.transform.position);
+        dist = Vector3.Distance(rockPlace.transform.position, target.transform.position);
 
 
 
@@ -110,9 +119,11 @@ public class Rock : MonoBehaviour
 
         v_0 = Mathf.Sqrt(Mathf.Abs(v_0carré));
 
-        dir = new Vector3((target.transform.position.x - boss.transform.position.x), 0.0f, (target.transform.position.z - boss.transform.position.z)).normalized;
+        dir = new Vector3((target.transform.position.x - rockPlace.transform.position.x), 0.0f, (target.transform.position.z - rockPlace.transform.position.z)).normalized;
 
-        b = (Vector3.Angle(boss.transform.right, dir)) * Mathf.Deg2Rad;
+        Vector3 rockPlacePosition = rockPlace.transform.position;
+
+        b = (Vector3.Angle(rockPlace.transform.right, dir)) * Mathf.Deg2Rad;
 
         v_x0 = v_0 * Mathf.Cos(a);
         v_y0 = v_0 * Mathf.Sin(a);

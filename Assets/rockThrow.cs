@@ -24,6 +24,8 @@ public class rockThrow : StateMachineBehaviour
     {
         rockThrowed = false;
         animator.SetBool("rock", false);
+        animator.SetBool("sbireThrow", false);
+        animator.SetBool("sbireGround", false);
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
