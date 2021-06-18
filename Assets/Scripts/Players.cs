@@ -99,6 +99,7 @@ public class Players : MonoBehaviour
     public bool fpJumping;
     public bool allowFuse;
     public bool changeState;
+    public bool fusionEntry;
 
     public bool IsAlive = true;
 
@@ -136,7 +137,7 @@ public class Players : MonoBehaviour
 
         transform.GetChild(0).gameObject.SetActive(false);
 
-
+        fusionEntry = true;
     }
 
     #endregion
@@ -390,6 +391,11 @@ public class Players : MonoBehaviour
                 {
                     transform.GetChild(0).gameObject.SetActive(true);
 
+                    if (fusionEntry == true)
+                    {
+                        animator.SetBool("justMerged", true);
+                        fusionEntry = false;
+                    }
 
                     fusing = false;
                     playerObject1.fusing = false;
@@ -406,6 +412,11 @@ public class Players : MonoBehaviour
             {
                 transform.GetChild(0).gameObject.SetActive(true);
 
+                if (fusionEntry == true)
+                {
+                    animator.SetBool("justMerged", true);
+                    fusionEntry = false;
+                }
 
                 fusing = false;
                 playerObject1.fusing = false;
@@ -531,6 +542,7 @@ public class Players : MonoBehaviour
                 changeState = true;
 
                 transform.GetChild(0).gameObject.SetActive(false);
+                fusionEntry = true;
 
                 fusing = false;
 
