@@ -5,9 +5,14 @@ using UnityEngine;
 
 public class Rock : MonoBehaviour
 {
+    Animator animator;
+
+    public rockThrow animatorScript;
+
     GameObject respawnManager;
     GameObject boss;
     GameObject target;
+    GameObject rockPlace;
 
     private int[] values;
 
@@ -30,18 +35,27 @@ public class Rock : MonoBehaviour
     float v_z0;
     float dist;
     float h;
+
+    bool throwBool;
+    bool playOnce;
     
 
     void Start()
     {
+
         respawnManager = GameObject.FindGameObjectWithTag("RespawnManager");
         boss = GameObject.FindGameObjectWithTag("Boss");
+        rockPlace = GameObject.FindGameObjectWithTag("RockPlace");
+
+        animator = boss.GetComponent<Animator>();
+
+        animatorScript = animator.GetBehaviour<rockThrow>();
 
         values = new int[] { 0, 1 };
 
         int value = values[Random.Range(0, values.Length)];
 
-        if(value == 0)
+        if (value == 0)
         {
             target = GameObject.FindGameObjectWithTag("Player1_Script");
         }
@@ -51,6 +65,41 @@ public class Rock : MonoBehaviour
             target = GameObject.FindGameObjectWithTag("Player2_Script");
         }
 
+        playOnce = true;
+        throwBool = false;
+
+    }
+
+    void Update()
+    {
+
+        if(animator.GetCurrentAnimatorStateInfo(0).IsName("rock") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.6f && playOnce == true)
+        {
+            Throw();
+            playOnce = false;
+            
+        }
+
+        if (throwBool == true)
+        {
+
+            Debug.DrawRay(boss.transform.position, dir * 200, Color.red);
+
+            t += Time.deltaTime;
+
+            x = x_0 + (v_x0 * t) * Mathf.Sin(b);
+
+            y = y_0 + (v_y0 * t) - ((g * t * t) / 2);
+
+            z = z_0 + (v_z0 * t) * Mathf.Cos(a);
+
+            transform.position = new Vector3(z, y, x);
+        }
+    }
+
+
+    public void Throw()
+    {
 
         dist = Vector3.Distance(boss.transform.position, target.transform.position);
 
@@ -69,27 +118,13 @@ public class Rock : MonoBehaviour
         v_y0 = v_0 * Mathf.Sin(a);
         v_z0 = v_0 * Mathf.Cos(b);
 
-        h = boss.transform.position.y - target.transform.position.y;
+        h = rockPlace.transform.position.y - target.transform.position.y;
 
         x_0 = transform.position.z;
         y_0 = transform.position.y;
         z_0 = transform.position.x;
-    }
 
-    void Update()
-    {
-
-        Debug.DrawRay(boss.transform.position, dir * 200, Color.red);
-
-        t += Time.deltaTime;
-
-        x = x_0 + (v_x0 * t) * Mathf.Sin(b);
-
-        y = y_0 + (v_y0 * t) - ((g * t * t) / 2);
-
-        z = z_0 + (v_z0 * t) * Mathf.Cos(a);
-
-        transform.position = new Vector3(z, y, x);
+        throwBool = true;
     }
 
     void OnTriggerEnter(Collider other)
@@ -102,6 +137,10 @@ public class Rock : MonoBehaviour
         {
             Debug.Log("Pilar");
             Destroy(other.gameObject);
+        }
+        else if (other.tag == "Ground")
+        {
+            Destroy(gameObject);
         }
     }
 

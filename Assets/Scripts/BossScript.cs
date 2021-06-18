@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class BossScript : MonoBehaviour
 {
+    public Animator animator;
+
+
     GameObject rockPrefab;
     GameObject lastRock;
 
     GameObject enemyBallPrefab;
     GameObject lastEnemyBall;
+
+    public GameObject handRock;
 
     private int[] values;
 
@@ -47,17 +52,19 @@ public class BossScript : MonoBehaviour
 
             if(value == 0)
             {
+                animator.SetBool("rock", true);
 
-                lastRock = Instantiate(rockPrefab, transform.position, Quaternion.identity);
+                lastRock = Instantiate(rockPrefab, handRock.transform.position, Quaternion.identity);
+                lastRock.transform.parent = handRock.transform;
 
-                yield return new WaitForSeconds(2.5f);
+                yield return new WaitForSeconds(4.0f);
             }
             else if (value == 1)
             {
 
                 lastEnemyBall = Instantiate(enemyBallPrefab, transform.position, Quaternion.identity);
 
-                yield return new WaitForSeconds(5.0f);
+                yield return new WaitForSeconds(7.0f);
             }
 
         }

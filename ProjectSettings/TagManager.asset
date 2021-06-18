@@ -26,6 +26,7 @@ TagManager:
   - PilarInstantiator
   - BarricadeInstantiator
   - BarricadeText
+  - RockPlace
   layers:
   - Default
   - TransparentFX
@@ -38,9 +39,9 @@ TagManager:
   - DestructableObject
   - Enemy
   - Post processing
-  - 
-  - 
-  - 
+  - LightP1
+  - LightP2
+  - LightsScene
   - 
   - 
   - 
