@@ -28,7 +28,7 @@ public class BossScript : MonoBehaviour
 
     void Start()
     {
-        rockPrefab = Resources.Load("Prefabs/Proto-Props/Rock") as GameObject;
+        rockPrefab = Resources.Load("Prefabs/FBX couleur/Pierre/BOSS_Pierre") as GameObject;
         enemyBallPrefab = Resources.Load("Prefabs/Proto-Props/EnemyBall") as GameObject;
 
         values = new int[]{ 0, 0, 0, 0, 0, 0, 1, 1, 2, 2};
