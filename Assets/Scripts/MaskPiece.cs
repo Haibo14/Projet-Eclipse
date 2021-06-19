@@ -5,6 +5,7 @@ using UnityEngine;
 public class MaskPiece : MonoBehaviour
 {
     GameObject manager;
+    public GameObject player;
 
     void Start()
     {
@@ -20,8 +21,15 @@ public class MaskPiece : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player1" || other.tag == "Player2")
+        if(other.tag == "Player1" )
         {
+            player.GetComponent<ShowPieces>().pieces++;
+            manager.GetComponent<MaskManager>().piecesCount++;
+            Destroy(gameObject);
+        }
+        else if(other.tag == "Player2")
+        {
+            player.GetComponent<ShowPieces>().pieces++;
             manager.GetComponent<MaskManager>().piecesCount++;
             Destroy(gameObject);
         }
