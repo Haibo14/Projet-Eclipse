@@ -28,6 +28,7 @@ TagManager:
   - BarricadeText
   - RockPlace
   - sbirePlace
+  - EnemyInstantiator
   layers:
   - Default
   - TransparentFX

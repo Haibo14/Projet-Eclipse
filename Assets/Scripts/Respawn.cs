@@ -141,6 +141,12 @@ public class Respawn : MonoBehaviour
             Instantiate(barricade, instantiator.transform.position, instantiator.transform.rotation);
         }
 
+        GameObject[] newEnemies = GameObject.FindGameObjectsWithTag("EnemyInstantiator");
+        foreach (GameObject enemy in newEnemies)
+        {
+            enemy.GetComponent<EnemyInstantiator>().Reset();
+        }
+
         if (respawnBoss != null)
         {
             respawnBoss.Reset();

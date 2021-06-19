@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyScript : MonoBehaviour
 {
-
+    Animator animator;
     public Transform target;
     public Transform groundDetector;
 
@@ -58,11 +58,13 @@ public class EnemyScript : MonoBehaviour
 
     bool running;
     public bool spotted;
+    public bool work;
     bool lookingStraight;
     bool jumping;
 
     void Start()
     {
+        animator = GetComponent<Animator>();
 
         layerMask = ~(1 << 9);
         layerMaskCollisions = ~((1 << 30) | (1 << 9));
@@ -103,7 +105,7 @@ public class EnemyScript : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, gravityRaycastDistance, layerMask))
         {
             Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hit.distance, Color.yellow);
-            transform.position = new Vector3(transform.position.x, hit.point.y + 1f, transform.position.z);
+            transform.position = new Vector3(transform.position.x, hit.point.y + gravityRaycastDistance, transform.position.z);
             velocity = Vector3.zero;
 
         }
@@ -120,6 +122,7 @@ public class EnemyScript : MonoBehaviour
 
         if (spotted == true)
         {
+            animator.SetBool("Spotted", true);
 
             transform.LookAt(new Vector3(target.position.x, transform.position.y, target.position.z) + target.transform.forward * zLook);
 
@@ -147,12 +150,17 @@ public class EnemyScript : MonoBehaviour
                 {
                     running = false;
                     spotted = false;
+
+                    animator.SetBool("Spotted", false);
                 }
             }
             else
             {
                 running = false;
                 spotted = false;
+
+
+                animator.SetBool("Spotted", false);
             }
         }
         else
