@@ -5,10 +5,10 @@ using UnityEngine;
 public class EnemyInstantiator : MonoBehaviour
 {
     public GameObject enemyPrefab;
+    public string animBool;
 
     void Start()
     {
-        Reset();
     }
 
     void Update()
@@ -20,6 +20,6 @@ public class EnemyInstantiator : MonoBehaviour
     {
         GameObject enemy = Instantiate(enemyPrefab, transform.position, transform.rotation);
         enemy.transform.parent = transform;
-        enemy.GetComponent<Animator>().SetBool("Work", true);
+        enemy.GetComponent<Animator>().SetBool(animBool, true);
     }
 }

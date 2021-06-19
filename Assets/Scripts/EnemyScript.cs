@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyScript : MonoBehaviour
 {
+
     Animator animator;
     public Transform target;
     public Transform groundDetector;
