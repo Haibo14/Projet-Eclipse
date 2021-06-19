@@ -3038,7 +3038,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -3653,7 +3653,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -4307,6 +4307,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1898527531084749894, guid: 72aca4a94cc531d4995d6e34d00d3101, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2714330007705885271, guid: 72aca4a94cc531d4995d6e34d00d3101, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2714330007768257128, guid: 72aca4a94cc531d4995d6e34d00d3101, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3399456356239162332, guid: 72aca4a94cc531d4995d6e34d00d3101, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -4322,6 +4334,10 @@ PrefabInstance:
     - target: {fileID: 4517296038729961297, guid: 72aca4a94cc531d4995d6e34d00d3101, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4517296038729961297, guid: 72aca4a94cc531d4995d6e34d00d3101, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4.72
       objectReference: {fileID: 0}
     - target: {fileID: 4517296038729961298, guid: 72aca4a94cc531d4995d6e34d00d3101, type: 3}
       propertyPath: OscMaster
@@ -4340,6 +4356,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4776636724183269254, guid: 72aca4a94cc531d4995d6e34d00d3101, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4877129846543974937, guid: 72aca4a94cc531d4995d6e34d00d3101, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5397410447624151708, guid: 72aca4a94cc531d4995d6e34d00d3101, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -4410,6 +4434,18 @@ PrefabInstance:
     - target: {fileID: 6733790973863280558, guid: 72aca4a94cc531d4995d6e34d00d3101, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8979474498478470744, guid: 72aca4a94cc531d4995d6e34d00d3101, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9200802589041870985, guid: 72aca4a94cc531d4995d6e34d00d3101, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9200802589105324214, guid: 72aca4a94cc531d4995d6e34d00d3101, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72aca4a94cc531d4995d6e34d00d3101, type: 3}
@@ -5096,7 +5132,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -7993,7 +8029,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -8964,7 +9000,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
