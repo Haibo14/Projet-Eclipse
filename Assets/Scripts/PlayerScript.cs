@@ -576,7 +576,7 @@ public class PlayerScript : MonoBehaviour
                 Vector3 targetDir = transform.position - enemy.transform.position;
                 float angle = Vector3.Angle(targetDir, enemy.transform.forward);
 
-                if (Mathf.Abs(enemy.transform.position.y - transform.position.y) <= 20)
+                if (Mathf.Abs(enemy.transform.position.y - transform.position.y) <= 5)
                 {
 
                     if (angle <= angleDetection)

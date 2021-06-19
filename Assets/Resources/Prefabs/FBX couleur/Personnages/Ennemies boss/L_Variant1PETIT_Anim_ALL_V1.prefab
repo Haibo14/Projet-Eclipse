@@ -2395,7 +2395,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   speed: 12
   waySpeed: 12
-  gravityRaycastDistance: 1
+  gravityRaycastDistance: 0.3
   gravityValue: 50
   collisionsRaycast: 1.3
   groundDistanceDetection: 5

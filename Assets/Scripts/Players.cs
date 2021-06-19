@@ -582,17 +582,20 @@ public class Players : MonoBehaviour
                     Vector3 targetDir = transform.position - enemy.transform.position;
                     float angle = Vector3.Angle(targetDir, enemy.transform.forward);
 
-                    if (angle <= angleDetection)
+                    if (Mathf.Abs(enemy.transform.position.y - transform.position.y) <= 5)
                     {
-                        RaycastHit checkHit;
-                        if (Physics.Raycast(enemy.transform.position, targetDir, out checkHit, dist, layerMask))
+                        if (angle <= angleDetection)
                         {
+                            RaycastHit checkHit;
+                            if (Physics.Raycast(enemy.transform.position, targetDir, out checkHit, dist, layerMask))
+                            {
 
-                        }
-                        else
-                        {
-                            enemy.GetComponent<EnemyScript>().Spot(1, transform);
-                            // enemy.GetComponent<EnemyScript>().Spot();
+                            }
+                            else
+                            {
+                                enemy.GetComponent<EnemyScript>().Spot(1, transform);
+                                // enemy.GetComponent<EnemyScript>().Spot();
+                            }
                         }
                     }
 
