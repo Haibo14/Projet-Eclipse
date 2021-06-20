@@ -5,12 +5,12 @@ using UnityEditor;
 public class SelectByTag : MonoBehaviour
 {
 
-    private static string SelectedTag = "BarricadeInstantiator";
+    /*private static string SelectedTag = "BarricadeInstantiator";
 
-    [MenuItem("Helpers/Select By Tag")]
+    
     public static void SelectObjectsWithTag()
     {
         GameObject[] objects = GameObject.FindGameObjectsWithTag(SelectedTag);
         Selection.objects = objects;
-    }
+    }*/
 }

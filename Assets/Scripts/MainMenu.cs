@@ -136,8 +136,11 @@ public class MainMenu : MonoBehaviour
         move.x = Input.GetAxis(moveX);
         move.y = Input.GetAxis(moveY);
 
-        move.x = -(oscMessage.xAxis_p1);
-        move.y = oscMessage.zAxis_p1;
+        if(move == Vector2.zero)
+        {
+            move.x = -(oscMessage.xAxis_p1);
+            move.y = oscMessage.zAxis_p1;
+        }
 
         jumpButton = oscMaster.GetComponent<ReceivePosition>().buttonJumpP1;
         interactButton = oscMaster.GetComponent<ReceivePosition>().buttonInteractP2;
