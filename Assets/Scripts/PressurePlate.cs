@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PressurePlate : MonoBehaviour
 {
+    public AudioSource source;
+    public AudioClip grueSon;
+
     public GameObject hoist;
 
     public float speedRotation;
@@ -15,6 +18,10 @@ public class PressurePlate : MonoBehaviour
     void Start()
     {
         pressed = false;
+
+        source.clip = grueSon;
+        source.Play();
+        source.volume = 0;
     }
 
 
@@ -47,6 +54,17 @@ public class PressurePlate : MonoBehaviour
         rotation = multiplicator * speedRotation * Time.deltaTime;
 
         hoist.transform.RotateAround(hoist.transform.position, Vector3.up, rotation);
+
+        if (multiplicator == 0)
+        {
+
+            source.volume = 0;
+        }
+        else
+        {
+
+            source.volume = 1;
+        }
 
     }
 
