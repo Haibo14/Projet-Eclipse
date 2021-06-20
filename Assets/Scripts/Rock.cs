@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class Rock : MonoBehaviour
 {
+    AudioSource source;
+    public AudioClip rockSon;
+
     Animator animator;
 
     public rockThrow animatorScript;
@@ -43,7 +46,7 @@ public class Rock : MonoBehaviour
 
     void Start()
     {
-
+        source = GetComponent<AudioSource>();
         respawnManager = GameObject.FindGameObjectWithTag("RespawnManager");
         boss = GameObject.FindGameObjectWithTag("Boss");
         rockPlace = GameObject.FindGameObjectWithTag("RockPlace");
@@ -74,6 +77,11 @@ public class Rock : MonoBehaviour
     void Update()
     {
 
+        if(transform.position.y <= -50)
+        {
+            Destroy(gameObject);
+        }
+
         if(animator.GetCurrentAnimatorStateInfo(0).IsName("rock") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.6f && playOnce == true)
         {
             Throw();
@@ -82,7 +90,7 @@ public class Rock : MonoBehaviour
             
         }
 
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("rock rage   ") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.6f && playOnce == true)
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("rock rage") && animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 0.6f && playOnce == true)
         {
             Throw();
             transform.parent = null;
@@ -154,7 +162,7 @@ public class Rock : MonoBehaviour
         }
         else if (other.tag == "Ground")
         {
-            Destroy(gameObject);
+            source.PlayOneShot(rockSon, 1f);
         }
     }
 

@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class BossScript : MonoBehaviour
 {
+    AudioSource source;
+    public AudioClip rage;
+    public AudioClip lancerEnnemi;
+    public AudioClip mort;
+
     public Animator animator;
 
 
@@ -29,12 +34,17 @@ public class BossScript : MonoBehaviour
 
     void Start()
     {
+        source = GetComponent<AudioSource>();
+
         rockPrefab = Resources.Load("Prefabs/FBX couleur/Pierre/BOSS_Pierre") as GameObject;
 
         values2 = new int[] { 0, 1, 2, 3, 4, 5 };
         values = new int[]{ 0, 0, 0, 0, 0, 0, 1, 1, 2, 2};
 
         playOnce = true;
+
+        animator.SetBool("rage", true);
+        source.PlayOneShot(rage, 1f);
     }
 
     void Update()
@@ -67,7 +77,7 @@ public class BossScript : MonoBehaviour
         while (true)
         {
             int value = values[Random.Range(0, values.Length)];
-            if (rageMode)
+            if (rageMode == false)
             {
                 if (value == 0)
                 {
@@ -82,12 +92,13 @@ public class BossScript : MonoBehaviour
                 {
 
                     
-                        animator.SetBool("sbireThrow", true);
+                    animator.SetBool("sbireThrow", true);
+                    source.PlayOneShot(lancerEnnemi, 1f);
 
-                        GameObject lastEnemyBall = Instantiate(enemyBallPrefab, handSbire.transform.position, Quaternion.identity);
-                        lastEnemyBall.transform.parent = handSbire.transform;
+                    GameObject lastEnemyBall = Instantiate(enemyBallPrefab, handSbire.transform.position, Quaternion.identity);
+                    lastEnemyBall.transform.parent = handSbire.transform;
 
-                        yield return new WaitForSeconds(9.0f);
+                    yield return new WaitForSeconds(9.0f);
 
                    
 
@@ -97,12 +108,13 @@ public class BossScript : MonoBehaviour
                 {
 
                     
-                        animator.SetBool("sbireGround", true);
+                    animator.SetBool("sbireGround", true);
+                    source.PlayOneShot(lancerEnnemi, 1f);
 
-                        GameObject lastEnemyBall = Instantiate(enemyBallPrefab, handSbire.transform.position, Quaternion.identity);
-                        lastEnemyBall.transform.parent = handSbire.transform;
+                    GameObject lastEnemyBall = Instantiate(enemyBallPrefab, handSbire.transform.position, Quaternion.identity);
+                    lastEnemyBall.transform.parent = handSbire.transform;
 
-                        yield return new WaitForSeconds(7.5f);
+                    yield return new WaitForSeconds(7.5f);
 
                    
 
@@ -114,6 +126,7 @@ public class BossScript : MonoBehaviour
                 if (rageCount == 10)
                 {
                     animator.SetBool("rage", true);
+                    source.PlayOneShot(rage, 1f);
                     yield return new WaitForSeconds(8.0f);
                 }
                 else

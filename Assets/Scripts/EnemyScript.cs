@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyScript : MonoBehaviour
 {
+    AudioSource source;
 
     Animator animator;
     public Transform target;
@@ -65,6 +66,7 @@ public class EnemyScript : MonoBehaviour
 
     void Start()
     {
+        source = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
 
         layerMask = ~(1 << 9);
@@ -84,6 +86,9 @@ public class EnemyScript : MonoBehaviour
         {
             journeySteps = journey.GetComponentsInChildren<Transform>();
         }
+
+        source.Play();
+        source.volume = 0;
     }
 
 
@@ -123,6 +128,7 @@ public class EnemyScript : MonoBehaviour
 
         if (spotted == true)
         {
+            source.volume = 1;
             animator.SetBool("Spotted", true);
 
             transform.LookAt(new Vector3(target.position.x, transform.position.y, target.position.z) + target.transform.forward * zLook);
@@ -166,6 +172,7 @@ public class EnemyScript : MonoBehaviour
         }
         else
         {
+            source.volume = 0;
             if (journey != null)
             {
 

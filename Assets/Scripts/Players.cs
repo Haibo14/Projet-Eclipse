@@ -251,6 +251,8 @@ public class Players : MonoBehaviour
                     playerObject2.Fuse();
 
                     fusing = true;
+                    source2.volume = 0;
+                    source2.Stop();
                 }
                 else
                 {
@@ -369,6 +371,11 @@ public class Players : MonoBehaviour
             {
                 this.transform.position = player2.transform.position + new Vector3(0, 0.6f, 0);
             }
+
+            if (source.volume > 0)
+            {
+                source.volume -= 20f * Time.deltaTime;
+            }
         }
 
         #endregion
@@ -386,7 +393,9 @@ public class Players : MonoBehaviour
 
         if (fusing == true)
         {
+            
 
+            
             lastFramePosition = Vector3.zero;
 
             //lineRenderer.enabled = true;
@@ -397,15 +406,23 @@ public class Players : MonoBehaviour
             t1 = playerObject1.tFuse;
             t2 = playerObject2.tFuse;
 
-            #region merge
+            source2.clip = fusionClip;
+            if (source2.isPlaying == false && t1 < 1)
+            {
+                source2.pitch = 1;
+                source2.PlayOneShot(fusionClip, 0.1f);
+                source2.volume = 1 - t1 / 2;
+            }
 
-            //Debug.Log(t1);
-            //Debug.Log(t2);
+            #region merge
+            
 
             if (t1 >= 0.95f || t2 >= 0.95f)
             {
                 if(totalDistance <= 3)
                 {
+
+                    source2.pitch = 1;
                     transform.GetChild(0).gameObject.SetActive(true);
 
                     if (fusionEntry == true)
@@ -446,24 +463,6 @@ public class Players : MonoBehaviour
                 changeState = false;
             }
 
-            /*
-            if (t1 >= 0.9f || t2 >= 0.9f)
-            {
-                transform.GetChild(0).gameObject.SetActive(true);
-
-
-                fusing = false;
-                playerObject1.fusing = false;
-                playerObject2.fusing = false;
-
-                merged = true;
-                playerObject1.merged = true;
-                playerObject2.merged = true;
-
-                changeState = false;
-
-            }
-            */
             #endregion
         }
         else
@@ -602,18 +601,29 @@ public class Players : MonoBehaviour
                 tSplit = 0;
                     
                 splitting = true;
+                source2.volume = 0;
+                source2.Stop();
                 playerObject1.Split();
                 playerObject2.Split();
             }
         }
 
-            if (splitting == true)
+        if (splitting == true)
+        {
+            source2.clip = defusionClip;
+            if (source2.isPlaying == false)
             {
-                if (tSplit >= 1)
-                {
-                    splitting = false;
-                }
+                source2.pitch = 2;
+                source2.PlayOneShot(defusionClip, 0.1f);
+                source2.volume = 1 - tSplit / 2;
             }
+
+            if (tSplit >= 1)
+            {
+                splitting = false;
+                source2.pitch = 1;
+            }
+        }
 
         #endregion
 

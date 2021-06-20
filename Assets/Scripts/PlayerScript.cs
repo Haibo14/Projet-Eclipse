@@ -7,6 +7,7 @@ public class PlayerScript : MonoBehaviour
     public Animator animator;
 
     public AudioSource source;
+    public AudioSource source2;
 
     public AudioClip walkClip;
     public AudioClip jumpClip;
@@ -81,6 +82,7 @@ public class PlayerScript : MonoBehaviour
     float angle;
     float angleRad;
     float tSplit;
+    float volumeMarche;
 
     public int playerID;
 
@@ -139,6 +141,9 @@ public class PlayerScript : MonoBehaviour
         source.clip = walkClip;
         source.Play();
         source.volume = 0;
+        source2.clip = walkClip;
+        source2.Play();
+        source2.volume = 0;
     }
     #endregion
 
@@ -323,9 +328,22 @@ public class PlayerScript : MonoBehaviour
                 
                 source.clip = walkClip;
                 source.pitch = 2;
-                if (source.volume < 0.02f)
+
+                if (walkClip.name == "Marche joueurs Sable")
                 {
-                    source.volume += 0.7f * Time.deltaTime;
+                    volumeMarche = 0.02f;
+                }
+                else if (walkClip.name == "Marche Joueurs Roche")
+                {
+
+                    volumeMarche = 0.1f;
+                }
+
+                Debug.Log(volumeMarche);
+
+                if (source.volume < volumeMarche)
+                {
+                    source.volume += 2f * Time.deltaTime;
                 }
             }
             else
@@ -333,7 +351,7 @@ public class PlayerScript : MonoBehaviour
                 source.clip = walkClip;
                 if (source.volume > 0)
                 {
-                    source.volume -= 0.7f * Time.deltaTime;
+                    source.volume -= 2f * Time.deltaTime;
                 }
                 else
                 {
@@ -454,6 +472,10 @@ public class PlayerScript : MonoBehaviour
         }
         else
         {
+
+
+            
+
             if (jumping == false && merged == false)
             {
                 velocity += gravity * Time.deltaTime;   // allow gravity to work on our velocity vector
@@ -461,6 +483,10 @@ public class PlayerScript : MonoBehaviour
             }
             else
             {
+                if (source.volume > 0)
+                {
+                    source.volume -= 20f * Time.deltaTime;
+                }
                 velocity = Vector3.zero;
             }
         }
@@ -549,11 +575,23 @@ public class PlayerScript : MonoBehaviour
         {
             animator.SetBool("jump", jumping);
             transform.Translate(transform.up * jumpCurve.Evaluate(tJump) * power * Time.deltaTime, Space.World);
-            
+            source2.clip = jumpClip;
+            if (source2.isPlaying == false)
+            {
+                
+
+
+                source2.PlayOneShot(jumpClip, 0.1f);
+                source2.volume = 1 - tJump / 2;
+
+               
+            }
+
             if (tJump >= 1)
             {
                 jumping = false;
                 animator.SetBool("jump", jumping);
+                source2.Stop();
             }
         }
 
