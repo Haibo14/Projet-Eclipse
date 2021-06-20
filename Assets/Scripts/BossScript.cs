@@ -10,8 +10,7 @@ public class BossScript : MonoBehaviour
     GameObject rockPrefab;
     GameObject lastRock;
 
-    GameObject enemyBallPrefab;
-    GameObject lastEnemyBall;
+    public GameObject enemyBallPrefab;
 
     public GameObject handRock;
     public GameObject handSbire;
@@ -26,11 +25,13 @@ public class BossScript : MonoBehaviour
     private bool playOnce;
     bool rageMode;
 
+    private int[] values2;
+
     void Start()
     {
         rockPrefab = Resources.Load("Prefabs/FBX couleur/Pierre/BOSS_Pierre") as GameObject;
-        enemyBallPrefab = Resources.Load("Prefabs/Proto-Props/EnemyBall") as GameObject;
 
+        values2 = new int[] { 0, 1, 2, 3, 4, 5 };
         values = new int[]{ 0, 0, 0, 0, 0, 0, 1, 1, 2, 2};
 
         playOnce = true;
@@ -79,21 +80,32 @@ public class BossScript : MonoBehaviour
                 }
                 else if (value == 1)
                 {
-                    animator.SetBool("sbireThrow", true);
 
-                    lastEnemyBall = Instantiate(enemyBallPrefab, handSbire.transform.position, Quaternion.identity);
-                    lastEnemyBall.transform.parent = handSbire.transform;
+                    
+                        animator.SetBool("sbireThrow", true);
 
-                    yield return new WaitForSeconds(9.0f);
+                        GameObject lastEnemyBall = Instantiate(enemyBallPrefab, handSbire.transform.position, Quaternion.identity);
+                        lastEnemyBall.transform.parent = handSbire.transform;
+
+                        yield return new WaitForSeconds(9.0f);
+
+                   
+
+
                 }
                 else if (value == 2)
                 {
-                    animator.SetBool("sbireGround", true);
 
-                    lastEnemyBall = Instantiate(enemyBallPrefab, handSbire.transform.position, Quaternion.identity);
-                    lastEnemyBall.transform.parent = handSbire.transform;
+                    
+                        animator.SetBool("sbireGround", true);
 
-                    yield return new WaitForSeconds(7.5f);
+                        GameObject lastEnemyBall = Instantiate(enemyBallPrefab, handSbire.transform.position, Quaternion.identity);
+                        lastEnemyBall.transform.parent = handSbire.transform;
+
+                        yield return new WaitForSeconds(7.5f);
+
+                   
+
                 }
 
             }
@@ -119,7 +131,7 @@ public class BossScript : MonoBehaviour
                     {
                         animator.SetBool("sbireThrow", true);
 
-                        lastEnemyBall = Instantiate(enemyBallPrefab, handSbire.transform.position, Quaternion.identity);
+                        GameObject lastEnemyBall = Instantiate(enemyBallPrefab, handSbire.transform.position, Quaternion.identity);
                         lastEnemyBall.transform.parent = handSbire.transform;
 
                         yield return new WaitForSeconds(5.5f);
@@ -128,7 +140,7 @@ public class BossScript : MonoBehaviour
                     {
                         animator.SetBool("sbireGround", true);
 
-                        lastEnemyBall = Instantiate(enemyBallPrefab, handSbire.transform.position, Quaternion.identity);
+                        GameObject lastEnemyBall = Instantiate(enemyBallPrefab, handSbire.transform.position, Quaternion.identity);
                         lastEnemyBall.transform.parent = handSbire.transform;
 
                         yield return new WaitForSeconds(4.75f);

@@ -44,9 +44,9 @@ public class EnemyTrapActivator : MonoBehaviour
                 {
                     enemyPrefab = enemyPrefab2;
                 }
-                else if (value == 3)
+                else if (value == 2)
                 {
-                    enemyPrefab = enemyPrefab2;
+                    enemyPrefab = enemyPrefab3;
                 }
 
 

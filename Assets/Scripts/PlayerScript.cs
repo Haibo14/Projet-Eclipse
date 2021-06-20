@@ -6,6 +6,12 @@ public class PlayerScript : MonoBehaviour
 {   
     public Animator animator;
 
+    public AudioSource source;
+
+    public AudioClip walkClip;
+    public AudioClip jumpClip;
+
+
     public GameObject fpPlayer;    
     public GameObject otherPlayer;
     public GameObject OscMaster;
@@ -13,8 +19,9 @@ public class PlayerScript : MonoBehaviour
 
     GameObject[] enemies;
 
-    GameObject childPlayer;
+    public GameObject childPlayer;
     GameObject drivingCar;
+    GameObject energyBall;
 
     public Players players;
     public PlayerScript playerObject;
@@ -110,10 +117,13 @@ public class PlayerScript : MonoBehaviour
         oscMessage = OscMaster.GetComponent<ReceivePosition>();
 
         childPlayer = transform.GetChild(0).gameObject;
+        energyBall = transform.GetChild(1).gameObject;
+        energyBall.SetActive(false);
         Debug.Log(childPlayer);
 
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
+       
 
         gravity = Vector3.down * gravityValue;
 
@@ -125,6 +135,10 @@ public class PlayerScript : MonoBehaviour
         layerMaskFuse = ~((1 << layerMaskPlayer) | (1 << layerMaskBush) | (1 << layerMaskDObject));
         layerMaskInteract = ~((1 << 29));
         layerMaskMoving = ~((1 << 28));
+
+        source.clip = walkClip;
+        source.Play();
+        source.volume = 0;
     }
     #endregion
 
@@ -305,6 +319,26 @@ public class PlayerScript : MonoBehaviour
             {
                 transform.Translate(transform.forward * move.z * speed * Time.deltaTime, Space.World);
                 transform.Translate(transform.right * move.x * speed * Time.deltaTime, Space.World);
+
+                
+                source.clip = walkClip;
+                source.pitch = 2;
+                if (source.volume < 0.02f)
+                {
+                    source.volume += 0.7f * Time.deltaTime;
+                }
+            }
+            else
+            {
+                source.clip = walkClip;
+                if (source.volume > 0)
+                {
+                    source.volume -= 0.7f * Time.deltaTime;
+                }
+                else
+                {
+                    source.pitch = 1;
+                }
             }
         }
 
@@ -316,6 +350,10 @@ public class PlayerScript : MonoBehaviour
 
         if (fusing == true)
         {
+
+            childPlayer.SetActive(false);
+            energyBall.SetActive(true);
+
             angleRad = Mathf.Atan2(transform.TransformDirection(otherPlayer.transform.position - transform.position).x, transform.TransformDirection(otherPlayer.transform.position - transform.position).z);
             angle = angleRad * Mathf.Rad2Deg;
             childPlayer.transform.eulerAngles = new Vector3(0, angle, 0);
@@ -359,7 +397,6 @@ public class PlayerScript : MonoBehaviour
             
 
             transform.Translate(fuseDirection * splitCurve.Evaluate(tFuse) * splitPower * Time.deltaTime, Space.World);
-            
 
             if (tFuse >= 1)
             {
@@ -433,7 +470,7 @@ public class PlayerScript : MonoBehaviour
 
             if (IsAlive)
             {   
-                childPlayer.SetActive(true);
+                //childPlayer.SetActive(true);
                 /*
                 if (velocity != Vector3.zero)
                 {
@@ -468,7 +505,8 @@ public class PlayerScript : MonoBehaviour
 
         if (merged == true)
         {
-            childPlayer.gameObject.SetActive(false);
+            energyBall.gameObject.SetActive(false);
+            childPlayer.SetActive(false);
             transform.position = fpPlayer.transform.position + shift;
 
         }
@@ -620,6 +658,8 @@ public class PlayerScript : MonoBehaviour
             }
 
             fusing = true;
+
+            childPlayer.gameObject.SetActive(false);
         }
     }
 

@@ -8,6 +8,14 @@ public class Players : MonoBehaviour
 
     public Animator animator;
 
+    public AudioSource source;
+    public AudioSource source2;
+    public AudioClip fusionClip;
+    public AudioClip defusionClip;
+    public AudioClip walkClip;
+    public AudioClip jumpClip;
+    public AudioClip jumpRunClip;
+
     public GameObject player1;
     public GameObject player2;
     public GameObject respawnManager;
@@ -138,6 +146,15 @@ public class Players : MonoBehaviour
         transform.GetChild(0).gameObject.SetActive(false);
 
         fusionEntry = true;
+
+        source.clip = walkClip;
+        source.Play();
+        source.volume = 0;
+
+
+        source2.clip = walkClip;
+        source2.Play();
+        source2.volume = 0;
     }
 
     #endregion
@@ -471,23 +488,39 @@ public class Players : MonoBehaviour
 
         if (moveP1 == Vector3.zero && moveP2 == Vector3.zero && Time.timeScale != 0)
         {
+                source.clip = walkClip;
+                if (source.volume > 0)
+                {
+                    source.volume -= 0.5f * Time.deltaTime;
+                }
+                
                 transform.GetChild(0).transform.eulerAngles = transform.GetChild(0).transform.eulerAngles;
 
         }
         else if (moveP1 != Vector3.zero && moveP2 != Vector3.zero && Time.timeScale != 0)
         {
 
+                source.clip = walkClip;
+                if (source.volume < 0.3f)
+                {
+                    source.volume += 0.5f * Time.deltaTime;
+                }
 
-            float fpRotationAngle = (angleP1 + angleP2) / 2;
+
+                float fpRotationAngle = (angleP1 + angleP2) / 2;
 
             transform.GetChild(0).transform.eulerAngles = new Vector3(0, fpRotationAngle, 0);
 
         }
         else if (moveP1 != Vector3.zero && moveP2 == Vector3.zero && Time.timeScale != 0)
-        {
+            {
+                source.clip = walkClip;
+                if (source.volume < 0.3f)
+                {
+                    source.volume += 0.5f * Time.deltaTime;
+                }
 
-
-            float fpRotationAngle = angleP1;
+                float fpRotationAngle = angleP1;
 
 
             transform.GetChild(0).transform.eulerAngles = new Vector3(0, fpRotationAngle, 0);
@@ -496,8 +529,13 @@ public class Players : MonoBehaviour
         else if (moveP1 == Vector3.zero && moveP2 != Vector3.zero && Time.timeScale != 0)
         {
 
+                source.clip = walkClip;
+                if (source.volume < 0.3f)
+                {
+                    source.volume += 0.5f * Time.deltaTime;
+                }
 
-            float fpRotationAngle = angleP2;
+                float fpRotationAngle = angleP2;
 
 
             transform.GetChild(0).transform.eulerAngles = new Vector3(0, fpRotationAngle, 0);
@@ -513,14 +551,27 @@ public class Players : MonoBehaviour
 
             transform.Translate(transform.up * jumpCurve.Evaluate(tFP) * power * Time.deltaTime, Space.World);
             animator.SetBool("jump", fpJumping);
+            source2.clip = jumpClip;
+            if (source2.isPlaying == false)
+            {
+                source2.PlayOneShot(jumpClip, 0.1f);
+                source2.volume = 1 - tFP / 2;
+            }
+
 
             if (tFP >= 1)
             {
+
                 fpJumping = false;
                 animator.SetBool("jump", fpJumping);
             }
-        }
+            else if (tFP >= 2)
+            {
 
+                source2.Stop();
+            }
+
+        }
 
         #region split
         if (ReceivePosition.enabled == false) 

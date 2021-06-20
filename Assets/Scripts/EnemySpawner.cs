@@ -52,9 +52,9 @@ public class EnemySpawner : MonoBehaviour
                 {
                     enemyPrefab = enemyPrefab2;
                 }
-                else if (value == 3)
+                else if (value == 2)
                 {
-                    enemyPrefab = enemyPrefab2;
+                    enemyPrefab = enemyPrefab3;
                 }
 
                 GameObject enemy1 = Instantiate(enemyPrefab, spawnSpot1.position, Quaternion.identity);

@@ -8,14 +8,22 @@ public class FakeRock : MonoBehaviour
 
     public rockThrow animatorScript;
 
-    public GameObject enemy;
+    public GameObject enemyPrefab1;
+    public GameObject enemyPrefab2;
+    public GameObject enemyPrefab3;
+    public GameObject enemyPrefab4;
+    public GameObject enemyPrefab5;
+    public GameObject enemyPrefab6;
+    GameObject enemy;
+
+    private int[] values;
 
     GameObject boss;
     GameObject target;
-    GameObject lastEnemy;
+    public GameObject lastEnemy;
     GameObject sbirePlace;
 
-    private int[] values;
+    private int[] values2;
 
     Vector3 dir;
 
@@ -51,6 +59,8 @@ public class FakeRock : MonoBehaviour
         animatorScript = animator.GetBehaviour<rockThrow>();
 
         values = new int[] { 0, 1 };
+
+        values2 = new int[] { 0, 1, 2, 3, 4, 5 };
 
         int value = values[Random.Range(0, values.Length)];
 
@@ -145,7 +155,33 @@ public class FakeRock : MonoBehaviour
 
     public void Drop()
     {
-        lastEnemy = Instantiate(enemy, transform.position + new Vector3(0, 2, -10), Quaternion.identity);
+        int value = values2[Random.Range(0, values2.Length)];
+        if (value == 0)
+        {
+            enemy = enemyPrefab1;
+        }
+        else if (value == 1)
+        {
+            enemy = enemyPrefab2;
+        }
+        else if (value == 2)
+        {
+            enemy = enemyPrefab3;
+        }
+        else if (value == 3)
+        {
+            enemy = enemyPrefab4;
+        }
+        else if (value == 4)
+        {
+            enemy = enemyPrefab5;
+        }
+        else if (value == 5)
+        {
+            enemy = enemyPrefab6;
+        }
+
+        lastEnemy = Instantiate(enemy, transform.position + new Vector3(0, 2, -15), Quaternion.identity);
         lastEnemy.transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
         Destroy(gameObject);
     }
@@ -156,6 +192,32 @@ public class FakeRock : MonoBehaviour
         
         if (other.tag == "Ground")
         {
+            int value = values2[Random.Range(0, values2.Length)];
+            if (value == 0)
+            {
+                enemy = enemyPrefab1;
+            }
+            else if (value == 1)
+            {
+                enemy = enemyPrefab2;
+            }
+            else if (value == 2)
+            {
+                enemy = enemyPrefab3;
+            }
+            else if (value == 3)
+            {
+                enemy = enemyPrefab4;
+            }
+            else if (value == 4)
+            {
+                enemy = enemyPrefab5;
+            }
+            else if (value == 5)
+            {
+                enemy = enemyPrefab6;
+            }
+
             lastEnemy = Instantiate(enemy, transform.position + new Vector3(0, 2, 0), Quaternion.identity);
             lastEnemy.transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
             Destroy(gameObject);

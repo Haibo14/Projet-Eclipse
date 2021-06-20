@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 55e98916fc6fe8543b7082710eb1ebd6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -108,7 +108,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3554eef530994b44db8e34bb2f1e10dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 3595916559265813107, guid: 5332a1cc04057ca4182d75544f3bf498, type: 3}
+  animatorScript: {fileID: 0}
+  enemyPrefab1: {fileID: 7955588821937196861, guid: 9ca37bbdb38a6d24b8593702b75df801, type: 3}
+  enemyPrefab2: {fileID: 7920975381556194005, guid: 8bec4b96c3cb09b40ad8034007774a2e, type: 3}
+  enemyPrefab3: {fileID: 1788913228406853447, guid: 7c22a4fc6956e024a8bdb15f18979193, type: 3}
+  enemyPrefab4: {fileID: 8093717427534934849, guid: e0ef20d3e469443408e108350a4d6d47, type: 3}
+  enemyPrefab5: {fileID: 7647262397330094468, guid: 9870c593a7ab0a645b2ed3d47a47d26f, type: 3}
+  enemyPrefab6: {fileID: 3580298746067815208, guid: b6461a0608be9ae45bf7cc678b37dc95, type: 3}
+  lastEnemy: {fileID: 0}
   t: 0
   g: 40
   a: 2.4
