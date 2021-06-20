@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Platform : MonoBehaviour
 {
+    //AudioSource source;
+    //public AudioClip montecharge;
     public GameObject platformTraject;
 
     Transform up;
@@ -15,8 +17,13 @@ public class Platform : MonoBehaviour
 
     void Start()
     {
+        //source = GetComponent<AudioSource>();
         up = platformTraject.transform.GetChild(0);
         down = platformTraject.transform.GetChild(1);
+
+        //source.clip = montecharge;
+        //source.Play();
+        //source.volume = 0;
     }
 
     // Update is called once per frame
@@ -27,22 +34,35 @@ public class Platform : MonoBehaviour
 
             if (transform.position != up.transform.position)
             {
+                //source.volume = 1;
+
                 transform.position = Vector3.MoveTowards
                 (transform.position,
                 up.transform.position,
                 waySpeed * Time.deltaTime);
             }
+            else
+            {
+                //source.volume = 0;
+            }
 
         }
         else
         {
-            
+
+
             if (transform.position != down.transform.position)
             {
+                //source.volume = 1;
+
                 transform.position = Vector3.MoveTowards
                 (transform.position,
                 down.transform.position,
                 waySpeed * Time.deltaTime);
+            }
+            else
+            {
+                //source.volume = 0;
             }
         }
     }

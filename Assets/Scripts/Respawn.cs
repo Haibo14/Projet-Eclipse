@@ -116,7 +116,7 @@ public class Respawn : MonoBehaviour
         GameObject[] enemySpawner = GameObject.FindGameObjectsWithTag("EnemySpawner");
         foreach (GameObject spawner in enemySpawner)
         {
-            Debug.Log(enemySpawner.Length);
+
 
             if (spawner.GetComponent<EnemySpawner>() != null)
             {
@@ -138,7 +138,9 @@ public class Respawn : MonoBehaviour
         foreach (GameObject instantiator in barricadeInstantiators)
         {
             GameObject barricade = Resources.Load("Prefabs/FBX couleur/Mine/Breakable_Barricade") as GameObject;
-            Instantiate(barricade, instantiator.transform.position, instantiator.transform.rotation);
+            GameObject barricadeObject = Instantiate(barricade, instantiator.transform.position, instantiator.transform.rotation);
+            barricadeObject.transform.parent = instantiator.transform;
+            instantiator.GetComponent<BarricadeSound>().playOnce = true;
         }
 
         GameObject[] newEnemies = GameObject.FindGameObjectsWithTag("EnemyInstantiator");

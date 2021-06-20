@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class PressurePlateMine : MonoBehaviour
 {
+    AudioSource source;
+    public AudioClip plaqueSon;
+
     public bool pressed;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        source = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -23,6 +26,7 @@ public class PressurePlateMine : MonoBehaviour
         if (other.tag == "Player1" || other.tag == "Player2")
         {
             pressed = true;
+            source.PlayOneShot(plaqueSon, 1f);
         }
     }
 
