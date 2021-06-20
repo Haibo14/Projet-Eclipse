@@ -5,7 +5,7 @@ using UnityEditor;
 public class SelectByTag : MonoBehaviour
 {
 
-    private static string SelectedTag = "Waypoint";
+    private static string SelectedTag = "BarricadeInstantiator";
 
     [MenuItem("Helpers/Select By Tag")]
     public static void SelectObjectsWithTag()

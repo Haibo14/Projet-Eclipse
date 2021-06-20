@@ -91,7 +91,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_76A3DE95: {r: 0, g: 2.2167337, b: 2.0616894, a: 0}
+    - Color_76A3DE95: {r: 0.7952556, g: 1.0603408, b: 8.438545, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

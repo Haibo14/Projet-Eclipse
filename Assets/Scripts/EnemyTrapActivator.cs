@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class EnemyTrapActivator : MonoBehaviour
 {
-    public GameObject enemyPrefab;
+    public GameObject enemyPrefab1;
+    public GameObject enemyPrefab2;
+    public GameObject enemyPrefab3;
+    GameObject enemyPrefab;
+
+    private int[] values;
+
     public GameObject journey;
 
     public Transform spawnSpot;
@@ -13,7 +19,7 @@ public class EnemyTrapActivator : MonoBehaviour
 
     void Start()
     {
-        
+        values = new int[] { 0, 1, 2};
     }
 
     void Update()
@@ -23,10 +29,27 @@ public class EnemyTrapActivator : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        int value = values[Random.Range(0, values.Length)];
+
         if (playOnce == true)
         {
             if (other.tag == "Player1" || other.tag == "Player2" || other.tag == "FusedPlayer")
             {
+
+                if(value == 0)
+                {
+                    enemyPrefab = enemyPrefab1;
+                }
+                else if (value == 1)
+                {
+                    enemyPrefab = enemyPrefab2;
+                }
+                else if (value == 3)
+                {
+                    enemyPrefab = enemyPrefab2;
+                }
+
+
                 GameObject enemy = Instantiate(enemyPrefab, spawnSpot.position, Quaternion.identity);
                 enemy.GetComponent<EnemyScript>().journey = journey;
 
