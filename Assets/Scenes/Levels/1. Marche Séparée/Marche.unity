@@ -2911,6 +2911,30 @@ PrefabInstance:
       propertyPath: oscMessage
       value: 
       objectReference: {fileID: 28741734}
+    - target: {fileID: 6555413994801035142, guid: 72aca4a94cc531d4995d6e34d00d3101, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6555413994801035142, guid: 72aca4a94cc531d4995d6e34d00d3101, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6555413994801035142, guid: 72aca4a94cc531d4995d6e34d00d3101, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6555413994871898041, guid: 72aca4a94cc531d4995d6e34d00d3101, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6555413994871898041, guid: 72aca4a94cc531d4995d6e34d00d3101, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6555413994871898041, guid: 72aca4a94cc531d4995d6e34d00d3101, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 6733790973863280557, guid: 72aca4a94cc531d4995d6e34d00d3101, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
