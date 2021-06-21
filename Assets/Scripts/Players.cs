@@ -665,7 +665,11 @@ public class Players : MonoBehaviour
         }
 
         #endregion
-
+        if(Time.timeScale == 0)
+        {
+            source.volume = 0;
+            source2.volume = 0;
+        }
     }
 
     #region jumpBool
