@@ -2,9 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Cinemachine;
+using UnityEngine.Playables;
 
 public class DidacticielScript : MonoBehaviour
 {
+
+    public CinemachineVirtualCamera gameCam;
+    public CinemachineVirtualCamera cinematicCam_1;
+    public CinemachineVirtualCamera cinematicCam_2;
+
     public GameObject player1;
     public GameObject player2;
     public GameObject fusedPlayer;
@@ -39,7 +46,12 @@ public class DidacticielScript : MonoBehaviour
     {
         if (startDidacticiel == true)
         {
-            if (didacticielStep == 0)
+            if(didacticielStep == 0)
+            {
+                gameCam.enabled = false;
+                cinematicCam_1.enabled = true;
+            }
+            else if (didacticielStep == 1)
             {
                 //montrer comment faire
 
@@ -49,11 +61,14 @@ public class DidacticielScript : MonoBehaviour
                 {
                     didacticielStep++;
                     text0.enabled = false;
+
+                    gameCam.enabled = true;
+                    cinematicCam_1.enabled = false;
                 }
 
 
             }
-            else if (didacticielStep  == 1)
+            else if (didacticielStep  == 2)
             {
                 //expliquer comment faire
 
@@ -66,7 +81,7 @@ public class DidacticielScript : MonoBehaviour
                 }
 
             }
-            else if (didacticielStep == 2)
+            else if (didacticielStep == 3)
             {
                 //demander de refusionner
 
@@ -80,7 +95,7 @@ public class DidacticielScript : MonoBehaviour
                 }
 
             }
-            else if (didacticielStep == 3)
+            else if (didacticielStep == 4)
             {
                 //défusionner + joystick
                 text3.enabled = true;
@@ -92,7 +107,7 @@ public class DidacticielScript : MonoBehaviour
                 }
 
             }
-            else if (didacticielStep == 4)
+            else if (didacticielStep == 5)
             {
                 //casser barricade
 
@@ -102,11 +117,11 @@ public class DidacticielScript : MonoBehaviour
                 if (barricade == null)
                 {
                     text4.enabled = false;
-                    didacticielStep++;
+                    //cinematic
                 }
                 
             }
-            else if (didacticielStep == 5)
+            else if (didacticielStep == 6)
             {
                 //apparition chef + message fuite
 
