@@ -45,11 +45,10 @@ public class DidacticielScript : MonoBehaviour
         text4.enabled = false;
         text5.enabled = false;
 
-        timeC1 = Cinematic1.clip.length;
-        timeC2 = Cinematic2.clip.length;
 
         gameCam.enabled = true;
         cinematicCam_1.enabled = false;
+        directorCam_1.Pause();
 
     }
 
@@ -73,6 +72,10 @@ public class DidacticielScript : MonoBehaviour
                 {
                     didacticielStep++;
                     text0.enabled = false;
+                    text4.enabled = false;
+                    text1.enabled = false;
+                    text3.enabled = false;
+                    text2.enabled = false;
 
                     gameCam.enabled = true;
                     cinematicCam_1.enabled = false;
@@ -90,6 +93,10 @@ public class DidacticielScript : MonoBehaviour
                 {
                     didacticielStep++;
                     text1.enabled = false;
+                    text3.enabled = false;
+                    text0.enabled = false;
+                    text4.enabled = false;
+                    text2.enabled = false;
                 }
 
             }
@@ -103,6 +110,10 @@ public class DidacticielScript : MonoBehaviour
                 {
 
                     text2.enabled = false;
+                    text1.enabled = false;
+                    text0.enabled = false;
+                    text4.enabled = false;
+                    text3.enabled = false;
                     didacticielStep++;
                 }
 
@@ -115,6 +126,10 @@ public class DidacticielScript : MonoBehaviour
                 if (fusedPlayer.GetComponent<Players>().splitting == true && fusedPlayer.GetComponent<Players>().move != Vector3.zero)
                 {
                     text3.enabled = false;
+                    text0.enabled = false;
+                    text4.enabled = false;
+                    text1.enabled = false;
+                    text2.enabled = false;
                     didacticielStep++;
                 }
 
@@ -129,8 +144,13 @@ public class DidacticielScript : MonoBehaviour
                 if (barricade == null)
                 {
                     text4.enabled = false;
+                    text0.enabled = false;
+                    text1.enabled = false;
+                    text3.enabled = false;
+                    text2.enabled = false;
                     Cinematic2.Play();
                     Time.timeScale = 0;
+                    
                 }
                 
             }
@@ -139,19 +159,18 @@ public class DidacticielScript : MonoBehaviour
                 //apparition chef + message fuite
                 gameCam.enabled = true;
                 text5.enabled = true;
+                text0.enabled = false;
+                text4.enabled = false;
+                text3.enabled = false;
+                text2.enabled = false;  
 
-                GameObject enemy = Instantiate(chefPrefab, spawnSpot.position, spawnSpot.rotation);
 
-
-                enemy.GetComponent<EnemyScript>().Spot(1, player2.transform);
-                enemy.GetComponent<EnemyScript>().Spot(0, player1.transform);
-                enemy.GetComponent<EnemyScript>().spotted = true;
 
                 didacticielStep++;
             }
 
 
-            if (cinematicCam_1.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition >= 1 && cinematicCam_1.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition < 10)
+            if (cinematicCam_1.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition >= 2 && cinematicCam_1.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition < 10)
             {
                 directorCam_1.Pause();
                 directorCam_1.time = 0;
@@ -180,6 +199,8 @@ public class DidacticielScript : MonoBehaviour
                     Destroy(Cinematic1.gameObject);
 
                 }
+
+                Cinematic1.Stop();
             }
 
             Cinematic2.loopPointReached += OnMovieFinished2;
@@ -192,6 +213,14 @@ public class DidacticielScript : MonoBehaviour
                 {
                     cinematicCam_1.enabled = true;
                     directorCam_1.Play();
+
+                    GameObject enemy = Instantiate(chefPrefab, spawnSpot.position, spawnSpot.rotation);
+
+
+                    enemy.GetComponent<EnemyScript>().Spot(1, player2.transform);
+                    enemy.GetComponent<EnemyScript>().Spot(0, player1.transform);
+                    enemy.GetComponent<EnemyScript>().spotted = true;
+
                     didacticielStep++;
                 }
                 if (Time.timeScale == 0)
@@ -203,6 +232,8 @@ public class DidacticielScript : MonoBehaviour
                     Destroy(Cinematic2.gameObject);
 
                 }
+
+                Cinematic2.Stop();
             }
         }
     }
