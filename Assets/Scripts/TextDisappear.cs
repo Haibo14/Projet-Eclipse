@@ -1,15 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class TextDisappear : MonoBehaviour
 {
     public float timerEnd = 1.0f;
     public float timer;
 
+
     void Start()
     {
-        
     }
 
     void Update()
@@ -19,7 +20,9 @@ public class TextDisappear : MonoBehaviour
         if(timer >= timerEnd)
         {
             timer = 0;
-            gameObject.SetActive(false);
+            
+            GetComponent<TextMeshProUGUI>().enabled = false;
+            
         }
     }
 }

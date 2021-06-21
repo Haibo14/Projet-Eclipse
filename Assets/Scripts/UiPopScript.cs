@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class UiPopScript : MonoBehaviour
 {
@@ -10,36 +11,63 @@ public class UiPopScript : MonoBehaviour
 
     public int playersCount;
 
+    public string textTag;
+
     void Start()
     {
         mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         BoxCollider box = this.gameObject.AddComponent<BoxCollider>();
 
         box.isTrigger =true;
-        box.size = new Vector3(40, 40, 40);
 
-        text = GameObject.FindGameObjectWithTag("BarricadeText");
+        if(textTag == "BarricadeText")
+        {
+            box.size = new Vector3(40, 40, 40);
+        }
+        else if (textTag == "LeverText")
+        {
+            box.size = new Vector3(10, 10, 10);
+        }
+        else if (textTag == "ChariotText")
+        {
+            box.size = new Vector3(15, 15, 15);
+        }
+        else if (textTag == "PlaqueText")
+        {
+            box.size = new Vector3(5, 5, 5);
+        }
+
+        text = GameObject.FindGameObjectWithTag(textTag);
+
+        if(text == null)
+        {
+            Destroy(gameObject);
+        }
 
     }
 
 
     void LateUpdate()
     {
-        Vector3 posInScreen = mainCam.WorldToScreenPoint(transform.position);
-
-        text.transform.position = posInScreen;
 
         if (playersCount == 0)
         {
-            text.SetActive(false);
         }
         else if (playersCount == 1)
         {
-            text.SetActive(true);
+            Vector3 posInScreen = mainCam.WorldToScreenPoint(transform.position);
+
+            text.transform.position = posInScreen;
+
+            text.GetComponent<TextMeshProUGUI>().enabled = true;
         }
         else if (playersCount == 2)
         {
-            text.SetActive(true);
+            Vector3 posInScreen = mainCam.WorldToScreenPoint(transform.position);
+
+            text.transform.position = posInScreen;
+
+            text.GetComponent<TextMeshProUGUI>().enabled = true;
         }
         else if (playersCount > 2)
         {
@@ -65,10 +93,21 @@ public class UiPopScript : MonoBehaviour
         if(other.tag == "Player1" || other.tag == "Player2")
         {
             playersCount--;
+
+            if (playersCount == 0)
+            {
+                text.GetComponent<TextMeshProUGUI>().enabled = false;
+            }
         }
         else if (other.tag == "FusedPlayer")
         {
-            playersCount -= 2;
+            playersCount = 0;
+
+            if (playersCount == 0)
+            {
+                text.GetComponent<TextMeshProUGUI>().enabled = false;
+            }
         }
+
     }
 }
