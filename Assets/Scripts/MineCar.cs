@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MineCar : MonoBehaviour
 {
+    AudioSource source;
+
     // put the points from unity interface
     public GameObject[] wayPointObjectList;
     public Transform[] wayPointList;
@@ -33,6 +35,8 @@ public class MineCar : MonoBehaviour
 
     void Start()
     {
+        source = GetComponent<AudioSource>();
+
         fpPlayer = GameObject.FindGameObjectWithTag("FusedPlayer_Script");
         players = fpPlayer.GetComponent<Players>();
 
@@ -85,6 +89,8 @@ public class MineCar : MonoBehaviour
         {
             multiplicator = 1;
         }
+
+        source.volume = multiplicator;  
 
         transform.forward = Vector3.RotateTowards(transform.forward, targetWayPoint.position - transform.position, multiplicator * speed * Time.deltaTime, 0.0f);
 

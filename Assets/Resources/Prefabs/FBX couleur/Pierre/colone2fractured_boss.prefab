@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 536457826418891813}
   m_Layer: 0
   m_Name: colone2fractured_boss
-  m_TagString: Untagged
+  m_TagString: FracturedColonne
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

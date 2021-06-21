@@ -71,7 +71,7 @@ public class Lever : MonoBehaviour
             if (Input.GetButtonDown(hookingStringP2) || interactP2)
             {
                 _hookPressedTimeP2 = Time.timeSinceLevelLoad;
-                _hookHeldP1 = false;
+                _hookHeldP2 = false;
             }
             else if (Input.GetButtonUp(hookingStringP2) || interactP2)
             {

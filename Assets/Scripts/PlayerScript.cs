@@ -522,6 +522,11 @@ public class PlayerScript : MonoBehaviour
 
                 childPlayer.SetActive(false);
                 transform.position = otherPlayer.transform.position;
+
+                if (source.volume > 0)
+                {
+                    source.volume -= 20f * Time.deltaTime;
+                }
             }
         }
 

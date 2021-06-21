@@ -77,10 +77,12 @@ public class Respawn : MonoBehaviour
         if (playerID == 0)
         {
             player1Live = true;
+            Player1.transform.GetChild(0).gameObject.SetActive(true);
         }
         else if (playerID == 1)
         {
             player2Live = true;
+            Player2.transform.GetChild(0).gameObject.SetActive(true);
         }
     }
 
@@ -107,6 +109,9 @@ public class Respawn : MonoBehaviour
         player1Live = true;
         player2Live = true;
 
+        Player1.transform.GetChild(0).gameObject.SetActive(true);
+        Player2.transform.GetChild(0).gameObject.SetActive(true);
+
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject enemy in enemies)
         {
@@ -132,6 +137,12 @@ public class Respawn : MonoBehaviour
         foreach (GameObject barricade in barricades)
         {
             GameObject.Destroy(barricade);
+        }
+
+        GameObject[] fracturedPilars = GameObject.FindGameObjectsWithTag("FracturedColonne");
+        foreach (GameObject pilar in fracturedPilars)
+        {
+            GameObject.Destroy(pilar.gameObject);
         }
 
         GameObject[] barricadeInstantiators = GameObject.FindGameObjectsWithTag("BarricadeInstantiator");

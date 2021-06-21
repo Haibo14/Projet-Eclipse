@@ -29,6 +29,7 @@ TagManager:
   - RockPlace
   - sbirePlace
   - EnemyInstantiator
+  - FracturedColonne
   layers:
   - Default
   - TransparentFX
