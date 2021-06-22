@@ -93,6 +93,7 @@ GameObject:
   - component: {fileID: 8974683114596712539}
   - component: {fileID: 3186604078502460702}
   - component: {fileID: 7314909609812476260}
+  - component: {fileID: 7699711259228042084}
   m_Layer: 0
   m_Name: roue droit
   m_TagString: Untagged
@@ -163,6 +164,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!95 &7699711259228042084
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1726533195275207920}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f4fce5fd3743c2c42a784029544ae2f7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2228422327826839226
 GameObject:
   m_ObjectHideFlags: 0
@@ -417,6 +437,7 @@ GameObject:
   - component: {fileID: 3808296403568578904}
   - component: {fileID: 2609015289305494509}
   - component: {fileID: 55248917633290672}
+  - component: {fileID: 1682855037895342673}
   m_Layer: 0
   m_Name: roue gauche
   m_TagString: Untagged
@@ -487,6 +508,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!95 &1682855037895342673
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4202729599681618466}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f4fce5fd3743c2c42a784029544ae2f7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &4581569714816632153
 GameObject:
   m_ObjectHideFlags: 0

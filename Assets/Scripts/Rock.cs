@@ -171,7 +171,7 @@ public class Rock : MonoBehaviour
             source.PlayOneShot(rockSon, 1f);
             particles.Play();
             child.gameObject.transform.parent = null;
-            child.gameObject.transform.position = transform.position;
+            child.gameObject.transform.position = transform.position;   
         }
     }
 
