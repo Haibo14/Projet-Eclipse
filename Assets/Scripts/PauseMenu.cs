@@ -20,14 +20,18 @@ public class PauseMenu : MonoBehaviour
     public GameObject options_Menu;
     public GameObject volume;
     public GameObject audioSlider;
+    public GameObject music;
+    public GameObject audioSlider2;
     public GameObject commands;
     public GameObject back;
+    public GameObject commandsImage;
 
     Image reprendre_Image;
     Image recommencer_Image;
     Image options_Image;
     Image menu_Image;
     Image volume_Image;
+    Image music_Image;
     Image commands_Image;
     Image back_Image;
 
@@ -37,6 +41,7 @@ public class PauseMenu : MonoBehaviour
     TextMesh menu_Text;
     TextMesh options_Menu_Text;
     TextMesh volume_Text;
+    TextMesh music_Text;
     TextMesh commands_Text;
     TextMesh back_Text;
 
@@ -50,6 +55,8 @@ public class PauseMenu : MonoBehaviour
     Color menu_ChosenColor;
     Color volume_baseColor;
     Color volume_chosenColor;
+    Color music_baseColor;
+    Color music_chosenColor;
     Color commands_baseColor;
     Color commands_chosenColor;
     Color back_baseColor;
@@ -71,6 +78,9 @@ public class PauseMenu : MonoBehaviour
     public string submitString;
     public string cancelString;
 
+    bool jumpButton;
+    bool interactButton;
+
     void Start()
     {
         oscMessage = oscMaster.GetComponent<ReceivePosition>();
@@ -80,6 +90,7 @@ public class PauseMenu : MonoBehaviour
         options_Image = options.GetComponent<Image>();
         menu_Image = menu.GetComponent<Image>();
         volume_Image = volume.GetComponent<Image>();
+        music_Image = music.GetComponent<Image>();
         commands_Image = commands.GetComponent<Image>();
         back_Image = back.GetComponent<Image>();
 
@@ -88,6 +99,7 @@ public class PauseMenu : MonoBehaviour
         options_Text = options.transform.GetChild(0).GetComponent<TextMesh>();
         menu_Text = menu.transform.GetChild(0).GetComponent<TextMesh>();
         volume_Text = volume.transform.GetChild(0).GetComponent<TextMesh>();
+        music_Text = music.transform.GetChild(0).GetComponent<TextMesh>();
         commands_Text = commands.transform.GetChild(0).GetComponent<TextMesh>();
         back_Text = back.transform.GetChild(0).GetComponent<TextMesh>();
 
@@ -111,6 +123,10 @@ public class PauseMenu : MonoBehaviour
         volume_chosenColor = volume_Image.color;
         volume_chosenColor.a = transparency;
 
+        music_baseColor = music_Image.color;
+        music_chosenColor = music_Image.color;
+        music_chosenColor.a = transparency;
+
         commands_baseColor = commands_Image.color;
         commands_chosenColor = commands_Image.color;
         commands_chosenColor.a = transparency;
@@ -118,6 +134,10 @@ public class PauseMenu : MonoBehaviour
         back_baseColor = back_Image.color;
         back_chosenColor = back_Image.color;
         back_chosenColor.a = transparency;
+
+
+        jumpButton = false;
+        interactButton = false;
     }
 
     void Update()
@@ -137,10 +157,16 @@ public class PauseMenu : MonoBehaviour
         if(GameIsPaused == true)
         {
             move.x = Input.GetAxis(moveX);
-            move.y = Input.GetAxis(moveY);
+            move.y = Input.GetAxis(moveY); 
+            
+            if (move == Vector2.zero)
+            {
+                move.x = -(oscMessage.xAxis_p1);
+                move.y = oscMessage.zAxis_p1;
+            }
 
-            //move.x = -(oscMessage.xAxis_ );
-            //move.y = oscMessage.zAxis_;
+            jumpButton = oscMaster.GetComponent<ReceivePosition>().buttonJumpP1;
+            interactButton = oscMaster.GetComponent<ReceivePosition>().buttonInteractP2;
 
             timer += Time.unscaledDeltaTime;
 
@@ -257,33 +283,53 @@ public class PauseMenu : MonoBehaviour
             {
                 if (selectedStateY == 0)
                 {
-                    volume_Image.color = volume_chosenColor;
+                    volume_Image.color = volume_baseColor;
                     commands_Image.color = commands_baseColor;
                     back_Image.color = back_baseColor;
+                    music_Image.color = music_chosenColor;
 
-                    audioSlider.GetComponent<Slider>().value += (move.x * sliderSensitivity * Time.unscaledDeltaTime);
+                    audioSlider2.GetComponent<Slider>().value += (move.x * sliderSensitivity * Time.unscaledDeltaTime);
                 }
                 else if (selectedStateY == 1)
                 {
-                    volume_Image.color = volume_baseColor;
-                    commands_Image.color = commands_chosenColor;
+                    volume_Image.color = volume_chosenColor;
+                    commands_Image.color = commands_baseColor;
                     back_Image.color = back_baseColor;
+                    music_Image.color = music_baseColor;
 
-                    if (timer >= latency)
-                    {
-                        if (Input.GetButton(submitString))
-                        {
-                            Debug.Log("Montre les commandes");
-
-                            timer = 0;
-                        }
-                    }
+                    audioSlider.GetComponent<Slider>().value += (move.x * sliderSensitivity * Time.unscaledDeltaTime);
                 }
                 else if (selectedStateY == 2)
                 {
                     volume_Image.color = volume_baseColor;
+                    commands_Image.color = commands_chosenColor;
+                    back_Image.color = back_baseColor;
+                    music_Image.color = music_baseColor;
+
+                    if (timer >= latency)
+                    {
+                        if (Input.GetButton(submitString) || jumpButton == true)
+                        {
+                            commandsImage.SetActive(true);
+                            options_Menu.SetActive(false);
+                            back.SetActive(false);
+
+                            timer = 0;
+                        }
+                        else
+                        {
+                            commandsImage.SetActive(false);
+                            options_Menu.SetActive(true);
+                            back.SetActive(true);
+                        }
+                    }
+                }
+                else if (selectedStateY == 3)
+                {
+                    volume_Image.color = volume_baseColor;
                     commands_Image.color = commands_baseColor;
                     back_Image.color = back_chosenColor;
+                    music_Image.color = music_baseColor;
 
                     if (timer >= latency)
                     {
@@ -301,7 +347,7 @@ public class PauseMenu : MonoBehaviour
                 }
                 else if (selectedStateY <= -1)
                 {
-                    selectedStateY = 2;
+                    selectedStateY = 3;
                 }
             }
             else if(selectedStateZ <= -1)

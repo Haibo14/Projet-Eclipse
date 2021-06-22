@@ -18,7 +18,9 @@ public class MainMenu : MonoBehaviour
     public GameObject eclypse_Menu;
     public GameObject options_Menu;
     public GameObject volume;
+    public GameObject music;
     public GameObject audioSlider;
+    public GameObject audioSlider2;
     public GameObject commands;
     public GameObject commandsImage;
     public GameObject levels_Menu;
@@ -34,6 +36,7 @@ public class MainMenu : MonoBehaviour
     Image exit_Image;
     Image back_Image;
     Image volume_Image;
+    Image music_Image;
     Image commands_Image;
     Image level1_Image;
     Image level2_Image;
@@ -48,6 +51,7 @@ public class MainMenu : MonoBehaviour
     TextMesh back_Text;
     TextMesh options_Menu_Text;
     TextMesh volume_Text;
+    TextMesh music_Text;
     TextMesh commands_Text;
 
     Color play_baseColor;
@@ -62,6 +66,8 @@ public class MainMenu : MonoBehaviour
     Color back_chosenColor;
     Color volume_baseColor;
     Color volume_chosenColor;
+    Color music_baseColor;
+    Color music_chosenColor;
     Color commands_baseColor;
     Color commands_chosenColor;
     Color level1_baseColor;
@@ -108,6 +114,7 @@ public class MainMenu : MonoBehaviour
         exit_Image = exit.GetComponent<Image>();
         back_Image = back.GetComponent<Image>();
         volume_Image = volume.GetComponent<Image>();
+        music_Image = music.GetComponent<Image>();
         commands_Image = commands.GetComponent<Image>();
         level1_Image = level1.GetComponent<Image>();
         level2_Image = level2.GetComponent<Image>();
@@ -121,6 +128,7 @@ public class MainMenu : MonoBehaviour
         exit_Text = exit.transform.GetChild(0).GetComponent<TextMesh>();
         back_Text = back.transform.GetChild(0).GetComponent<TextMesh>();
         volume_Text = volume.transform.GetChild(0).GetComponent<TextMesh>();
+        music_Text = music.transform.GetChild(0).GetComponent<TextMesh>();
         commands_Text = commands.transform.GetChild(0).GetComponent<TextMesh>();
 
         play_baseColor = play_Image.color;
@@ -146,6 +154,10 @@ public class MainMenu : MonoBehaviour
         volume_baseColor = volume_Image.color;
         volume_chosenColor = volume_Image.color;
         volume_chosenColor.a = transparency;
+
+        music_baseColor = music_Image.color;
+        music_chosenColor = music_Image.color;
+        music_chosenColor.a = transparency;
 
         commands_baseColor = commands_Image.color;
         commands_chosenColor = commands_Image.color;
@@ -326,7 +338,7 @@ public class MainMenu : MonoBehaviour
             }
             else if (selectedStateY <= -1)
             {
-                selectedStateY = 2;
+                selectedStateY = 3;
             }
 
         }
@@ -479,19 +491,30 @@ public class MainMenu : MonoBehaviour
             }
             else if (selectedMenu == 2)
             {
-                if(selectedStateY == 0)
+                if (selectedStateY == 0)
+                {
+                    volume_Image.color = volume_baseColor;
+                    commands_Image.color = commands_baseColor;
+                    back_Image.color = back_baseColor;
+                    music_Image.color = music_chosenColor;
+
+                    audioSlider2.GetComponent<Slider>().value += (move.x * sliderSensitivity * Time.unscaledDeltaTime);
+                }
+                else if(selectedStateY == 1)
                 {
                     volume_Image.color = volume_chosenColor;
                     commands_Image.color = commands_baseColor;
                     back_Image.color = back_baseColor;
+                    music_Image.color = music_baseColor;
 
                     audioSlider.GetComponent<Slider>().value += (move.x * sliderSensitivity * Time.unscaledDeltaTime);
                 }
-                else if(selectedStateY == 1)
+                else if(selectedStateY == 2)
                 {
                     volume_Image.color = volume_baseColor;
                     commands_Image.color = commands_chosenColor;
                     back_Image.color = back_baseColor;
+                    music_Image.color = music_baseColor;
 
                     if (timer >= latency)
                     {
@@ -513,11 +536,12 @@ public class MainMenu : MonoBehaviour
                         }
                     }
                 }
-                else if (selectedStateY == 2)
+                else if (selectedStateY == 3)
                 {
                     volume_Image.color = volume_baseColor;
                     commands_Image.color = commands_baseColor;
                     back_Image.color = back_chosenColor;
+                    music_Image.color = music_baseColor;
 
                     if (timer >= latency)
                     {
@@ -529,13 +553,13 @@ public class MainMenu : MonoBehaviour
                         }
                     }
                 }
-                else if(selectedStateY >= 3)
+                else if(selectedStateY >= 4)
                 {
                     selectedStateY = 0;
                 }
                 else if (selectedStateY <= -1)
                 {
-                    selectedStateY = 2;
+                    selectedStateY = 3;
                 }
             }
         }
