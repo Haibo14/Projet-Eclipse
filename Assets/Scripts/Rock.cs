@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class Rock : MonoBehaviour
 {
+    public GameObject child;
+
+    ParticleSystem particles;
+
     AudioSource source;
     public AudioClip rockSon;
 
@@ -46,6 +50,8 @@ public class Rock : MonoBehaviour
 
     void Start()
     {
+        particles = child.GetComponent<ParticleSystem>();
+        particles.Stop();
         source = GetComponent<AudioSource>();
         respawnManager = GameObject.FindGameObjectWithTag("RespawnManager");
         boss = GameObject.FindGameObjectWithTag("Boss");
@@ -163,6 +169,9 @@ public class Rock : MonoBehaviour
         else if (other.tag == "Ground")
         {
             source.PlayOneShot(rockSon, 1f);
+            particles.Play();
+            child.gameObject.transform.parent = null;
+            child.gameObject.transform.position = transform.position;
         }
     }
 

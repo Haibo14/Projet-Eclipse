@@ -6,6 +6,9 @@ public class Players : MonoBehaviour
 {
     #region variables
 
+    [SerializeField] ParticleSystem particles;
+    [SerializeField] ParticleSystem particles2;
+
     public Animator animator;
 
     public AudioSource source;
@@ -155,6 +158,8 @@ public class Players : MonoBehaviour
         source2.clip = walkClip;
         source2.Play();
         source2.volume = 0;
+        particles.Stop();
+        particles2.Stop();
     }
 
     #endregion
@@ -436,6 +441,8 @@ public class Players : MonoBehaviour
                     playerObject2.fusing = false;
 
                     merged = true;
+                    particles.Play();
+                    particles2.Play();
                     playerObject1.merged = true;
                     playerObject2.merged = true;
 
