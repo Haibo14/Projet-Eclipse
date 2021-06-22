@@ -21,6 +21,12 @@ public class MainMenu : MonoBehaviour
     public GameObject audioSlider;
     public GameObject commands;
     public GameObject commandsImage;
+    public GameObject levels_Menu;
+    public GameObject level1;
+    public GameObject level2;
+    public GameObject level3;
+    public GameObject level4;
+    public GameObject levelFinal;
 
     Image play_Image;
     Image eclypse_Image;
@@ -29,6 +35,11 @@ public class MainMenu : MonoBehaviour
     Image back_Image;
     Image volume_Image;
     Image commands_Image;
+    Image level1_Image;
+    Image level2_Image;
+    Image level3_Image;
+    Image level4_Image;
+    Image levelFinal_Image;
 
     TextMesh play_Text;
     TextMesh eclypse_Text;
@@ -53,6 +64,16 @@ public class MainMenu : MonoBehaviour
     Color volume_chosenColor;
     Color commands_baseColor;
     Color commands_chosenColor;
+    Color level1_baseColor;
+    Color level2_baseColor;
+    Color level3_baseColor;
+    Color level4_baseColor;
+    Color levelFinal_baseColor;
+    Color level1_chosenColor;
+    Color level2_chosenColor;
+    Color level3_chosenColor;
+    Color level4_chosenColor;
+    Color levelFinal_chosenColor;
 
     public int selectedStateY;
     public int selectedStateZ;
@@ -88,6 +109,11 @@ public class MainMenu : MonoBehaviour
         back_Image = back.GetComponent<Image>();
         volume_Image = volume.GetComponent<Image>();
         commands_Image = commands.GetComponent<Image>();
+        level1_Image = level1.GetComponent<Image>();
+        level2_Image = level2.GetComponent<Image>();
+        level3_Image = level3.GetComponent<Image>();
+        level4_Image = level4.GetComponent<Image>();
+        levelFinal_Image = levelFinal.GetComponent<Image>();
 
         play_Text = play.transform.GetChild(0).GetComponent<TextMesh>();
         eclypse_Text = play.transform.GetChild(0).GetComponent<TextMesh>();
@@ -124,6 +150,24 @@ public class MainMenu : MonoBehaviour
         commands_baseColor = commands_Image.color;
         commands_chosenColor = commands_Image.color;
         commands_chosenColor.a = transparency;
+
+        level1_baseColor = level1_Image.color;
+        level2_baseColor = level2_Image.color;
+        level3_baseColor = level3_Image.color;
+        level4_baseColor = level4_Image.color;
+        levelFinal_baseColor = levelFinal_Image.color;
+
+        level1_chosenColor = level1_Image.color;
+        level2_chosenColor = level2_Image.color;
+        level3_chosenColor = level3_Image.color;
+        level4_chosenColor = level4_Image.color;
+        levelFinal_chosenColor = levelFinal_Image.color;
+
+        level1_chosenColor.a = transparency;
+        level2_chosenColor.a = transparency;
+        level3_chosenColor.a = transparency;
+        level4_chosenColor.a = transparency;
+        levelFinal_chosenColor.a = transparency;
 
         transformEclipse = eclypse_Menu.transform.position.y;
 
@@ -180,6 +224,7 @@ public class MainMenu : MonoBehaviour
             eclypse_Menu.SetActive(false);
             options_Menu.SetActive(false);
             back.SetActive(false);
+            levels_Menu.SetActive(false);
 
             if (selectedStateY == 0)
             {
@@ -192,8 +237,16 @@ public class MainMenu : MonoBehaviour
                 {
                     if (Input.GetButton(submitString) || jumpButton == true)
                     {
-                        SceneManager.LoadScene(1);
 
+                        selectedStateZ++;
+                        selectedMenu = 0;
+                        selectedStateY = 1;
+
+                        levels_Menu.SetActive(true);
+                        back.SetActive(true);
+                        startMenu.SetActive(false);
+                        eclypse_Menu.SetActive(false);
+                        options_Menu.SetActive(false);
                         timer = 0;
                     }
                 }
@@ -210,10 +263,11 @@ public class MainMenu : MonoBehaviour
                     if (Input.GetButton(submitString) || jumpButton == true)
                     {
                         selectedStateZ++;
-
+                        
                         startMenu.SetActive(false);
                         eclypse_Menu.SetActive(true);
                         back.SetActive(true);
+                        levels_Menu.SetActive(false);
 
                         selectedMenu = 1;
                         selectedStateY = 0;
@@ -240,6 +294,7 @@ public class MainMenu : MonoBehaviour
                         startMenu.SetActive(false);
                         options_Menu.SetActive(true);
                         back.SetActive(true);
+                        levels_Menu.SetActive(false);
 
                         selectedMenu = 2;
                         selectedStateY = 0;
@@ -277,7 +332,134 @@ public class MainMenu : MonoBehaviour
         }
         else if(selectedStateZ == 1)
         {
-            if(selectedMenu == 1)
+            if(selectedMenu == 0)
+            {
+
+                if(selectedStateY == 1)
+                {
+
+                    level1_Image.color = level1_chosenColor;
+                    level2_Image.color = level2_baseColor;
+                    level3_Image.color = level3_baseColor;
+                    level4_Image.color = level4_baseColor;
+                    levelFinal_Image.color = levelFinal_baseColor;
+                    back_Image.color = back_baseColor;
+                    if (timer >= latency)
+                    {
+                        if (Input.GetButton(submitString) || jumpButton == true)
+                        {
+                            SceneManager.LoadScene(1);
+                        }
+                    }
+                }
+                else if (selectedStateY == 2)
+                {
+
+                    level1_Image.color = level1_baseColor;
+                    level2_Image.color = level2_chosenColor;
+                    level3_Image.color = level3_baseColor;
+                    level4_Image.color = level4_baseColor;
+                    levelFinal_Image.color = levelFinal_baseColor;
+                    back_Image.color = back_baseColor; 
+                    if (timer >= latency)
+                    {
+                        if (Input.GetButton(submitString) || jumpButton == true)
+                        {
+                            SceneManager.LoadScene(2);
+                        }
+                    }
+                }
+                else if (selectedStateY == 3)
+                {
+
+                    level1_Image.color = level1_baseColor;
+                    level2_Image.color = level2_baseColor;
+                    level3_Image.color = level3_chosenColor;
+                    level4_Image.color = level4_baseColor;
+                    levelFinal_Image.color = levelFinal_baseColor;
+                    back_Image.color = back_baseColor; 
+                    if (timer >= latency)
+                    {
+                        if (Input.GetButton(submitString) || jumpButton == true)
+                        {
+                            SceneManager.LoadScene(3);
+                        }
+                    }
+                }
+                else if (selectedStateY == 4)
+                {
+
+                    level1_Image.color = level1_baseColor;
+                    level2_Image.color = level2_baseColor;
+                    level3_Image.color = level3_baseColor;
+                    level4_Image.color = level4_chosenColor;
+                    levelFinal_Image.color = levelFinal_baseColor;
+                    back_Image.color = back_baseColor;
+                    if (timer >= latency)
+                    {
+                        if (Input.GetButton(submitString) || jumpButton == true)
+                        {
+                            SceneManager.LoadScene(4);
+                        }
+                    }
+                }
+                else if (selectedStateY == 5)
+                {
+
+                    level1_Image.color = level1_baseColor;
+                    level2_Image.color = level2_baseColor;
+                    level3_Image.color = level3_baseColor;
+                    level4_Image.color = level4_baseColor;
+                    levelFinal_Image.color = levelFinal_chosenColor;
+                    back_Image.color = back_baseColor;
+                    if (timer >= latency)
+                    {
+                        if (Input.GetButton(submitString) || jumpButton == true)
+                        {
+                            SceneManager.LoadScene(5);
+                        }
+                    }
+                }
+                else if (selectedStateY == 6)
+                {
+                    level1_Image.color = level1_baseColor;
+                    level2_Image.color = level2_baseColor;
+                    level3_Image.color = level3_baseColor;
+                    level4_Image.color = level4_baseColor;
+                    levelFinal_Image.color = levelFinal_baseColor;
+                    back_Image.color = back_chosenColor;
+
+                    if (timer >= latency)
+                    {
+                        if (Input.GetButton(submitString) || jumpButton == true)
+                        {
+                            selectedStateZ--;
+
+                            timer = 0;
+                        }
+                    }
+                }
+                else if(selectedStateY >= 7)
+                {
+                    selectedStateY = 1;
+                }
+                else if(selectedStateY <= 0)
+                {
+                    selectedStateY = 6;
+                }
+
+
+                if (timer >= latency)
+                {
+                    if (Input.GetButton(submitString) || jumpButton == true)
+                    {
+                        selectedStateZ--;
+
+                        timer = 0;
+                    }
+                }
+            }
+            else if(selectedMenu == 1)
             {
                 back_Image.color = back_chosenColor;
 
@@ -318,6 +500,7 @@ public class MainMenu : MonoBehaviour
                             commandsImage.SetActive(true);
                             options_Menu.SetActive(false);
                             back.SetActive(false);
+                            levels_Menu.SetActive(false);
 
                             timer = 0;
                         }
@@ -326,6 +509,7 @@ public class MainMenu : MonoBehaviour
                             commandsImage.SetActive(false);
                             options_Menu.SetActive(true);
                             back.SetActive(true);
+                            levels_Menu.SetActive(false);
                         }
                     }
                 }

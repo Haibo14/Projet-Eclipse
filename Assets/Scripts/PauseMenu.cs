@@ -14,6 +14,7 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenuUI;
     public GameObject basePauseMenu;
     public GameObject reprendre;
+    public GameObject recommencer;
     public GameObject options;
     public GameObject menu;
     public GameObject options_Menu;
@@ -23,6 +24,7 @@ public class PauseMenu : MonoBehaviour
     public GameObject back;
 
     Image reprendre_Image;
+    Image recommencer_Image;
     Image options_Image;
     Image menu_Image;
     Image volume_Image;
@@ -30,6 +32,7 @@ public class PauseMenu : MonoBehaviour
     Image back_Image;
 
     TextMesh reprendre_Text;
+    TextMesh recommencer_Text;
     TextMesh options_Text;
     TextMesh menu_Text;
     TextMesh options_Menu_Text;
@@ -39,6 +42,8 @@ public class PauseMenu : MonoBehaviour
 
     Color reprendre_BaseColor;
     Color reprendre_ChosenColor;
+    Color recommencer_BaseColor;
+    Color recommencer_ChosenColor;
     Color options_BaseColor;
     Color options_ChosenColor;
     Color menu_BaseColor;
@@ -71,6 +76,7 @@ public class PauseMenu : MonoBehaviour
         oscMessage = oscMaster.GetComponent<ReceivePosition>();
 
         reprendre_Image = reprendre.GetComponent<Image>();
+        recommencer_Image = recommencer.GetComponent<Image>();
         options_Image = options.GetComponent<Image>();
         menu_Image = menu.GetComponent<Image>();
         volume_Image = volume.GetComponent<Image>();
@@ -78,6 +84,7 @@ public class PauseMenu : MonoBehaviour
         back_Image = back.GetComponent<Image>();
 
         reprendre_Text = reprendre.transform.GetChild(0).GetComponent<TextMesh>();
+        recommencer_Text = recommencer.transform.GetChild(0).GetComponent<TextMesh>();
         options_Text = options.transform.GetChild(0).GetComponent<TextMesh>();
         menu_Text = menu.transform.GetChild(0).GetComponent<TextMesh>();
         volume_Text = volume.transform.GetChild(0).GetComponent<TextMesh>();
@@ -87,6 +94,10 @@ public class PauseMenu : MonoBehaviour
         reprendre_BaseColor = reprendre_Image.color;
         reprendre_ChosenColor = reprendre_Image.color;
         reprendre_ChosenColor.a = transparency;
+
+        recommencer_BaseColor = recommencer_Image.color;
+        recommencer_ChosenColor = recommencer_Image.color;
+        recommencer_ChosenColor.a = transparency;
 
         options_BaseColor = options_Image.color;
         options_ChosenColor = options_Image.color;
@@ -108,7 +119,6 @@ public class PauseMenu : MonoBehaviour
         back_chosenColor = back_Image.color;
         back_chosenColor.a = transparency;
     }
-
 
     void Update()
     {
@@ -168,6 +178,7 @@ public class PauseMenu : MonoBehaviour
                     reprendre_Image.color = reprendre_ChosenColor;
                     options_Image.color = options_BaseColor;
                     menu_Image.color = menu_BaseColor;
+                    recommencer_Image.color = recommencer_BaseColor;
 
                     if (timer >= latency)
                     {
@@ -182,8 +193,24 @@ public class PauseMenu : MonoBehaviour
                 else if (selectedStateY == 1)
                 {
                     reprendre_Image.color = reprendre_BaseColor;
+                    recommencer_Image.color = recommencer_ChosenColor;
+                    options_Image.color = options_BaseColor;
+                    menu_Image.color = menu_BaseColor;
+
+                    if (timer >= latency)
+                    {
+                        if (Input.GetButton(submitString))
+                        {
+                            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                        }
+                    }
+                }
+                else if (selectedStateY == 2)
+                {
+                    reprendre_Image.color = reprendre_BaseColor;
                     options_Image.color = options_ChosenColor;
                     menu_Image.color = menu_BaseColor;
+                    recommencer_Image.color = recommencer_BaseColor;
 
                     if (timer >= latency)
                     {
@@ -199,11 +226,12 @@ public class PauseMenu : MonoBehaviour
                         }
                     }
                 }
-                else if (selectedStateY == 2)
+                else if (selectedStateY == 3)
                 {
                     reprendre_Image.color = reprendre_BaseColor;
                     options_Image.color = options_BaseColor;
                     menu_Image.color = menu_ChosenColor;
+                    recommencer_Image.color = recommencer_BaseColor;
 
                     if (timer >= latency)
                     {
@@ -216,13 +244,13 @@ public class PauseMenu : MonoBehaviour
                     }
 
                 }
-                else if (selectedStateY >= 3)
+                else if (selectedStateY >= 4)
                 {
                     selectedStateY = 0;
                 }
                 else if (selectedStateY <= -1)
                 {
-                    selectedStateY = 2;
+                    selectedStateY = 3;
                 }
             }
             else if (selectedStateZ == 1)
