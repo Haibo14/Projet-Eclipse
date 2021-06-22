@@ -5,7 +5,7 @@ using TMPro;
 
 public class TextDisappear : MonoBehaviour
 {
-    public float timerEnd = 1.0f;
+    public float timerEnd = 2.0f;
     public float timer;
 
 
@@ -15,14 +15,24 @@ public class TextDisappear : MonoBehaviour
 
     void Update()
     {
-        timer += Time.unscaledDeltaTime;
-
-        if(timer >= timerEnd)
+        GameObject[] popUI = GameObject.FindGameObjectsWithTag("UI");
+        foreach(GameObject pop in popUI)
         {
-            timer = 0;
-            
-            GetComponent<TextMeshProUGUI>().enabled = false;
-            
+            if (GetComponent<TextMeshProUGUI>().enabled == true)
+            {
+                timer += Time.deltaTime;
+
+                if (timer >= timerEnd)
+                {
+                    GetComponent<TextMeshProUGUI>().enabled = false;
+                    pop.GetComponent<UiPopScript>().playersCount = 0;
+                    timer = 0;
+
+
+                }
+            }
         }
+
+        
     }
 }

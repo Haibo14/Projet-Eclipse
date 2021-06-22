@@ -41,7 +41,7 @@ public class UiPopScript : MonoBehaviour
 
         if(text == null)
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
 
     }
