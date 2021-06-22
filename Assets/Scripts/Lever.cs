@@ -36,15 +36,15 @@ public class Lever : MonoBehaviour
     {
         if (osc.enabled == true)
         {
-            interactP1 = osc.buttonInteractP1;
-            interactP2 = osc.buttonInteractP2;
+            interactP1 = _hookHeldP1;
+            interactP2 = _hookHeldP2;
         }
     }
 
     void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag == "FusedPlayer")
-        {
+        {/*
             if (Input.GetButtonDown(hookingStringP1))
             {
                 _hookPressedTimeP1 = Time.timeSinceLevelLoad;
@@ -106,6 +106,36 @@ public class Lever : MonoBehaviour
 
                 _hookHeldP1 = false;
                 _hookHeldP2 = false;
+            }*/
+            if(Input.GetButtonDown(hookingStringP1) && Input.GetButtonDown(hookingStringP2))
+            {
+                if(playOnce == true)
+                {
+
+                    platform.GetComponent<Platform>().upDown = !platform.GetComponent<Platform>().upDown;
+
+                    playOnce = false;
+                }
+                else
+                {
+                    playOnce = true;
+                }
+            }
+
+            if (_hookHeldP1 == true && _hookHeldP2 == true)
+            {
+                if (playOnce == true)
+                {
+
+                    platform.GetComponent<Platform>().upDown = !platform.GetComponent<Platform>().upDown;
+
+                    playOnce = false;
+                }
+                else
+                {
+                    playOnce = true;
+                }
+
             }
         }
     }
