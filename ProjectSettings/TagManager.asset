@@ -35,6 +35,7 @@ TagManager:
   - ChariotText
   - PlaqueText
   - GameCam
+  - CinematicFinal
   layers:
   - Default
   - TransparentFX

@@ -216,7 +216,7 @@ public class Players : MonoBehaviour
 
         if (ReceivePosition.enabled == false)
         {
-            if (Input.GetButton("Fuse"))
+            if (Input.GetButton("Fuse") && Input.GetButton("Fuse_P2"))
             {
                 switchState = true;
             }
@@ -575,7 +575,7 @@ public class Players : MonoBehaviour
         #region split
         if (ReceivePosition.enabled == false) 
         {
-            if (Input.GetButton("Split"))
+            if (Input.GetButton("Split") && Input.GetButton("Split_P2"))
             {
                 switchState = false;
             }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BossScript : MonoBehaviour
 {
-    AudioSource source;
+    public AudioSource source;
     public AudioClip rage;
     public AudioClip lancerEnnemi;
     public AudioClip mort;
@@ -28,9 +28,11 @@ public class BossScript : MonoBehaviour
     public float endTimer;
 
     private bool playOnce;
+    private bool playOnce2;
     bool rageMode;
 
     private int[] values2;
+
 
     void Start()
     {
@@ -42,9 +44,8 @@ public class BossScript : MonoBehaviour
         values = new int[]{ 0, 0, 0, 0, 0, 0, 1, 1, 2, 2};
 
         playOnce = true;
+        playOnce2 = true;
 
-        animator.SetBool("rage", true);
-        source.PlayOneShot(rage, 1f);
     }
 
     void Update()
@@ -69,6 +70,15 @@ public class BossScript : MonoBehaviour
         else
         {
             rageCount = 0;
+        }
+
+        if(animator.GetBool("rage") == true)
+        {
+            if (playOnce2 == true)
+            {
+                source.PlayOneShot(rage, 1f);
+                playOnce2 = false;
+            }
         }
     }
 
