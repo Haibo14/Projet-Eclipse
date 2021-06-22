@@ -44,7 +44,7 @@ public class MineCar : MonoBehaviour
 
         wayPointObjectList = GameObject.FindGameObjectsWithTag(tagRail);
 
-        Debug.Log(wayPointObjectList.Length);
+
         wayPointList = new Transform[wayPointObjectList.Length];
 
         foreach (GameObject wayPointObject in wayPointObjectList)

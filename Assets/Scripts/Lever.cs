@@ -44,70 +44,8 @@ public class Lever : MonoBehaviour
     void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag == "FusedPlayer")
-        {/*
-            if (Input.GetButtonDown(hookingStringP1))
-            {
-                _hookPressedTimeP1 = Time.timeSinceLevelLoad;
-                _hookHeldP1 = false;
-            }
-            else if (Input.GetButtonUp(hookingStringP1) || interactP1)
-            {
-                if (!_hookHeldP1)
-                {
-
-                }
-                _hookHeldP1 = false;
-            }
-
-            if (Input.GetButton(hookingStringP1) || interactP1)
-            {
-                if (Time.timeSinceLevelLoad - _hookPressedTimeP1 > (_minimumHeldDuration * Time.deltaTime))
-                {
-                    _hookHeldP1 = true;
-
-                }
-            }
-
-            if (Input.GetButtonDown(hookingStringP2) || interactP2)
-            {
-                _hookPressedTimeP2 = Time.timeSinceLevelLoad;
-                _hookHeldP2 = false;
-            }
-            else if (Input.GetButtonUp(hookingStringP2) || interactP2)
-            {
-                if (!_hookHeldP2)
-                {
-
-                }
-                _hookHeldP2 = false;
-            }
-
-            if (Input.GetButton(hookingStringP2) || interactP2)
-            {
-                if (Time.timeSinceLevelLoad - _hookPressedTimeP2 > _minimumHeldDuration)
-                {
-                    _hookHeldP2 = true;
-
-                }
-            }
-
-            if (_hookHeldP1 == true && _hookHeldP2 == true)
-            {
-                if (playOnce == true)
-                {
-                    //leversManager.GetComponent<LeversManager>().leverState++;
-                    playOnce = false;
-                }
-
-                platform.GetComponent<Platform>().upDown = !platform.GetComponent<Platform>().upDown;
-
-                _hookPressedTimeP1 = Time.timeSinceLevelLoad;
-                _hookPressedTimeP2 = Time.timeSinceLevelLoad;
-
-                _hookHeldP1 = false;
-                _hookHeldP2 = false;
-            }*/
-            if(Input.GetButtonDown(hookingStringP1) && Input.GetButtonDown(hookingStringP2))
+        {
+            if(Input.GetButton(hookingStringP1) && Input.GetButton(hookingStringP2) && platform.GetComponent<Platform>().arrived == true)
             {
                 if(playOnce == true)
                 {
@@ -116,13 +54,14 @@ public class Lever : MonoBehaviour
 
                     playOnce = false;
                 }
-                else
-                {
-                    playOnce = true;
-                }
+
+            }
+            else
+            {
+                playOnce = true;
             }
 
-            if (_hookHeldP1 == true && _hookHeldP2 == true)
+            if (_hookHeldP1 == true && _hookHeldP2 == true && platform.GetComponent<Platform>().arrived == true)
             {
                 if (playOnce == true)
                 {
@@ -131,11 +70,12 @@ public class Lever : MonoBehaviour
 
                     playOnce = false;
                 }
-                else
-                {
-                    playOnce = true;
-                }
+                
 
+            }
+            else
+            {
+                playOnce = true;
             }
         }
     }

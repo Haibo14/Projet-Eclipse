@@ -34,6 +34,7 @@ TagManager:
   - LeverText
   - ChariotText
   - PlaqueText
+  - GameCam
   layers:
   - Default
   - TransparentFX

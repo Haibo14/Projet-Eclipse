@@ -14,6 +14,7 @@ public class Platform : MonoBehaviour
     public float waySpeed;
 
     public bool upDown;
+    public bool arrived;
 
     void Start()
     {
@@ -40,10 +41,13 @@ public class Platform : MonoBehaviour
                 (transform.position,
                 up.transform.position,
                 waySpeed * Time.deltaTime);
+
+                arrived = false;
             }
             else
             {
                 //source.volume = 0;
+                arrived = true;
             }
 
         }
@@ -59,9 +63,13 @@ public class Platform : MonoBehaviour
                 (transform.position,
                 down.transform.position,
                 waySpeed * Time.deltaTime);
+
+
+                arrived = false;
             }
             else
             {
+                arrived = true;
                 //source.volume = 0;
             }
         }

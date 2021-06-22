@@ -13,6 +13,7 @@ public class CameraManagerMine : MonoBehaviour
     public CinemachineVirtualCamera cinematicCam_4;
 
     public PlayableDirector directorCam_1;
+    public PlayableDirector directorCam_2;
 
     public int i;
 
@@ -41,7 +42,8 @@ public class CameraManagerMine : MonoBehaviour
         }
         else if (i == 3)
         {
-            //cinematicCam_2.enabled = cinematic;
+            cinematicCam_2.enabled = cinematic;
+            directorCam_2.Play();
             i += 1;
         }
         else if (i == 5)
@@ -88,6 +90,15 @@ public class CameraManagerMine : MonoBehaviour
             directorCam_1.time = 0;
             cinematicCam_1.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = 10;
             cinematicCam_1.enabled = false;
+        }
+
+        if (cinematicCam_2.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition >= 9 && cinematicCam_2.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition < 10)
+        {
+            cinematic = false;
+            directorCam_2.Pause();
+            directorCam_2.time = 0;
+            cinematicCam_2.GetCinemachineComponent<CinemachineTrackedDolly>().m_PathPosition = 10;
+            cinematicCam_2.enabled = false;
         }
     }
 }

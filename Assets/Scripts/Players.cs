@@ -274,7 +274,7 @@ public class Players : MonoBehaviour
 
             Vector3 oldPosition = transform.position;
 
-            transform.position = new Vector3(transform.position.x, hitFP.point.y + 2.25f, transform.position.z);
+            transform.position = new Vector3(transform.position.x, hitFP.point.y + gravityRaycastDistanceFP, transform.position.z);
             velocity = Vector3.zero;
 
 

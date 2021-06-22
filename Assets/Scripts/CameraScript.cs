@@ -7,6 +7,7 @@ using UnityEngine.Playables;
 public class CameraScript : MonoBehaviour
 {
 
+    public GameObject[] gameCam;
     public CinemachineVirtualCamera gameCam_0;
     public CinemachineVirtualCamera gameCam_1;
     public CinemachineVirtualCamera gameCam_2;
@@ -51,6 +52,8 @@ public class CameraScript : MonoBehaviour
         player2 = GameObject.FindGameObjectWithTag("Player2_Script");
         respawnManager = GameObject.FindGameObjectWithTag("RespawnManager");
 
+        gameCam = GameObject.FindGameObjectsWithTag("GameCam");
+
         target = new Vector3(fusedPlayer.transform.position.x, yGround + y, fusedPlayer.transform.position.z - z);
     }
 
@@ -68,15 +71,31 @@ public class CameraScript : MonoBehaviour
             if (totalDistance >= checkDistance)
             {
                 gameCam0.enabled = false;
-                gameCam_0.enabled = false;
                 gameCam_1.enabled = true;
                 gameCam_2.enabled = true;
+
+                foreach(GameObject gcam in gameCam)
+                {
+                    if (gcam.GetComponent<CinemachineVirtualCamera>().enabled == true)
+                    {
+                        gcam.GetComponent<CinemachineVirtualCamera>().Priority = 9;
+                        gameCam_0 = gcam.GetComponent<CinemachineVirtualCamera>();
+                    }
+                }
             }
             else
             {
-                gameCam_0.enabled = true;
                 gameCam_1.enabled = false;
-                gameCam_2.enabled = false;
+                gameCam_2.enabled = false; 
+                foreach (GameObject gcam in gameCam)
+                {
+                    if (gcam.GetComponent<CinemachineVirtualCamera>().enabled == true)
+                    {
+
+                        gcam.GetComponent<CinemachineVirtualCamera>().Priority = 11;
+                        gameCam_0 = gcam.GetComponent<CinemachineVirtualCamera>();
+                    }
+                }
 
                 if (Vector3.Distance(gameCam0.transform.position, gameCam_0.transform.position) <= checkDistanceCam)
                 {
@@ -87,8 +106,17 @@ public class CameraScript : MonoBehaviour
         }
         else
         {
-            gameCam0.enabled = true;
-            gameCam_0.enabled = false;
+            gameCam0.enabled = true; 
+            
+            foreach (GameObject gcam in gameCam)
+            {
+                if (gcam.GetComponent<CinemachineVirtualCamera>().enabled == true)
+                {
+
+                    gcam.GetComponent<CinemachineVirtualCamera>().Priority = 11;
+                    gameCam_0 = gcam.GetComponent<CinemachineVirtualCamera>();
+                }
+            }
             gameCam_1.enabled = false;
             gameCam_2.enabled = false;
         }
