@@ -4,8 +4,8 @@ using UnityEditor;
 
 public class SelectByTag : MonoBehaviour
 {
-
-    /*private static string SelectedTag = "BarricadeInstantiator";
+/*
+    private static string SelectedTag = "BarricadeInstantiator";
 
     
     public static void SelectObjectsWithTag()

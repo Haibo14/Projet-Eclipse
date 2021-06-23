@@ -331,12 +331,12 @@ public class PlayerScript : MonoBehaviour
 
                 if (walkClip.name == "Marche joueurs Sable")
                 {
-                    volumeMarche = 0.02f;
+                    volumeMarche = 1f;
                 }
                 else if (walkClip.name == "Marche Joueurs Roche")
                 {
 
-                    volumeMarche = 0.1f;
+                    volumeMarche = 1f;
                 }
 
 
@@ -586,7 +586,7 @@ public class PlayerScript : MonoBehaviour
                 
 
 
-                source2.PlayOneShot(jumpClip, 0.1f);
+                source2.PlayOneShot(jumpClip, 1f);
                 source2.volume = 1 - tJump / 2;
 
                

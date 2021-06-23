@@ -415,7 +415,7 @@ public class Players : MonoBehaviour
             if (source2.isPlaying == false && t1 < 1)
             {
                 source2.pitch = 1;
-                source2.PlayOneShot(fusionClip, 0.1f);
+                source2.PlayOneShot(fusionClip, 1f);
                 source2.volume = 1 - t1 / 2;
             }
 
@@ -507,7 +507,7 @@ public class Players : MonoBehaviour
         {
 
                 source.clip = walkClip;
-                if (source.volume < 0.3f)
+                if (source.volume < 1f)
                 {
                     source.volume += 0.5f * Time.deltaTime;
                 }
@@ -521,7 +521,7 @@ public class Players : MonoBehaviour
         else if (moveP1 != Vector3.zero && moveP2 == Vector3.zero && Time.timeScale != 0)
             {
                 source.clip = walkClip;
-                if (source.volume < 0.3f)
+                if (source.volume < 1f)
                 {
                     source.volume += 0.5f * Time.deltaTime;
                 }
@@ -536,7 +536,7 @@ public class Players : MonoBehaviour
         {
 
                 source.clip = walkClip;
-                if (source.volume < 0.3f)
+                if (source.volume < 1f)
                 {
                     source.volume += 0.5f * Time.deltaTime;
                 }
@@ -560,7 +560,7 @@ public class Players : MonoBehaviour
             source2.clip = jumpClip;
             if (source2.isPlaying == false)
             {
-                source2.PlayOneShot(jumpClip, 0.1f);
+                source2.PlayOneShot(jumpClip, 1f);
                 source2.volume = 1 - tFP / 2;
             }
 
@@ -621,7 +621,7 @@ public class Players : MonoBehaviour
             if (source2.isPlaying == false)
             {
                 source2.pitch = 2;
-                source2.PlayOneShot(defusionClip, 0.1f);
+                source2.PlayOneShot(defusionClip, 1f);
                 source2.volume = 1 - tSplit / 2;
             }
 

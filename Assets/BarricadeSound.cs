@@ -7,11 +7,15 @@ public class BarricadeSound : MonoBehaviour
     AudioSource source;
     public AudioClip barricadeSon;
 
+    ParticleSystem particles;
+
     public bool playOnce = true;
 
     void Start()
     {
         source = GetComponent<AudioSource>();
+        particles = GetComponent<ParticleSystem>();
+        particles.Stop();
     }
 
     void Update()
@@ -21,6 +25,7 @@ public class BarricadeSound : MonoBehaviour
             if (source.isPlaying == false && playOnce == true)
             {
                 source.PlayOneShot(barricadeSon, 1f);
+                particles.Play();
                 playOnce = false;
             }
         }

@@ -55,16 +55,8 @@ public class PressurePlate : MonoBehaviour
 
         hoist.transform.RotateAround(hoist.transform.position, Vector3.up, rotation);
 
-        if (multiplicator == 0)
-        {
-
-            source.volume = 0;
-        }
-        else
-        {
-
-            source.volume = 1;
-        }
+            source.volume = multiplicator;
+        
 
     }
 
