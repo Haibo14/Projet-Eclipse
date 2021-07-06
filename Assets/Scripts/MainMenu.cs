@@ -199,7 +199,7 @@ public class MainMenu : MonoBehaviour
         }
 
         jumpButton = oscMaster.GetComponent<ReceivePosition>().buttonJumpP1;
-        interactButton = oscMaster.GetComponent<ReceivePosition>().buttonInteractP2;
+        interactButton = oscMaster.GetComponent<ReceivePosition>().buttonInteractP1;
 
         timer += Time.unscaledDeltaTime;
 

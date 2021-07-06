@@ -143,14 +143,26 @@ public class DidacticielScript : MonoBehaviour
                 GameObject barricade = GameObject.FindGameObjectWithTag("Breakable_Barricade");
                 if (barricade == null)
                 {
-                    text4.enabled = false;
-                    text0.enabled = false;
-                    text1.enabled = false;
-                    text3.enabled = false;
-                    text2.enabled = false;
-                    Cinematic2.Play();
-                    Time.timeScale = 0;
                     
+                        text4.enabled = false;
+                        text0.enabled = false;
+                        text1.enabled = false;
+                        text3.enabled = false;
+                        text2.enabled = false;
+                        text5.enabled = true;
+                        gameCam.enabled = true;
+                        cinematicCam_1.enabled = true;
+                        directorCam_1.Play();
+
+                        GameObject enemy = Instantiate(chefPrefab, spawnSpot.position, spawnSpot.rotation);
+
+
+                        enemy.GetComponent<EnemyScript>().Spot(1, player2.transform);
+                        enemy.GetComponent<EnemyScript>().Spot(0, player1.transform);
+                        enemy.GetComponent<EnemyScript>().spotted = true;
+
+
+                    didacticielStep++;
                 }
                 
             }
@@ -166,7 +178,6 @@ public class DidacticielScript : MonoBehaviour
 
 
 
-                didacticielStep++;
             }
 
 
@@ -202,7 +213,7 @@ public class DidacticielScript : MonoBehaviour
 
                 Cinematic1.Stop();
             }
-
+            /*
             Cinematic2.loopPointReached += OnMovieFinished2;
 
             //the action on finish
@@ -234,7 +245,7 @@ public class DidacticielScript : MonoBehaviour
                 }
 
                 Cinematic2.Stop();
-            }
+            }*/
         }
     }
 }

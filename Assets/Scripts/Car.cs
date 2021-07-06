@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class Car : MonoBehaviour
     // put the points from unity interface
     public GameObject[] wayPointObjectList;
     public Transform[] wayPointList;
+    public int[] wayPoint_ordered;
 
     public int currentWayPoint = 0;
     int i = -1;
@@ -41,9 +43,7 @@ public class Car : MonoBehaviour
 
         foreach (GameObject wayPointObject in wayPointObjectList)
         {
-            i++;
-
-            wayPointList[i] = wayPointObject.transform; 
+            wayPointList[int.Parse(wayPointObject.name)] = wayPointObject.transform; 
         }
     }
 

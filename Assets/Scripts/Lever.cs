@@ -38,6 +38,8 @@ public class Lever : MonoBehaviour
         {
             interactP1 = _hookHeldP1;
             interactP2 = _hookHeldP2;
+
+            
         }
     }
 

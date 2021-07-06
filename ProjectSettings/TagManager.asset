@@ -37,6 +37,8 @@ TagManager:
   - GameCam
   - CinematicFinal
   - UI
+  - Music
+  - Ledge
   layers:
   - Default
   - TransparentFX

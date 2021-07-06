@@ -160,6 +160,12 @@ public class Respawn : MonoBehaviour
             enemy.GetComponent<EnemyInstantiator>().Reset();
         }
 
+        GameObject[] ledges = GameObject.FindGameObjectsWithTag("Ledge");
+        foreach (GameObject ledge in ledges)
+        {
+            ledge.GetComponent<Platform>().upDown = false;
+        }
+
         if (respawnBoss != null)
         {
             respawnBoss.Reset();

@@ -4,12 +4,14 @@ using UnityEngine;
 using UnityEngine.Video;
 using Cinemachine;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 
 public class PilarManager : MonoBehaviour
 {
     public Animator animator;
     public Animator animator2;
 
+    public AudioClip rage;
     public VideoPlayer Cinematic1;
     public VideoPlayer Cinematic2;
     public CinemachineVirtualCamera cinematicCam_1;
@@ -74,6 +76,7 @@ public class PilarManager : MonoBehaviour
         //the action on finish
         void OnMovieFinished(UnityEngine.Video.VideoPlayer vp)
         {
+
             vp.playbackSpeed = vp.playbackSpeed / 10.0F;
             
             if (Time.timeScale == 0)
@@ -83,12 +86,14 @@ public class PilarManager : MonoBehaviour
             if (Cinematic1 != null)
             {
                 Destroy(Cinematic1.gameObject);
+                cinematicCam_1.enabled = true;
+                GameObject boss = GameObject.FindGameObjectWithTag("Boss");
+                boss.GetComponent<BossScript>().animator.SetBool("rage", true);
+                boss.GetComponent<BossScript>().source.PlayOneShot(rage, 1f);
+
 
             }
 
-            cinematicCam_1.enabled = true;
-            GameObject boss = GameObject.FindGameObjectWithTag("Boss");
-            boss.GetComponent<BossScript>().animator.SetBool("rage", true);
 
         }
 
@@ -99,15 +104,8 @@ public class PilarManager : MonoBehaviour
         {
             vp.playbackSpeed = vp.playbackSpeed / 10.0F;
 
-            if (Time.timeScale == 0)
-            {
-                Time.timeScale = 1;
-            }
-            if (Cinematic2 != null)
-            {
-                Destroy(Cinematic2.gameObject);
-
-            }
+            SceneManager.LoadScene(0);
+            Cinematic2.Stop();
 
         }
 

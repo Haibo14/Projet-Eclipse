@@ -22,9 +22,12 @@ public class EndGame : StateMachineBehaviour
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        GameObject music = GameObject.FindGameObjectWithTag("Music");
+        music.GetComponent<AudioSource>().Stop();
         GameObject cinObject = GameObject.FindGameObjectWithTag("CinematicFinal");
         EndCinematic = cinObject.GetComponent<VideoPlayer>();
         EndCinematic.Play();
+        Debug.Log("Ca se lance");
         Time.timeScale = 0f;
     }
 

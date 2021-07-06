@@ -22,7 +22,9 @@ public class PressurePlate : MonoBehaviour
         source.clip = grueSon;
         source.Play();
         source.volume = 0;
+        hoist.transform.eulerAngles = new Vector3(hoist.transform.eulerAngles.x, 0, hoist.transform.eulerAngles.z);
     }
+
 
 
     void Update()

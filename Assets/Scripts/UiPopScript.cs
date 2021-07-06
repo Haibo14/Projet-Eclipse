@@ -72,6 +72,9 @@ public class UiPopScript : MonoBehaviour
         else if (playersCount > 2)
         {
             playersCount = 2;
+        }else if (playersCount < 0)
+        {
+            playersCount = 0;
         }
     }
 

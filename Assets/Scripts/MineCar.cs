@@ -49,9 +49,7 @@ public class MineCar : MonoBehaviour
 
         foreach (GameObject wayPointObject in wayPointObjectList)
         {
-            i++;
-
-            wayPointList[i] = wayPointObject.transform;
+            wayPointList[int.Parse(wayPointObject.name)] = wayPointObject.transform;
         }
     }
 

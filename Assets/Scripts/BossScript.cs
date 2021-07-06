@@ -29,7 +29,7 @@ public class BossScript : MonoBehaviour
 
     private bool playOnce;
     private bool playOnce2;
-    bool rageMode;
+    public bool rageMode;
 
     private int[] values2;
 
@@ -45,6 +45,7 @@ public class BossScript : MonoBehaviour
 
         playOnce = true;
         playOnce2 = true;
+        rageMode = false;
 
     }
 

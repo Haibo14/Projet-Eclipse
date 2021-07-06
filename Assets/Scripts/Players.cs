@@ -415,7 +415,7 @@ public class Players : MonoBehaviour
             if (source2.isPlaying == false && t1 < 1)
             {
                 source2.pitch = 1;
-                source2.PlayOneShot(fusionClip, 1f);
+                source2.PlayOneShot(fusionClip, 0.7f);
                 source2.volume = 1 - t1 / 2;
             }
 
@@ -560,7 +560,7 @@ public class Players : MonoBehaviour
             source2.clip = jumpClip;
             if (source2.isPlaying == false)
             {
-                source2.PlayOneShot(jumpClip, 1f);
+                source2.PlayOneShot(jumpClip, 0.4f);
                 source2.volume = 1 - tFP / 2;
             }
 
@@ -621,7 +621,7 @@ public class Players : MonoBehaviour
             if (source2.isPlaying == false)
             {
                 source2.pitch = 2;
-                source2.PlayOneShot(defusionClip, 1f);
+                source2.PlayOneShot(defusionClip, 0.7f);
                 source2.volume = 1 - tSplit / 2;
             }
 
