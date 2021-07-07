@@ -461,7 +461,7 @@ public class PlayerScript : MonoBehaviour
                     lastFramePosition = hit.collider.transform.position;
                 }
 
-                transform.position = new Vector3(hit.point.x, transform.position.y, hit.point.z) + (hit.collider.transform.position - lastFramePosition);
+                transform.position = new Vector3(hit.point.x, hit.point.y + 1.7f, hit.point.z) + (hit.collider.transform.position - lastFramePosition);
                 lastFramePosition = hit.collider.transform.position;
             }
             else
